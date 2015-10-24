@@ -5,22 +5,55 @@ package hotspothealthcode.BL;
  */
 public class GaussianModel {
 
-    private double C; // C = Time-integrated atmospheric concentration (Ci-s)/(m3).
-    private double Q; // Q = Source term (Ci).
-    private double H; // H = Effective release height (m).
-    private double lambda; // lambda = = Radioactive decay constant (s –1).
-    private double x; // x = Downwind distance (m).
-    private double y; // y = Crosswind distance (m).
-    private double z; // z = Vertical axis distance (m).
-    private double sigmaY; // SigmaY = Standard deviation of the integrated concentration distribution in the crosswind direction (m).
-    private double sigmaZ; // SigmaZ = Standard deviation of the integrated concentration distribution in the vertical direction (m).
-    private double u; // u = Average wind speed at the effective release height (m/s).
-    private double L; // L = Inversion layer height (m).
-    private double DFx; // DF(x) = Plume Depletion factor
+    private double C = 0; // C = Time-integrated atmospheric concentration (Ci-s)/(m3).
+    private double Q = 0; // Q = Source term (Ci).
+    private double H = 0; // H = Effective release height (m).
+    private double lambda = 0; // lambda = = Radioactive decay constant (s –1).
+    private double x = 0; // x = Downwind distance (m).
+    private double y = 0; // y = Crosswind distance (m).
+    private double z = 0; // z = Vertical axis distance (m).
+    private double sigmaY = 0; // SigmaY = Standard deviation of the integrated concentration distribution in the crosswind direction (m).
+    private double sigmaZ = 0; // SigmaZ = Standard deviation of the integrated concentration distribution in the vertical direction (m).
+    private double u = 0; // u = Average wind speed at the effective release height (m/s).
+    private double L = 0; // L = Inversion layer height (m).
+    private double DFx = 0; // DF(x) = Plume Depletion factor
 
 
     // Stability type needed for calculations
     private static PasquillStability PasquillStability;
+
+    public GaussianModel(double Q,
+                         double H,
+                         double lambda,
+                         double x,
+                         double y,
+                         double z,
+                         double u,
+                         double L,
+                         double DFx)
+    {
+        this.Q = Q;
+        this.H = H;
+        this.lambda = lambda;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.u = u;
+        this.L = L;
+        this.DFx = DFx;
+
+        // Sigma Z,Y calculations
+        // TODO: implement the choice logic
+        calcStandardTerrainSigmaYZ();
+        calcCityTerrainSigmaYZ();
+
+        // Calculate the gaussian model
+        // TODO: implement the choice logic
+        this.C = calcGasConcentration();
+        this.C = calcInversionLayerConcentration();
+
+    }
+
 
     /***
      * The following Gaussian model equations determine the time-integrated
@@ -45,7 +78,7 @@ public class GaussianModel {
      * the Following equation is used.
      * @return The Inversion Layer
      */
-    public double calcInversionLayer(){
+    public double calcInversionLayerConcentration(){
         // To avoid the sharp transition between the two above equations, the transition into the
         // Inversion layer equation begins when z equals 70% of L and is complete when z equals
         // L. Between these two values, the two equations are linearly interpolated.
