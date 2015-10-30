@@ -5,11 +5,11 @@ package hotspothealthcode.BL;
  */
 public class PasquillStability {
 
-    private int wind;
+    private double wind;
     private MeteorologicalConditions MC;
     public PasquillStabilityType stabilityType;
 
-    public PasquillStability(int wind, MeteorologicalConditions condition){
+    public PasquillStability(double wind, MeteorologicalConditions condition){
 
         this.wind = wind;
         this.MC = condition;
