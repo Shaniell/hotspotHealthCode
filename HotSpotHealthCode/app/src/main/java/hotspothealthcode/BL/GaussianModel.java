@@ -14,7 +14,7 @@ public class GaussianModel {
     private double z = 0; // z = Vertical axis distance (m).
     private double sigmaY = 0; // SigmaY = Standard deviation of the integrated concentration distribution in the crosswind direction (m).
     private double sigmaZ = 0; // SigmaZ = Standard deviation of the integrated concentration distribution in the vertical direction (m).
-    private double u = 0; // u = Average wind speed at the effective release height (m/s).
+    //private double u = 0; // u = Average wind speed at the effective release height (m/s).
     private double L = 0; // L = Inversion layer height (m).
     private double DFx = 0; // DF(x) = Plume Depletion factor
     private double sampleTime; // Sample time for the deviation of the integrated concentration distribution. default value 10 minutes
@@ -33,13 +33,15 @@ public class GaussianModel {
                          double x,
                          double y,
                          double z,
-                         double u,
+                         //double u,
                          double L,
                          double DFx,
                          double z0,
+                         double referenceHeight,
+                         double uRreferenceHeight,
                          double sampleTime)
     {
-        this.initialize(Q, H, lambda, x, y, z, u, L, DFx, z0, sampleTime);
+        this.initialize(Q, H, lambda, x, y, z, L, DFx, z0, referenceHeight, uRreferenceHeight, sampleTime);
     }
 
     public GaussianModel(double Q,
@@ -48,12 +50,14 @@ public class GaussianModel {
                          double x,
                          double y,
                          double z,
-                         double u,
+                         //double u,
                          double L,
                          double DFx,
-                         double z0)
+                         double z0,
+                         double referenceHeight,
+                         double uRreferenceHeight)
     {
-        this.initialize(Q, H, lambda, x, y, z, u, L, DFx, z0, 10);
+        this.initialize(Q, H, lambda, x, y, z, L, DFx, z0, referenceHeight, uRreferenceHeight, 10);
     }
 
     private void initialize(double Q,
@@ -62,10 +66,12 @@ public class GaussianModel {
                             double x,
                             double y,
                             double z,
-                            double u,
+                            //double u,
                             double L,
                             double DFx,
                             double z0,
+                            double referenceHeight,
+                            double uRreferenceHeight,
                             double sampleTime)
     {
         this.Q = Q;
@@ -74,10 +80,11 @@ public class GaussianModel {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.u = u;
         this.L = L;
         this.DFx = DFx;
         this.z0 = z0;
+        this.referenceHeight = referenceHeight;
+        this.uRreferenceHeight = uRreferenceHeight;
         this.sampleTime = sampleTime;
     }
 
@@ -91,7 +98,7 @@ public class GaussianModel {
         // Calculate the gaussian model
         // TODO: implement the choice logic
         this.C = calcGasConcentration();
-        this.C = calcInversionLayerConcentration();
+        this.C = calcGasConcentrationWithInversionLayer();
     }
 
 
@@ -103,12 +110,12 @@ public class GaussianModel {
     public double calcGasConcentration(){
         double retVal;
 
-        retVal = this.Q / (2 * Math.PI * this.sigmaY * this.sigmaZ * this.u);
+        retVal = this.Q / (2 * Math.PI * this.sigmaY * this.sigmaZ * this.uH);
 
         retVal *= Math.exp(-0.5 * Math.pow(this.y / this.sigmaY, 2));
         retVal *= (Math.exp(-0.5 * Math.pow((this.z - this.H) / this.sigmaZ, 2)) +
                    Math.exp(-0.5 * Math.pow((this.z + this.H) / this.sigmaZ, 2)));
-        retVal *= Math.exp((-this.lambda * this.x) / this.u) * this.DFx;
+        retVal *= Math.exp((-this.lambda * this.x) / this.uH) * this.DFx;
 
         return retVal;
     }
@@ -118,20 +125,22 @@ public class GaussianModel {
      * the Following equation is used.
      * @return The Inversion Layer
      */
-    public double calcInversionLayerConcentration(){
+    public double calcGasConcentrationWithInversionLayer(){
         // To avoid the sharp transition between the two above equations, the transition into the
         // Inversion layer equation begins when z equals 70% of L and is complete when z equals
         // L. Between these two values, the two equations are linearly interpolated.
 
         double retVal;
 
-        retVal = this.Q / (Math.sqrt(2 * Math.PI) * this.sigmaY * this.L * this.u);
+        retVal = this.Q / (Math.sqrt(2 * Math.PI) * this.sigmaY * this.L * this.uH);
 
         retVal *= Math.exp(-0.5 * Math.pow(this.y / this.sigmaY, 2));
-        retVal *= Math.exp((-this.lambda * this.x) / this.u) * this.DFx;
+        retVal *= Math.exp((-this.lambda * this.x) / this.uH) * this.DFx;
 
         return retVal;
     }
+
+    /**************SIGMAXY CALC********************/
 
     public void calcSigmaYZ(TerrainType terrainType)
     {
@@ -196,39 +205,93 @@ public class GaussianModel {
         this.sigmaZ = ((Aparameter * x) / Bparameter);
     }
 
-    private void calcStandardTerrainWindSpeed()
-    {
+    /**************WIND SPEED********************/
+
+    private double getStandardTerrainWindExpoFactor() {
         double p = 0;
 
-        switch (GaussianModel.PasquillStability.stabilityType){
-            case TYPE_A: {  p = 0.07; break; }
-            case TYPE_B: {  p = 0.07; break; }
-            case TYPE_C: {  p = 0.10; break; }
-            case TYPE_D: {  p = 0.15; break; }
-            case TYPE_E: {  p = 0.35; break; }
-            case TYPE_F: {  p = 0.55; break; }
+        switch (GaussianModel.PasquillStability.stabilityType) {
+            case TYPE_A: {
+                p = 0.07;
+                break;
+            }
+            case TYPE_B: {
+                p = 0.07;
+                break;
+            }
+            case TYPE_C: {
+                p = 0.10;
+                break;
+            }
+            case TYPE_D: {
+                p = 0.15;
+                break;
+            }
+            case TYPE_E: {
+                p = 0.35;
+                break;
+            }
+            case TYPE_F: {
+                p = 0.55;
+                break;
+            }
         }
 
-        //this.uH =
-
-        //TODO: COMPLETE Standard Terrain Wind Speed AND city Terrain Wind Speed methods
+        return p;
     }
 
-    private void calcCityTerrainWindSpeed()
+    private double getCityTerrainWindExpoFactor() {
+        double p = 0;
+
+        switch (GaussianModel.PasquillStability.stabilityType) {
+            case TYPE_A: {
+                p = 0.15;
+                break;
+            }
+            case TYPE_B: {
+                p = 0.15;
+                break;
+            }
+            case TYPE_C: {
+                p = 0.20;
+                break;
+            }
+            case TYPE_D: {
+                p = 0.25;
+                break;
+            }
+            case TYPE_E: {
+                p = 0.40;
+                break;
+            }
+            case TYPE_F: {
+                p = 0.60;
+                break;
+            }
+        }
+
+        return p;
+    }
+
+    private void calclWindSpeed(TerrainType terrainType)
     {
         double p = 0;
 
-        switch (GaussianModel.PasquillStability.stabilityType){
-            case TYPE_A: {  p = 0.15; break; }
-            case TYPE_B: {  p = 0.15; break; }
-            case TYPE_C: {  p = 0.20; break; }
-            case TYPE_D: {  p = 0.25; break; }
-            case TYPE_E: {  p = 0.40; break; }
-            case TYPE_F: {  p = 0.60; break; }
+        switch (terrainType)
+        {
+            case STANDARD_TERRAIN: {
+                p = getStandardTerrainWindExpoFactor();
+
+                break;
+            }
+
+            case CITY_TERRAIN: {
+                p = getCityTerrainWindExpoFactor();
+
+                break;
+            }
         }
 
-        //this.uH =
-
-        //TODO: COMPLETE Standard Terrain Wind Speed AND city Terrain Wind Speed methods
+        this.uH = this.uRreferenceHeight * Math.pow((this.H / this.referenceHeight), p);
     }
 }
