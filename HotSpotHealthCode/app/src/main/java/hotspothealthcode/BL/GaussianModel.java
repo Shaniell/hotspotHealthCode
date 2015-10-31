@@ -1,4 +1,10 @@
-package hotspothealthcode.BL;
+package hotspothealthcode.BL.
+
+import java.lang.Math;
+
+*;
+
+import java.lang.reflect.Type;
 
 /**
  * Created by shaniel on 15/08/15.
@@ -30,7 +36,7 @@ public class GaussianModel {
     private double sigmaZ = 0; // SigmaZ = Standard deviation of the integrated concentration distribution in the vertical direction (m).
     //private double u = 0; // u = Average wind speed at the effective release height (m/s). TODO: UNDERSTAND IF REQUIRED
     private double L = 0; // L = Inversion layer height (m).
-    private double DFx = 0; // DF(x) = Plume Depletion factor
+    private double DFx = 0.025; // DF(x) = Plume Depletion factor
     private double sampleTime; // Sample time for the deviation of the integrated concentration distribution. default value 10 minutes
     private double z0; // Surface roughness height (cm) values between 3 to 300 cm.
     private double uH; // Wind speed (m/s), at height H (m)
@@ -57,7 +63,7 @@ public class GaussianModel {
                          double uRreferenceHeight,
                          double sampleTime)
     {
-        this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, DFx, z0, referenceHeight, uRreferenceHeight, sampleTime);
+        this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, z0, referenceHeight, uRreferenceHeight, sampleTime);
     }
 
     public GaussianModel(TerrainType terrainType,
@@ -69,12 +75,11 @@ public class GaussianModel {
                          double y,
                          double z,
                          double L,
-                         double DFx,
                          double z0,
                          double referenceHeight,
                          double uReferenceHeight)
     {
-        this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, DFx, z0, referenceHeight, uReferenceHeight, 10);
+        this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, z0, referenceHeight, uReferenceHeight, 10);
     }
 
     //endregion
@@ -90,7 +95,6 @@ public class GaussianModel {
                             double y,
                             double z,
                             double L,
-                            double DFx,
                             double z0,
                             double referenceHeight,
                             double uReferenceHeight,
@@ -104,7 +108,7 @@ public class GaussianModel {
         this.y = y;
         this.z = z;
         this.L = L;
-        this.DFx = DFx;
+        this.DFx = calcDFx();
         this.z0 = z0;
         this.referenceHeight = referenceHeight;
         this.uReferenceHeight = uReferenceHeight;
@@ -113,6 +117,10 @@ public class GaussianModel {
         this.PasquillStability = new PasquillStability(uReferenceHeight, meteorologicalCondition);
 
         calculate();
+    }
+
+    public double calcDFx(){
+        return 0.025;
     }
 
     public void calculate()
@@ -548,4 +556,59 @@ public class GaussianModel {
         return effectiveReleaseHeight;
     }
     //endregion
+
+
+
+    //***************** Explosion (Non-nuclear) ******************//
+
+    // The expression for the time after detonation (tm) at which the maximum cloud rise is attained (e.g.
+// the time at which the cloud becomes thermally neutral)
+    private double timeAtCluudThermallyNeutral(){
+
+        //tm(w) = 21.6 w^0.33
+        return 21.6;
+    }
+
+
+    // The expressions for the stabilized cloud top (H) as a function of high explosive for unstable
+// (Stability class A, B and C) and Stable/Neutral (Stability class D, E F, and G)
+    private double StabilizedCloudTop() {
+
+        double retValH = 0;
+
+        // If Stability class is A.B and C Then it's unstable
+        if ((this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_A) ||
+                (this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_B) ||
+                (this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_C)) {
+            retValH = 27.4;
+        }
+
+        // If Stability class is D,E,F and G Then it's stable/Neutral
+        else
+        {
+            retValH = 23.3;
+        }
+
+        return  retValH;
+    }
+
+
+    // D calculation
+    // TODO: understans better the X and Y params
+    // TODO: check out the A param, the article says, it's 10 iterations as i calculated, but not sure.
+    private double depositionCalculation(){
+        double D = 0;
+        double Yimax = this.y;
+        double Ximax = this.x;
+        double A;
+
+        for (double i=0; i <= 10; i++){
+            A = i * 100.0;
+            D += (A)/((Math.PI*Yimax)+((Ximax - Yimax)*2*Yimax));
+        }
+
+        return  D;
+    }
 }
+
+
