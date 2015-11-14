@@ -43,7 +43,7 @@ public class GaussianModel {
     private double referenceHeight; // The reference height for the wind speed (values between 2 and 100)
     private double uReferenceHeight; // wind speed at the effective release height (m/s)
     private PasquillStability PasquillStability; // Stability type needed for calculations
-
+    private double w;
     //endregion
 
     //region C'tors
@@ -61,9 +61,10 @@ public class GaussianModel {
                          double z0,
                          double referenceHeight,
                          double uRreferenceHeight,
-                         double sampleTime)
+                         double sampleTime,
+                         double W)
     {
-        this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, z0, referenceHeight, uRreferenceHeight, sampleTime);
+        this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, z0, referenceHeight, uRreferenceHeight, sampleTime,W);
     }
 
     public GaussianModel(TerrainType terrainType,
@@ -77,9 +78,10 @@ public class GaussianModel {
                          double L,
                          double z0,
                          double referenceHeight,
-                         double uReferenceHeight)
+                         double uReferenceHeight,
+                         double W)
     {
-        this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, z0, referenceHeight, uReferenceHeight, 10);
+        this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, z0, referenceHeight, uReferenceHeight, 10,W);
     }
 
     //endregion
@@ -98,7 +100,8 @@ public class GaussianModel {
                             double z0,
                             double referenceHeight,
                             double uReferenceHeight,
-                            double sampleTime)
+                            double sampleTime,
+                            double W)
     {
         this.terrainType = terrainType;
         this.Q = Q;
@@ -113,6 +116,8 @@ public class GaussianModel {
         this.referenceHeight = referenceHeight;
         this.uReferenceHeight = uReferenceHeight;
         this.sampleTime = sampleTime;
+
+        this.w = W;
 
         this.PasquillStability = new PasquillStability(uReferenceHeight, meteorologicalCondition);
 
@@ -566,7 +571,7 @@ public class GaussianModel {
     private double timeAtCluudThermallyNeutral(){
 
         //tm(w) = 21.6 w^0.33
-        return 21.6;
+        return (21.6 * Math.pow(this.w, 0.33));
     }
 
 
@@ -580,13 +585,13 @@ public class GaussianModel {
         if ((this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_A) ||
                 (this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_B) ||
                 (this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_C)) {
-            retValH = 27.4;
+            retValH = 27.4 * Math.pow(this.w, 0.48);
         }
 
         // If Stability class is D,E,F and G Then it's stable/Neutral
         else
         {
-            retValH = 23.3;
+            retValH = 23.3 * Math.pow(this.w, 0.44);
         }
 
         return  retValH;
