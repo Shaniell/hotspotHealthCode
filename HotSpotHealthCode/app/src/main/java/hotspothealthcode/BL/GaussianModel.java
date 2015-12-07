@@ -1,8 +1,6 @@
-package hotspothealthcode.BL.
+package hotspothealthcode.BL;
 
 import java.lang.Math;
-
-*;
 
 import java.lang.reflect.Type;
 
