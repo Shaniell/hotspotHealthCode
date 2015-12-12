@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HotSpotHealthCode</string>
+    <string name="app_name">HotSpot Health Code</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -17,4 +17,7 @@
     <string name="DepositionVelocity">Deposition Velocity</string>
     <string name="AirbornFraction">Airborn Fraction (ARF)</string>
     <string name="RespirableFraction">Respirable Fraction (RF)</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="continue_action">Continue</string>
+    <string name="back_action">Back</string>
 </resources>

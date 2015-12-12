@@ -11,6 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.hotspothealthcode.hotspothealthcode.fragments.*;
 
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+
+import hotspothealthcode.BL.ServerAccess.AsyncHttpTask;
+
 public class GeneralPlumeActivity extends AppCompatActivity {
 
     /**
@@ -43,6 +49,22 @@ public class GeneralPlumeActivity extends AppCompatActivity {
         this.mViewPager = (ViewPager) findViewById(R.id.container);
         this.mViewPager.setAdapter(this.mSectionsPagerAdapter);
 
+
+        AsyncHttpTask asyncHttpTask = new AsyncHttpTask();
+
+        asyncHttpTask.execute("http://api.openweathermap.org/data/2.5/forecast/city?id=524901&APPID=23783e28af9a9d529cbacf224654c896");
+
+        JSONObject j = null;
+
+        try {
+            j = asyncHttpTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        j = null;
     }
 
 
