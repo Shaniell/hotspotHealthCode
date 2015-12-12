@@ -5,15 +5,15 @@ package hotspothealthcode.BL.Models;
  */
 public class Weather
 {
-    private float temperature;
-    private float windDirection;
-    private float windSpeed;
+    private double temperature;
+    private double windDirection;
+    private double windSpeed;
     private String type;
     private String typeDescription;
 
-    public Weather(float temperature,
-                   float windDirection,
-                   float windSpeed,
+    public Weather(double temperature,
+                   double windDirection,
+                   double windSpeed,
                    String type,
                    String typeDescription)
     {
@@ -24,27 +24,27 @@ public class Weather
         this.typeDescription = typeDescription;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
-    public float getWindDirection() {
+    public double getWindDirection() {
         return windDirection;
     }
 
-    public void setWindDirection(float windDirection) {
+    public void setWindDirection(double windDirection) {
         this.windDirection = windDirection;
     }
 
-    public float getWindSpeed() {
+    public double getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(float windSpeed) {
+    public void setWindSpeed(double windSpeed) {
         this.windSpeed = windSpeed;
     }
 
