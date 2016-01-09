@@ -1,8 +1,7 @@
-package hotspothealthcode.BL;
+package hotspothealthcode.BL.AtmosphericConcentration;
 
 import java.lang.Math;
-
-import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Created by shaniel on 15/08/15.
@@ -86,6 +85,33 @@ public class GaussianModel {
 
     //region Other methods
 
+    public void calcPlumeAtmosphericConcentration(double sourceTerm,
+                                                  List<Integer> downWindOffsets,
+                                                  int crossWindOffset,
+                                                  int verticalOffset)
+    {
+
+    }
+
+    private double calcGussianEquation(double sourceTerm,
+                                       double sigmaY,
+                                       double sigmaZ,
+                                       double effectiveReleaseHeight,
+                                       double windSpeedAtHeight,
+                                       ConcentrationPoint point)
+    {
+        double retVal;
+
+        retVal = sourceTerm / (2 * Math.PI * sigmaY * sigmaZ * windSpeedAtHeight);
+
+        retVal *= Math.exp(-0.5 * Math.pow(point.getY() / sigmaY, 2));
+        retVal *= (Math.exp(-0.5 * Math.pow((point.getZ() - effectiveReleaseHeight) / sigmaZ, 2)) +
+                Math.exp(-0.5 * Math.pow((point.getZ() + effectiveReleaseHeight) / sigmaZ, 2)));
+        retVal *= Math.exp((-point.getX()) / windSpeedAtHeight) * this.DFx;
+
+        return retVal;
+    }
+
     private void initialize(TerrainType terrainType,
                             MeteorologicalConditions meteorologicalCondition,
                             double Q,
@@ -163,7 +189,8 @@ public class GaussianModel {
      * atmospheric concentration of a gas or an aerosol at any point in space.
      * @return The Gas Concentration
      */
-    public double calcGasConcentration(){
+    public double calcGasConcentration()
+    {
         double retVal;
 
         retVal = this.Q / (2 * Math.PI * this.sigmaY * this.sigmaZ * this.uH);
@@ -171,7 +198,7 @@ public class GaussianModel {
         retVal *= Math.exp(-0.5 * Math.pow(this.y / this.sigmaY, 2));
         retVal *= (Math.exp(-0.5 * Math.pow((this.z - this.H) / this.sigmaZ, 2)) +
                 Math.exp(-0.5 * Math.pow((this.z + this.H) / this.sigmaZ, 2)));
-        retVal *= Math.exp((-this.lambda * this.x) / this.uH) * this.DFx;
+        retVal *= Math.exp((-this.x) / this.uH) * this.DFx;
 
         return retVal;
     }
@@ -191,7 +218,7 @@ public class GaussianModel {
         retVal = this.Q / (Math.sqrt(2 * Math.PI) * this.sigmaY * this.L * this.uH);
 
         retVal *= Math.exp(-0.5 * Math.pow(this.y / this.sigmaY, 2));
-        retVal *= Math.exp((-this.lambda * this.x) / this.uH) * this.DFx;
+        retVal *= Math.exp((-this.x) / this.uH) * this.DFx;
 
         return retVal;
     }

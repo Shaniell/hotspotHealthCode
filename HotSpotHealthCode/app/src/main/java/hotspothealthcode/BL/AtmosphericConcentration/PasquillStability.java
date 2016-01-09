@@ -1,20 +1,20 @@
-package hotspothealthcode.BL;
+package hotspothealthcode.BL.AtmosphericConcentration;
 
 /**
  * Created by shaniel on 15/08/15.
  */
 public class PasquillStability {
 
-    private double wind;
+    private double windSpeed;
     private MeteorologicalConditions MC;
     public PasquillStabilityType stabilityType;
 
-    public PasquillStability(double wind, MeteorologicalConditions condition){
+    public PasquillStability(double windSpeed, MeteorologicalConditions condition){
 
-        this.wind = wind;
+        this.windSpeed = windSpeed;
         this.MC = condition;
 
-        if (wind < 2)
+        if (windSpeed < 2)
         {
             switch (condition){
                 case SUN_HIGH_IN_SKY: {
@@ -38,7 +38,7 @@ public class PasquillStability {
         }
 
 
-        if ((wind >= 2)&&(wind < 3))
+        if ((windSpeed >= 2)&&(windSpeed < 3))
         {
             switch (condition){
                 case SUN_HIGH_IN_SKY: {
@@ -61,7 +61,7 @@ public class PasquillStability {
             }
         }
 
-        if ((wind >= 3)&&(wind < 4))
+        if ((windSpeed >= 3)&&(windSpeed < 4))
         {
             switch (condition){
                 case SUN_HIGH_IN_SKY:{
@@ -84,7 +84,7 @@ public class PasquillStability {
             }
         }
 
-        if (((wind >= 4)&&(wind <= 5)) || (wind < 6))
+        if (((windSpeed >= 4)&&(windSpeed <= 5)) || (windSpeed < 6))
         {
             switch (condition){
                 case SUN_HIGH_IN_SKY: {

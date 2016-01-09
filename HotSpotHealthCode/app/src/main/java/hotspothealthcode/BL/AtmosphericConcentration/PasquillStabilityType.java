@@ -1,4 +1,4 @@
-package hotspothealthcode.BL;
+package hotspothealthcode.BL.AtmosphericConcentration;
 
 /**
  * Created by Giladl on 28/08/2015.
