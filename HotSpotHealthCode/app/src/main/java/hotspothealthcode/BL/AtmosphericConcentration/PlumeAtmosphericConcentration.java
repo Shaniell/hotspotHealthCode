@@ -1,6 +1,12 @@
 package hotspothealthcode.BL.AtmosphericConcentration;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.solvers.NewtonRaphsonSolver;
 
 import java.util.ArrayList;
+
+import hotspothealthcode.BL.AtmosphericConcentration.Functions.BouyantPlumeRiseFunc;
+import hotspothealthcode.BL.AtmosphericConcentration.Functions.MomentumPlumeRiseFunc;
+import hotspothealthcode.BL.AtmosphericConcentration.Functions.WindSpeedFunc;
 
 /**
  * Created by Giladl on 09/01/2016.
@@ -165,8 +171,8 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                                                      double ta,
                                                      double buoyancyFlux)
     {
-
         double effectiveReleaseHeight; // H
+        double windSpeedAtEffectiveHeight;
         double x;
         double uh; // Wind speed at physical height
         double s;
@@ -181,27 +187,22 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                 x = 49 * Math.pow(buoyancyFlux, 0.625);
             }
 
-            if (h <= 2) {
-                effectiveReleaseHeight = 0;
+            effectiveReleaseHeight = h;
 
-                uh = this.calcWindSpeed(this.terrainType, h / 2);
-            } else {
-                effectiveReleaseHeight = h;
-
-                uh = this.calcWindSpeed(this.terrainType, h);
-            }
+            uh = this.calcWindSpeed(this.terrainType, h);
 
             effectiveReleaseHeight += ((1.6 * Math.pow(buoyancyFlux, 1 / 3)) * Math.pow(x, 2 / 3)) / uh;
         } else {
-            if (h <= 2) {
-                effectiveReleaseHeight = 0;
+            NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
 
-                uh = this.calcWindSpeed(this.terrainType, 2);
-            } else {
-                effectiveReleaseHeight = h;
+            double p = this.getCityTerrainWindExpoFactor();
 
-                uh = this.calcWindSpeed(this.terrainType, h);
-            }
+            // Create a wind speed function to find the wind speed at effective release height numericly
+            WindSpeedFunc windSpeedFunc = new WindSpeedFunc(this.windSpeedAtReferenceHeight,
+                                                            this.referenceHeight,
+                                                            p);
+
+            windSpeedAtEffectiveHeight = solver.solve(10, windSpeedFunc, 0, 10);
 
             if (this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_E) {
                 s = (0.020 * AtmosphericConcentration.G) / ta;
@@ -210,17 +211,26 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                 s = (0.035 * AtmosphericConcentration.G) / ta;
             }
 
-            if (uh > 1.4) {
-                effectiveReleaseHeight += (2.6 * (Math.pow(buoyancyFlux / (uh * s), 1 / 3)));
+            if (windSpeedAtEffectiveHeight > 1.4)
+            {
+                // Create bouyant plume rise function to solve it numericly
+                BouyantPlumeRiseFunc bouyantPlumeRiseFunc = new BouyantPlumeRiseFunc(buoyancyFlux,
+                                                                                     s,
+                                                                                     this.physicalStackHeight,
+                                                                                     this.windSpeedAtReferenceHeight,
+                                                                                     this.referenceHeight,
+                                                                                     p);
+
+                effectiveReleaseHeight = solver.solve(10, bouyantPlumeRiseFunc, 0, 100);
             } else {
-                effectiveReleaseHeight += 5 * Math.pow(buoyancyFlux, 1 / 4) * Math.pow(s, -3.8);
+                effectiveReleaseHeight = h + 5 * Math.pow(buoyancyFlux, 1 / 4) * Math.pow(s, -3.8);
             }
         }
 
         return effectiveReleaseHeight;
     }
 
-    /** TODO: FIX THE METHOD!!!
+    /**
      * The method calculate the Momentum Effective Release Height
      * @param h - the physical height (m)
      * @param v - stack exit velocity (m/s)
@@ -232,7 +242,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                                                       double r)
     {
         double momentumFlux = 0; // F
-        double effectiveReleaseHeight = h > 2 ? h : 0; // H
+        double effectiveReleaseHeight; // H
         double uh; // Wind speed at physical height
         double s;
 
@@ -243,11 +253,13 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
            this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_C ||
            this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_D) {
 
-            effectiveReleaseHeight += ((6 * v * r) / uh);
+            effectiveReleaseHeight = h + ((6 * v * r) / uh);
         }
         else
         {
             momentumFlux = 0.25 * Math.pow(2 * r * v, 2);
+
+            double p = this.getCityTerrainWindExpoFactor();
 
             if (this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_E)
             {
@@ -258,7 +270,16 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                 s = 0.00175;
             }
 
-            effectiveReleaseHeight += 1.5 * ((Math.pow(momentumFlux, 1/3) / uh) * Math.pow(s, -1/6));
+            NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
+
+            MomentumPlumeRiseFunc momentumPlumeRiseFunc = new MomentumPlumeRiseFunc(momentumFlux,
+                                                                                    s,
+                                                                                    this.physicalStackHeight,
+                                                                                    this.windSpeedAtReferenceHeight,
+                                                                                    this.referenceHeight,
+                                                                                    p);
+
+            effectiveReleaseHeight = h + solver.solve(10, momentumPlumeRiseFunc, 0, 100);
         }
 
         return effectiveReleaseHeight;
@@ -271,7 +292,6 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
      * @param r - stack radius (m)
      * @param ta - ambient air temperature (deg K)
      * @param ts - stack effluent temperature (deg K)
-     * @param heatEmission - The heat emission
      * @param calcMomentum - Indicates if to calculate the momentum release height
      * @return the effective release height
      */
@@ -296,12 +316,14 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
             buoyancyFlux = this.calcBuoyancyFlux(v, r, ta, ts);
         }
 
+        // Calc buoyant release height
         buoyantEffectiveHeight = this.calcBouyantEffectiveReleaseHeight(h, ta, buoyancyFlux);
 
         if(calcMomentum)
         {
             double momentumEffectiveHeight;
 
+            // Calc momentum release height
             momentumEffectiveHeight = this.calcMomentumEffectiveReleaseHeight(h, v, r);
 
             EffectiveReleaseHeight = (buoyantEffectiveHeight > momentumEffectiveHeight ? buoyantEffectiveHeight : momentumEffectiveHeight);
