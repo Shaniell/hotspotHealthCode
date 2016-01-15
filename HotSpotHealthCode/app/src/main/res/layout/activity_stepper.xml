@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:id="@+id/stepperView"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout android:id="@+id/stepperLinearView"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.hotspothealthcode.hotspothealthcode.StepperActivity">
+
+           <!-- <com.hotspothealthcode.hotspothealthcode.Components.StepView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.hotspothealthcode.hotspothealthcode.Components.StepView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />-->
+
+    </LinearLayout>
+
+</ScrollView>
+
+

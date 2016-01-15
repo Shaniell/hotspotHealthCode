@@ -1,0 +1,99 @@
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/stepIconBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/step_icon_reg"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_row="0"
+        android:layout_column="0"
+         />
+
+    <TextView
+        android:id="@+id/stepTitle"
+        android:layout_width="310dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:text="Title"
+        android:textColor="#000"
+        android:textSize="24dp" />
+
+        <View
+            android:id="@+id/stepVerLine"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:background="#FF0000FF"
+            android:layout_marginLeft="25dp"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/stepContentClosed"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/stepContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:alpha="0"
+        android:translationY="-100dp">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/stepContentData"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_column="0"
+                android:layout_row="0"
+                android:background="#f0f" >
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/stepContinueBtn"
+                android:layout_width="100dp"
+                android:text="Continue"
+                android:layout_column="0"
+                android:layout_row="1"
+                android:layout_marginLeft="12dp"/>
+            <Button
+                android:id="@+id/stepCancelBtn"
+                android:layout_width="100dp"
+                android:text="Cancel"
+                android:layout_column="0"
+                android:layout_row="1"
+                android:layout_marginLeft="120dp"/>
+
+        </GridLayout>
+    </LinearLayout>
+
+</GridLayout>
+
+
+
