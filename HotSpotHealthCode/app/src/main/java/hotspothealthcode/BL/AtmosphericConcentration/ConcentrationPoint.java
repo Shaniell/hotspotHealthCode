@@ -9,7 +9,7 @@ public class ConcentrationPoint
     private double y;
     private double z;
 
-    public ConcentrationPoint(double z, double x, double y) {
+    public ConcentrationPoint(double x, double y, double z) {
         this.z = z;
         this.x = x;
         this.y = y;

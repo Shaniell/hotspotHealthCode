@@ -9,6 +9,11 @@ public class PasquillStability {
     private MeteorologicalConditions MC;
     public PasquillStabilityType stabilityType;
 
+    public PasquillStability(PasquillStabilityType stabilityType)
+    {
+        this.stabilityType = stabilityType;
+    }
+
     public PasquillStability(double windSpeed, MeteorologicalConditions condition){
 
         this.windSpeed = windSpeed;
@@ -84,7 +89,7 @@ public class PasquillStability {
             }
         }
 
-        if (((windSpeed >= 4)&&(windSpeed <= 5)) || (windSpeed < 6))
+        if (((windSpeed >= 4)&&(windSpeed <= 6)) || (windSpeed > 6))
         {
             switch (condition){
                 case SUN_HIGH_IN_SKY: {

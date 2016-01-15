@@ -22,6 +22,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
     protected double stackTemp;
     protected double heatEmission;
     protected boolean calcMomentum;
+    protected double effectiveReleaseHeight;
 
     //endregion
 
@@ -48,23 +49,28 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
      */
     public PlumeAtmosphericConcentration(double referenceHeight,
                                          double windSpeedAtReferenceHeight,
+                                         int windDirection,
+                                         MeteorologicalConditions meteorologicalConditions,
                                          double surfaceRoughnessHeight,
                                          int sampleTime,
                                          TerrainType terrainType,
                                          double sourceTerm,
-                                         ArrayList<Integer> downWindOffsets,
-                                         int crossWindOffset,
-                                         int verticalOffset,
+                                         ArrayList<Double> downWindOffsets,
+                                         double crossWindOffset,
+                                         double verticalOffset,
                                          double physicalStackHeight,
                                          double stackExitVelocity,
                                          double stackRadius,
                                          double airTemp,
                                          double stackTemp,
                                          double heatEmission,
-                                         boolean calcMomentum)
+                                         boolean calcMomentum,
+                                         double effectiveReleaseHeight)
     {
         super(referenceHeight,
               windSpeedAtReferenceHeight,
+              windDirection,
+              meteorologicalConditions,
               surfaceRoughnessHeight,
               sampleTime,
               terrainType,
@@ -80,6 +86,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
         this.stackTemp = stackTemp;
         this.heatEmission = heatEmission;
         this.calcMomentum = calcMomentum;
+        this.effectiveReleaseHeight = effectiveReleaseHeight;
     }
 
     /**
@@ -104,13 +111,15 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
      */
     public PlumeAtmosphericConcentration(double referenceHeight,
                                          double windSpeedAtReferenceHeight,
+                                         int windDirection,
+                                         MeteorologicalConditions meteorologicalConditions,
                                          double surfaceRoughnessHeight,
                                          int sampleTime,
                                          TerrainType terrainType,
                                          double sourceTerm,
-                                         ArrayList<Integer> downWindOffsets,
-                                         int crossWindOffset,
-                                         int verticalOffset,
+                                         ArrayList<Double> downWindOffsets,
+                                         double crossWindOffset,
+                                         double verticalOffset,
                                          double physicalStackHeight,
                                          double stackExitVelocity,
                                          double stackRadius,
@@ -118,10 +127,13 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                                          double stackTemp,
                                          double heatEmission,
                                          boolean calcMomentum,
+                                         double effectiveReleaseHeight,
                                          PasquillStability pasquillStability)
     {
         super(referenceHeight,
               windSpeedAtReferenceHeight,
+              windDirection,
+              meteorologicalConditions,
               surfaceRoughnessHeight,
               sampleTime,
               terrainType,
@@ -138,6 +150,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
         this.stackTemp = stackTemp;
         this.heatEmission = heatEmission;
         this.calcMomentum = calcMomentum;
+        this.effectiveReleaseHeight = effectiveReleaseHeight;
     }
 
     //endregion
@@ -173,6 +186,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
     {
         double effectiveReleaseHeight; // H
         double windSpeedAtEffectiveHeight;
+        double windSpeedAtStackHeight;
         double x;
         double uh; // Wind speed at physical height
         double s;
@@ -202,7 +216,9 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                                                             this.referenceHeight,
                                                             p);
 
-            windSpeedAtEffectiveHeight = solver.solve(10, windSpeedFunc, 0, 10);
+            //windSpeedAtEffectiveHeight = solver.solve(10000, windSpeedFunc, 1, 15);
+
+            windSpeedAtStackHeight = this.calcWindSpeed(this.terrainType, this.physicalStackHeight);
 
             if (this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_E) {
                 s = (0.020 * AtmosphericConcentration.G) / ta;
@@ -211,17 +227,20 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                 s = (0.035 * AtmosphericConcentration.G) / ta;
             }
 
-            if (windSpeedAtEffectiveHeight > 1.4)
+            if (windSpeedAtStackHeight > 1.4)
             {
                 // Create bouyant plume rise function to solve it numericly
-                BouyantPlumeRiseFunc bouyantPlumeRiseFunc = new BouyantPlumeRiseFunc(buoyancyFlux,
+                /*BouyantPlumeRiseFunc bouyantPlumeRiseFunc = new BouyantPlumeRiseFunc(buoyancyFlux,
                                                                                      s,
                                                                                      this.physicalStackHeight,
                                                                                      this.windSpeedAtReferenceHeight,
                                                                                      this.referenceHeight,
                                                                                      p);
 
-                effectiveReleaseHeight = solver.solve(10, bouyantPlumeRiseFunc, 0, 100);
+                effectiveReleaseHeight = solver.solve(100, bouyantPlumeRiseFunc, 0, 100);*/
+
+                effectiveReleaseHeight = h + 2.6 * Math.pow((buoyancyFlux / (windSpeedAtStackHeight * s)), 1 / 3);
+
             } else {
                 effectiveReleaseHeight = h + 5 * Math.pow(buoyancyFlux, 1 / 4) * Math.pow(s, -3.8);
             }
@@ -270,7 +289,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                 s = 0.00175;
             }
 
-            NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
+            /*NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
 
             MomentumPlumeRiseFunc momentumPlumeRiseFunc = new MomentumPlumeRiseFunc(momentumFlux,
                                                                                     s,
@@ -279,7 +298,9 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                                                                                     this.referenceHeight,
                                                                                     p);
 
-            effectiveReleaseHeight = h + solver.solve(10, momentumPlumeRiseFunc, 0, 100);
+            effectiveReleaseHeight = h + solver.solve(100, momentumPlumeRiseFunc, 0, 100);*/
+
+            effectiveReleaseHeight = h + 1.5 * Math.pow((momentumFlux / uh), 1 / 3) * Math.pow(s, -1 / 6);
         }
 
         return effectiveReleaseHeight;
@@ -307,7 +328,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
         double buoyantEffectiveHeight;
         double buoyancyFlux;
 
-        if(flux == 0)
+        if(flux != 0)
         {
             buoyancyFlux = flux;
         }
@@ -343,19 +364,33 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
     public ArrayList<ConcentrationResult> calcAtmosphericConcentration()
     {
         double concentration = 0;
+        double releaseHeight;
         ArrayList<ConcentrationResult> results = new ArrayList<ConcentrationResult>();
 
-        double effectiveReleaseHeight = this.calcEffectiveReleaseHeight(this.physicalStackHeight,
-                                                                        this.stackExitVelocity,
-                                                                        this.stackRadius,
-                                                                        AtmosphericConcentration.convertToKelvin(this.airTemp),
-                                                                        AtmosphericConcentration.convertToKelvin(this.stackTemp),
-                                                                        this.heatEmission,
-                                                                        this.calcMomentum);
+        if(this.pasquillStability == null)
+        {
+            this.pasquillStability = new PasquillStability(this.windSpeedAtReferenceHeight,
+                                                           this.meteorologicalConditions);
+        }
 
-        double windSpeed = this.calcWindSpeed(this.terrainType, effectiveReleaseHeight);
+        if(this.effectiveReleaseHeight != 0)
+        {
+            releaseHeight = this.effectiveReleaseHeight;
+        }
+        else
+        {
+            releaseHeight = this.calcEffectiveReleaseHeight(this.physicalStackHeight,
+                            this.stackExitVelocity,
+                            this.stackRadius,
+                            AtmosphericConcentration.convertToKelvin(this.airTemp),
+                            AtmosphericConcentration.convertToKelvin(this.stackTemp),
+                            this.heatEmission,
+                            this.calcMomentum);
+        }
 
-        return this.getConcentrationResults(effectiveReleaseHeight, windSpeed);
+        double windSpeed = this.calcWindSpeed(this.terrainType, releaseHeight);
+
+        return this.getConcentrationResults(releaseHeight, windSpeed);
     }
 
     //endregion

@@ -23,7 +23,8 @@ public class WindSpeedFunc implements UnivariateDifferentiableFunction {
 
     @Override
     public DerivativeStructure value(DerivativeStructure t) throws DimensionMismatchException {
-        return t.divide(this.referanceHeight).pow(p).multiply(this.windSpeedAtReferenceHeight);
+        return t.divide(this.referanceHeight).pow(this.p).multiply(this.p * this.windSpeedAtReferenceHeight).divide(t);
+        //return t.divide(this.referanceHeight).pow(p).multiply(this.windSpeedAtReferenceHeight);
     }
 
     @Override
