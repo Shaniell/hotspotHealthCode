@@ -2,10 +2,10 @@ package com.hotspothealthcode.hotspothealthcode;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.View;
 import android.widget.LinearLayout;
 
-import com.hotspothealthcode.hotspothealthcode.Components.StepView;
+import com.hotspothealthcode.hotspothealthcode.Components.Steps.ChooseModelStepView;
+import com.hotspothealthcode.hotspothealthcode.Components.Steps.StepView;
 
 public class StepperActivity extends Activity {
 
@@ -16,11 +16,13 @@ public class StepperActivity extends Activity {
 
         LinearLayout stepLinearView = (LinearLayout) findViewById(R.id.stepperLinearView);
 
-        StepView stepView = new StepView(getApplicationContext());
+        StepView stepView = new ChooseModelStepView(getApplicationContext(), "Dispersion Model", null, R.layout.fragment_general_plume_source_term);
 
         stepLinearView.addView(stepView);
 
+        StepView stepView2 = new ChooseModelStepView(getApplicationContext(), "Dispersion Model", null, R.layout.fragment_general_plume_source_term);
 
+        stepLinearView.addView(stepView2);
     }
 
     @Override

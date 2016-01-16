@@ -1,4 +1,4 @@
-package com.hotspothealthcode.hotspothealthcode.Components;
+package com.hotspothealthcode.hotspothealthcode.Components.Steps;
 
 import android.view.View;
 import android.view.ViewGroup;
