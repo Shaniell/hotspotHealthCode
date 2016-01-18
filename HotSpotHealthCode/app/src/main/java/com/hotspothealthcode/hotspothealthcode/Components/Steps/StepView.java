@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,15 @@ public abstract class StepView extends GridLayout {
     protected static final int CURRENT_STEP = Color.parseColor("#C5CAE9");
     protected static final int REGULAR_STEP = Color.WHITE;
 
-    protected Button stepIcon;
+    protected Drawable stepIconGood;
+    protected Drawable stepIconBad;
+
+    protected String title;
+    protected int stepNumber;
+
+    protected boolean isValid;
+
+    protected View stepIcon;
     protected Button stepContinueBtn;
     protected Button stepCancleBtn;
     protected LinearLayout stepContent;
@@ -28,13 +37,13 @@ public abstract class StepView extends GridLayout {
     protected FrameLayout stepContentData;
     protected LinearLayout stepTitleLayout;
     protected TextView stepTitle;
+    protected TextView stepNumberView;
     protected View stepLine;
-    protected String title;
     protected View contentView;
 
-    public StepView(Context context, String title, OnClickListener continueBtnHandler, int contentViewId) {
+    public StepView(Context context, int stepNumber, String title,  int contentViewId, OnClickListener continueBtnHandler) {
         super(context);
-        initControl(context, title, continueBtnHandler, contentViewId);
+        initControl(context, stepNumber, title, contentViewId, continueBtnHandler);
     }
 
     public StepView(Context context) {
@@ -49,13 +58,17 @@ public abstract class StepView extends GridLayout {
         super(context, attrs, defStyle);
     }
 
-    private void initControl(Context context, String title, OnClickListener continueBtnHandler, int contentViewId)
+    private void initControl(Context context, int stepNumber, String title, int contentViewId, final OnClickListener continueBtnHandler)
     {
+        // Load icons
+        this.stepIconGood = context.getDrawable(R.drawable.step_icon_good);
+        this.stepIconBad = context.getDrawable(R.drawable.step_icon_bad);
+
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         inflater.inflate(R.layout.step_view, this);
 
-        this.stepIcon = (Button)findViewById(R.id.stepIconBtn);
+        this.stepIcon = findViewById(R.id.stepIcon);
         this.stepContinueBtn = (Button)findViewById(R.id.stepContinueBtn);
         this.stepCancleBtn = (Button)findViewById(R.id.stepCancelBtn);
         this.stepContent = (LinearLayout)findViewById(R.id.stepContent);
@@ -63,6 +76,7 @@ public abstract class StepView extends GridLayout {
         this.stepTitleLayout = (LinearLayout)findViewById(R.id.stepTitleLayout);
         this.stepContentData = (FrameLayout)findViewById(R.id.stepContentData);
         this.stepTitle = (TextView)findViewById(R.id.stepTitle);
+        this.stepNumberView = (TextView)findViewById(R.id.stepNumber);
         this.stepLine = findViewById(R.id.stepVerLine);
 
         // Load step content
@@ -70,9 +84,36 @@ public abstract class StepView extends GridLayout {
         inflater.inflate(contentViewId, this.stepContentData);
 
         // Set title
-        this.stepTitle.setText(title.toCharArray(), 0, title.length());
+        this.stepTitle.setText(title);
 
-        this.stepContinueBtn.setOnClickListener(continueBtnHandler);
+        // Set step number
+        this.stepNumberView.setText(String.valueOf(stepNumber));
+
+        this.stepContinueBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isValid = validateData();
+
+                // hide step number
+                stepNumberView.setVisibility(INVISIBLE);
+
+                if(isValid)
+                {
+                    hideContent();
+
+                    // Set good icon
+                    stepIcon.setBackground(stepIconGood);
+
+                    // Call stepper on click
+                    continueBtnHandler.onClick(v);
+                }
+                else
+                {
+                    // Set good icon
+                    stepIcon.setBackground(stepIconBad);
+                }
+            }
+        });
 
         this.stepTitleLayout.setOnClickListener(new OnClickListener() {
             @Override
@@ -92,8 +133,6 @@ public abstract class StepView extends GridLayout {
 
     public void showContent()
     {
-        stepTitleLayout.setBackgroundColor(StepView.CURRENT_STEP);
-
         stepLine.setPivotY(0);
         stepLine.animate()
                 .scaleY(1.0f)
@@ -115,6 +154,7 @@ public abstract class StepView extends GridLayout {
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
 
+                        stepTitleLayout.setBackgroundColor(StepView.CURRENT_STEP);
                     }
                 });
     }
@@ -153,16 +193,9 @@ public abstract class StepView extends GridLayout {
         this.stepContinueBtn.setOnClickListener(listener);
     }
 
-    public boolean continueToNextStep()
-    {
-        boolean isDataValid = this.validateData();
 
-        if(isDataValid)
-        {
-            this.hideContent();
-        }
-
-        return isDataValid;
+    public boolean isValid() {
+        return isValid;
     }
 
     protected abstract boolean validateData();

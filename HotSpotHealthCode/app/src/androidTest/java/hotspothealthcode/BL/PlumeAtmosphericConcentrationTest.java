@@ -52,7 +52,7 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
         downWindOffsets.add(0.3);
         downWindOffsets.add(0.4);
 
-        /*PlumeAtmosphericConcentration plumeAtmosphericConcentration = new PlumeAtmosphericConcentration(10,
+        PlumeAtmosphericConcentration plumeAtmosphericConcentration = new PlumeAtmosphericConcentration(10,
                                                                                                         1,
                                                                                                         270,
                                                                                                         MeteorologicalConditions.SUN_HIGH_IN_SKY,
@@ -70,9 +70,9 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
                                                                                                         0,
                                                                                                         0,
                                                                                                         false,
-                                                                                                        10);*/
+                                                                                                        10);
 
-        PlumeAtmosphericConcentration plumeAtmosphericConcentration = new PlumeAtmosphericConcentration(10,
+        /*PlumeAtmosphericConcentration plumeAtmosphericConcentration = new PlumeAtmosphericConcentration(10,
                                                                                                         1,
                                                                                                         270,
                                                                                                         MeteorologicalConditions.SUN_HIGH_IN_SKY,
@@ -91,7 +91,7 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
                                                                                                         0,
                                                                                                         true,
                                                                                                         0,
-                new PasquillStability(PasquillStabilityType.TYPE_E));
+                new PasquillStability(PasquillStabilityType.TYPE_E));*/
 
         ArrayList<ConcentrationResult> concentrationResults = plumeAtmosphericConcentration.calcAtmosphericConcentration();
 

@@ -2,7 +2,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -14,8 +13,8 @@
         android:layout_columnSpan="2"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/stepIconBtn"
+        <View
+            android:id="@+id/stepIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/step_icon_reg"
@@ -24,11 +23,22 @@
             />
 
         <TextView
+            android:id="@+id/stepNumber"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="-30dp"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:text="1"/>
+
+        <TextView
             android:id="@+id/stepTitle"
             android:layout_width="310dp"
             android:layout_height="30dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="16dp"
             android:text="Title"
             android:textColor="#000"
@@ -48,7 +58,7 @@
     <LinearLayout
         android:id="@+id/stepContentClosed"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:layout_column="1"
         android:layout_row="1"
         android:orientation="vertical">
@@ -76,8 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_column="0"
-                android:layout_row="0"
-                android:background="#f0f" >
+                android:layout_row="0" >
 
             </FrameLayout>
 
