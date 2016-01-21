@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralFireStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralPlumeStepView;
+import com.hotspothealthcode.hotspothealthcode.Components.Steps.MeteorologyStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.StepView;
 
 public class StepperActivity extends Activity {
@@ -35,6 +36,15 @@ public class StepperActivity extends Activity {
         });
 
         stepLinearView.addView(stepView2);
+
+        StepView stepView3 = new MeteorologyStepView(getApplicationContext(), 2, "Dispersion Model", R.layout.meteorology_step_view, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        stepLinearView.addView(stepView3);
     }
 
     @Override

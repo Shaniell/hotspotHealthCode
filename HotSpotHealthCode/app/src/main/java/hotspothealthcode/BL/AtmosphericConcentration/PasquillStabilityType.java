@@ -1,21 +1,48 @@
 package hotspothealthcode.BL.AtmosphericConcentration;
 
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.EnumMap;
+import java.util.Map;
+
 /**
  * Created by Giladl on 28/08/2015.
  */
 public enum PasquillStabilityType
 {
-    TYPE_A ('A'),
-    TYPE_B ('B'),
-    TYPE_C ('C'),
-    TYPE_D ('D'),
-    TYPE_E ('E'),
-    TYPE_F ('F');
+    EMPTY_VALUE ("Choose value"),
+    TYPE_A ("A: Very unstable"),
+    TYPE_B ("B: Moderately unstable"),
+    TYPE_C ("C: Slightly unstable"),
+    TYPE_D ("D: Neutral"),
+    TYPE_E ("E: Slightly stable"),
+    TYPE_F ("F: Moderately stable");
 
-    private final char type;
+    private final String type;
 
-    private PasquillStabilityType(char type)
+    private PasquillStabilityType(String type)
     {
         this.type = type;
+    }
+
+    public static ArrayList<PasquillStabilityType> getStabilityTypes()
+    {
+        ArrayList<PasquillStabilityType> lst = new ArrayList<PasquillStabilityType>();
+
+        lst.add(EMPTY_VALUE);
+        lst.add(TYPE_A);
+        lst.add(TYPE_B);
+        lst.add(TYPE_C);
+        lst.add(TYPE_D);
+        lst.add(TYPE_E);
+        lst.add(TYPE_F);
+
+        return lst;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.type;
     }
 }
