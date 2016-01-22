@@ -11,7 +11,8 @@
         android:layout_column="0"
         android:layout_row="0"
         android:layout_columnSpan="2"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:translationZ="1px">
 
         <View
             android:id="@+id/stepIcon"
@@ -53,7 +54,8 @@
         android:layout_marginLeft="10dp"
         android:layout_column="0"
         android:layout_row="1"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:translationZ="-1px"/>
 
     <LinearLayout
         android:id="@+id/stepContentClosed"
@@ -61,7 +63,8 @@
         android:layout_height="30dp"
         android:layout_column="1"
         android:layout_row="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:translationZ="-1px" >
 
     </LinearLayout>
 
@@ -74,7 +77,7 @@
         android:orientation="vertical"
         android:visibility="gone"
         android:alpha="0"
-        android:translationY="-100dp">
+        android:translationZ="-1px">
 
         <GridLayout
             android:layout_width="match_parent"
