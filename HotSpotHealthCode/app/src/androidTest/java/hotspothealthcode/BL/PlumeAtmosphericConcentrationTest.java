@@ -62,7 +62,7 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
                                                                                                         20000,
                                                                                                         downWindOffsets,
                                                                                                         0,
-                                                                                                        15,
+                                                                                                        1.5,
                                                                                                         0,
                                                                                                         0,
                                                                                                         0,

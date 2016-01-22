@@ -7,7 +7,7 @@ import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 /**
  * Created by Giladl on 14/12/2015.
  */
-public class GaussianModelTest extends TestCase {
+public class GaussianModelDELETELATERTest extends TestCase {
 
     public void testCalcDFx() throws Exception {
 

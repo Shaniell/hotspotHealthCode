@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by shaniel on 15/08/15.
  */
-public class GaussianModel {
+public class GaussianModelDELETELATER {
 
     //region Static constants
 
@@ -45,38 +45,38 @@ public class GaussianModel {
 
     //region C'tors
 
-    public GaussianModel(TerrainType terrainType,
-                         MeteorologicalConditions meteorologicalCondition,
-                         double Q,
-                         double H,
-                         double lambda,
-                         double x,
-                         double y,
-                         double z,
-                         double L,
-                         double DFx,
-                         double z0,
-                         double referenceHeight,
-                         double uRreferenceHeight,
-                         double sampleTime,
-                         double W)
+    public GaussianModelDELETELATER(TerrainType terrainType,
+                                    MeteorologicalConditions meteorologicalCondition,
+                                    double Q,
+                                    double H,
+                                    double lambda,
+                                    double x,
+                                    double y,
+                                    double z,
+                                    double L,
+                                    double DFx,
+                                    double z0,
+                                    double referenceHeight,
+                                    double uRreferenceHeight,
+                                    double sampleTime,
+                                    double W)
     {
         this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, z0, referenceHeight, uRreferenceHeight, sampleTime,W);
     }
 
-    public GaussianModel(TerrainType terrainType,
-                         MeteorologicalConditions meteorologicalCondition,
-                         double Q,
-                         double H,
-                         double lambda,
-                         double x,
-                         double y,
-                         double z,
-                         double L,
-                         double z0,
-                         double referenceHeight,
-                         double uReferenceHeight,
-                         double W)
+    public GaussianModelDELETELATER(TerrainType terrainType,
+                                    MeteorologicalConditions meteorologicalCondition,
+                                    double Q,
+                                    double H,
+                                    double lambda,
+                                    double x,
+                                    double y,
+                                    double z,
+                                    double L,
+                                    double z0,
+                                    double referenceHeight,
+                                    double uReferenceHeight,
+                                    double W)
     {
         this.initialize(terrainType, meteorologicalCondition, Q, H, lambda, x, y, z, L, z0, referenceHeight, uReferenceHeight, 10,W);
     }
@@ -437,7 +437,7 @@ public class GaussianModel {
         double s;
 
         if (flux == 0) {
-            buoyancyFlux = ((r * r) * GaussianModel.G * v) * (1 - (ta / ts));
+            buoyancyFlux = ((r * r) * GaussianModelDELETELATER.G * v) * (1 - (ta / ts));
         }
         else
         {
@@ -486,11 +486,11 @@ public class GaussianModel {
 
             if (this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_E)
             {
-                s = (0.020 * GaussianModel.G) / ta;
+                s = (0.020 * GaussianModelDELETELATER.G) / ta;
             }
             else // TYPE_F
             {
-                s = (0.035 * GaussianModel.G) / ta;
+                s = (0.035 * GaussianModelDELETELATER.G) / ta;
             }
 
             if(uh > 1.4)

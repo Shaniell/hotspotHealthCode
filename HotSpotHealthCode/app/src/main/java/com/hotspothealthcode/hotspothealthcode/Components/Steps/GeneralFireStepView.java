@@ -78,6 +78,9 @@ public class GeneralFireStepView extends StepView
 
         this.materialAtRisk = (EditText)findViewById(R.id.etMaterialAtRisk);
         this.releaseRadios = (EditText)findViewById(R.id.etReleaseRadios);
+
+        // Disable tab focus (so the keyboard wont pop up when view loads)
+        this.tabHost.clearFocus();
     }
 
     @Override

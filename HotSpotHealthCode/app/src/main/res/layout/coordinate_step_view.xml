@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Height From Ground"
+        android:id="@+id/tvVerticalOffset"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginRight="2dp"
+        android:layout_row="0"
+        android:layout_column="0"/>
+
+    <EditText
+        android:id="@+id/etVerticalOffset"
+        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_gravity="right"
+        android:layout_row="0"
+        android:layout_column="1"
+
+        android:inputType="numberDecimal"
+        android:hint="in meters"/>
+
+    <View android:id="@+id/separator"
+        android:background="#ffffff"
+        android:layout_width = "fill_parent"
+        android:layout_height="1dip"
+        android:layout_centerVertical ="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20px"
+        android:layout_marginBottom="20px"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_columnSpan="2"/>
+
+    <GridLayout
+        android:id="@+id/glXYCoordinates"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_columnSpan="2">
+
+        <CheckBox
+            android:id="@+id/cbEnableAll"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:checked="true"/>
+
+        <Button
+            android:id="@+id/btnRestoreDefaults"
+            android:text="Restore Defaults"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_columnSpan="2"
+            android:layout_gravity="right"/>
+
+    </GridLayout>
+
+</GridLayout>

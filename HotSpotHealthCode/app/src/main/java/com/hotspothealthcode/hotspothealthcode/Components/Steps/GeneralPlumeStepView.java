@@ -112,6 +112,9 @@ public class GeneralPlumeStepView extends StepView
                     heatEmissionEnter.callOnClick();
             }
         });
+
+        // Disable tab focus (so the keyboard wont pop up when view loads)
+        this.tabHost.clearFocus();
     }
 
     private void ShowMomentumGrid()

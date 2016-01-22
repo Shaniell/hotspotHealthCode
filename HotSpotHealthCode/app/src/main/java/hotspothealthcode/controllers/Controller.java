@@ -36,4 +36,23 @@ public class Controller
     {
         return MeteorologicalConditions.getMeteorologicalConditions();
     }
+
+    public static ArrayList<Double> getCoordinatesDefaultValues()
+    {
+        //TODO: CREATE CLASS THAT CONTAIN VALUES
+        ArrayList<Double> lst = new ArrayList<>();
+
+        lst.add(0.03);
+        lst.add(0.2);
+        lst.add(0.4);
+        lst.add(0.6);
+        lst.add(0.8);
+        lst.add(1.0);
+        lst.add(8.0);
+        lst.add(20.0);
+        lst.add(40.0);
+        lst.add(80.00);
+
+        return lst;
+    }
 }
