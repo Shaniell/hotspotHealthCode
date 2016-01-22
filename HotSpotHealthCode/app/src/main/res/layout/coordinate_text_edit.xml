@@ -4,4 +4,4 @@
     android:layout_width="120dp"
     android:layout_marginRight="2dp"
     android:inputType="numberDecimal"
-    android:hint="in k-meters" />
+    android:hint="in km" />
