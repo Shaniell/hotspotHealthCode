@@ -23,7 +23,7 @@ public class StepperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stepper);
 
-        this.toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        this.toolbar = (Toolbar) findViewById(R.id.stepper_toolbar);
         setSupportActionBar(this.toolbar);
     }
 
