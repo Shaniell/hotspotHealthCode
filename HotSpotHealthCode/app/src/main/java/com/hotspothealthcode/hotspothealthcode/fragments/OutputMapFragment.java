@@ -28,7 +28,7 @@ public class OutputMapFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_output_table, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_output_map, container, false);
 
         // Get passed arguments
         Bundle args = this.getArguments();
