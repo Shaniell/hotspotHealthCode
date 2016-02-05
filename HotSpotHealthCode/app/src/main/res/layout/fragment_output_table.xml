@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="7dip"
+    android:paddingRight="7dip"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.hotspothealthcode.hotspothealthcode.OutputActivity$PlaceholderFragment">
+
+    <TableLayout
+        android:id="@+id/tlOutputTable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvDistance"
+                android:layout_marginLeft="2dip"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Distance"
+                android:background="?android:colorPrimary"
+                />
+
+            <TextView
+                android:id="@+id/tvAirConcentration"
+                android:layout_marginLeft="2dip"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Concentration"
+                android:background="?android:colorPrimary"
+                />
+
+            <TextView
+                android:id="@+id/tvArrivalTime"
+                android:layout_marginLeft="2dip"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Time"
+                android:background="?android:colorPrimary"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvDistanceUnits"
+                android:layout_marginLeft="2dip"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="(km)"
+                android:background="?android:colorPrimary"
+                />
+
+            <TextView
+                android:id="@+id/tvAirConcentrationUnits"
+                android:layout_marginLeft="2dip"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="((Ci-sec)/m^3)"
+                android:background="?android:colorPrimary"
+                />
+
+            <TextView
+                android:id="@+id/tvArrivalTimeUnits"
+                android:layout_marginLeft="2dip"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="(hh:mm)"
+                android:background="?android:colorPrimary"
+                />
+        </TableRow>
+
+    </TableLayout>
+
+</RelativeLayout>

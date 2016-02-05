@@ -1,5 +1,8 @@
 package hotspothealthcode.BL.AtmosphericConcentration;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationPoint;
 
 /**
@@ -8,12 +11,12 @@ import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationPoint;
 public class ConcentrationResult
 {
     private double concentration;
-    private double arrivalTime; // HH:MM
+    private int arrivalTime; // HH:MM
     private ConcentrationPoint point;
 
     public ConcentrationResult(ConcentrationPoint point,
                                double concentration,
-                               double arrivalTime)
+                               int arrivalTime)
     {
 
         this.point = point;
@@ -22,14 +25,49 @@ public class ConcentrationResult
     }
 
     public ConcentrationPoint getPoint() {
-        return point;
+        return this.point;
     }
 
     public double getConcentration() {
-        return concentration;
+        return this.concentration;
     }
 
-    public double getArrivalTime() {
-        return arrivalTime;
+    public int getArrivalTime() {
+        return this.arrivalTime;
+    }
+
+    public String getStringPoint() {
+        return this.point.toString();
+    }
+
+    public String getStringConcentration() {
+        NumberFormat formatter = new DecimalFormat("0.#E0");
+
+        return formatter.format(this.concentration);
+    }
+
+    public String getStringArrivalTime() {
+
+        int hours = this.arrivalTime / 3600;
+        int minutes = (this.arrivalTime % 3600) / 60;
+
+        String time = "";
+
+        if (minutes == 0)
+            time += "<";
+
+        if (hours < 10)
+            time += "0" + hours;
+        else
+            time += hours;
+
+        time += ":";
+
+        if (minutes < 10)
+            time += "0" + minutes;
+        else
+            time += minutes;
+
+        return time;
     }
 }

@@ -26,4 +26,10 @@ public class ConcentrationPoint
     public double getZ() {
         return z;
     }
+
+    @Override
+    public String toString()
+    {
+        return "(" + (this.x / 1000) + ", " + (this.y / 1000) + ", " + this.z + ")";
+    }
 }

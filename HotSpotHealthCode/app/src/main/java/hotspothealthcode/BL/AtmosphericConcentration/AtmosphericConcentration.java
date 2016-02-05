@@ -25,9 +25,7 @@ public class AtmosphericConcentration
     protected int sampleTime;
     protected TerrainType terrainType;
     protected double sourceTerm;
-    protected ArrayList<Double> downWindOffsets;
-    protected double crossWindOffset;
-    protected double verticalOffset;
+    protected ArrayList<ConcentrationPoint> concentrationPoints;
 
     //endregion
 
@@ -41,9 +39,7 @@ public class AtmosphericConcentration
      * @param sampleTime - The sample time in minutes
      * @param terrainType - The terrain type
      * @param sourceTerm - The source term
-     * @param downWindOffsets - The list of downwind offsets
-     * @param crossWindOffset - The crosswind offset
-     * @param verticalOffset - The vertical Offset
+     * @param concentrationPoints - The list of concentration points
      */
     public AtmosphericConcentration(double referenceHeight,
                                     double windSpeedAtReferenceHeight,
@@ -53,9 +49,7 @@ public class AtmosphericConcentration
                                     int sampleTime,
                                     TerrainType terrainType,
                                     double sourceTerm,
-                                    ArrayList<Double> downWindOffsets,
-                                    double crossWindOffset,
-                                    double verticalOffset)
+                                    ArrayList<ConcentrationPoint> concentrationPoints)
     {
         this.referenceHeight = referenceHeight;
         this.windSpeedAtReferenceHeight = windSpeedAtReferenceHeight;
@@ -65,9 +59,7 @@ public class AtmosphericConcentration
         this.sampleTime = sampleTime;
         this.terrainType = terrainType;
         this.sourceTerm = sourceTerm;
-        this.downWindOffsets = downWindOffsets;
-        this.crossWindOffset = crossWindOffset;
-        this.verticalOffset = verticalOffset;
+        this.concentrationPoints = concentrationPoints;
     }
 
     /**
@@ -78,9 +70,7 @@ public class AtmosphericConcentration
      * @param sampleTime - The sample time in minutes
      * @param terrainType - The terrain type
      * @param sourceTerm - The source term
-     * @param downWindOffsets - The list of downwind offsets
-     * @param crossWindOffset - The crosswind offset
-     * @param verticalOffset - The vertical Offset
+     * @param concentrationPoints - The list of concentration points
      * @param pasquillStability - The pasquill Stability
      */
     public AtmosphericConcentration(double referenceHeight,
@@ -91,9 +81,7 @@ public class AtmosphericConcentration
                                     int sampleTime,
                                     TerrainType terrainType,
                                     double sourceTerm,
-                                    ArrayList<Double> downWindOffsets,
-                                    double crossWindOffset,
-                                    double verticalOffset,
+                                    ArrayList<ConcentrationPoint> concentrationPoints,
                                     PasquillStability pasquillStability)
     {
         this.referenceHeight = referenceHeight;
@@ -104,9 +92,7 @@ public class AtmosphericConcentration
         this.sampleTime = sampleTime;
         this.terrainType = terrainType;
         this.sourceTerm = sourceTerm;
-        this.downWindOffsets = downWindOffsets;
-        this.crossWindOffset = crossWindOffset;
-        this.verticalOffset = verticalOffset;
+        this.concentrationPoints = concentrationPoints;
         this.pasquillStability = pasquillStability;
     }
 
@@ -415,42 +401,14 @@ public class AtmosphericConcentration
     {
         ArrayList<ConcentrationResult> results = new ArrayList<ConcentrationResult>();
 
-        // Calculate the concentration at points:
-        // (x, 0, 0, H), (x, y, 0, H), (x, -y, 0, H), (x, y, z, H), (x, -y, z, H)
-        for (double offset: this.downWindOffsets)
+        // Calculate the concentration at points
+        for (ConcentrationPoint point: this.concentrationPoints)
         {
             // Calculate sigmaY and sigmaZ
-            ArrayList<Double> lst = this.calcSigmaYZ(this.terrainType, offset);
+            ArrayList<Double> lst = this.calcSigmaYZ(this.terrainType, point.getX());
 
             double sigmaY = lst.get(0);
             double sigmaZ = lst.get(1);
-
-            // (x, 0, 0, H)
-            this.addResult(this.sourceTerm,
-                    sigmaY,
-                    sigmaZ,
-                    effectiveReleaseHeight,
-                    windSpeed,
-                    new ConcentrationPoint(offset * 1000, 0, 0),
-                    results);
-
-            // (x, y, 0, H)
-            this.addResult(this.sourceTerm,
-                    sigmaY,
-                    sigmaZ,
-                    effectiveReleaseHeight,
-                    windSpeed,
-                    new ConcentrationPoint(offset * 1000, this.crossWindOffset * 1000, 0),
-                    results);
-
-            // (x, -y, 0, H)
-            this.addResult(this.sourceTerm,
-                    sigmaY,
-                    sigmaZ,
-                    effectiveReleaseHeight,
-                    windSpeed,
-                    new ConcentrationPoint(offset * 1000, -this.crossWindOffset * 1000, 0),
-                    results);
 
             // (x, y, z, H)
             this.addResult(this.sourceTerm,
@@ -458,16 +416,7 @@ public class AtmosphericConcentration
                     sigmaZ,
                     effectiveReleaseHeight,
                     windSpeed,
-                    new ConcentrationPoint(offset * 1000, this.crossWindOffset * 1000, this.verticalOffset),
-                    results);
-
-            // (x, -y, z, H)
-            this.addResult(this.sourceTerm,
-                    sigmaY,
-                    sigmaZ,
-                    effectiveReleaseHeight,
-                    windSpeed,
-                    new ConcentrationPoint(offset * 1000, -this.crossWindOffset * 1000, this.verticalOffset),
+                    point,
                     results);
         }
 
@@ -483,13 +432,13 @@ public class AtmosphericConcentration
                            ArrayList<ConcentrationResult> results)
     {
         double concentration = this.calcGussianEquation(sourceTerm,
-                sigmaY,
-                sigmaZ,
-                effectiveReleaseHeight,
-                windSpeed,
-                point);
+                                                        sigmaY,
+                                                        sigmaZ,
+                                                        effectiveReleaseHeight,
+                                                        windSpeed,
+                                                        point);
 
-        results.add(new ConcentrationResult(point, concentration, point.getX() / windSpeed));
+        results.add(new ConcentrationResult(point, concentration, (int)(point.getX() / windSpeed)));
     }
 
     //endregion

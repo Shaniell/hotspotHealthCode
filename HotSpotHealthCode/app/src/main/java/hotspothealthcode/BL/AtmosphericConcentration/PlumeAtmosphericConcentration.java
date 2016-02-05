@@ -36,9 +36,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
      * @param sampleTime - The sample time in minutes
      * @param terrainType - The terrain type
      * @param sourceTerm - The source term
-     * @param downWindOffsets - The list of downwind offsets
-     * @param crossWindOffset - The crosswind offset
-     * @param verticalOffset - The vertical Offset
+     * @param concentrationPoints - The list of concentration points
      * @param physicalStackHeight - the physical height (m)
      * @param stackExitVelocity - stack exit velocity (m/s)
      * @param stackRadius - stack radius (m)
@@ -55,9 +53,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                                          int sampleTime,
                                          TerrainType terrainType,
                                          double sourceTerm,
-                                         ArrayList<Double> downWindOffsets,
-                                         double crossWindOffset,
-                                         double verticalOffset,
+                                         ArrayList<ConcentrationPoint> concentrationPoints,
                                          double physicalStackHeight,
                                          double stackExitVelocity,
                                          double stackRadius,
@@ -75,9 +71,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
               sampleTime,
               terrainType,
               sourceTerm,
-              downWindOffsets,
-              crossWindOffset,
-              verticalOffset);
+              concentrationPoints);
 
         this.physicalStackHeight = physicalStackHeight;
         this.stackExitVelocity = stackExitVelocity;
@@ -97,9 +91,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
      * @param sampleTime - The sample time in minutes
      * @param terrainType - The terrain type
      * @param sourceTerm - The source term
-     * @param downWindOffsets - The list of downwind offsets
-     * @param crossWindOffset - The crosswind offset
-     * @param verticalOffset - The vertical Offset
+     * @param concentrationPoints - The list of concentration points
      * @param physicalStackHeight - the physical height (m)
      * @param stackExitVelocity - stack exit velocity (m/s)
      * @param stackRadius - stack radius (m)
@@ -117,9 +109,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
                                          int sampleTime,
                                          TerrainType terrainType,
                                          double sourceTerm,
-                                         ArrayList<Double> downWindOffsets,
-                                         double crossWindOffset,
-                                         double verticalOffset,
+                                         ArrayList<ConcentrationPoint> concentrationPoints,
                                          double physicalStackHeight,
                                          double stackExitVelocity,
                                          double stackRadius,
@@ -138,9 +128,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
               sampleTime,
               terrainType,
               sourceTerm,
-              downWindOffsets,
-              crossWindOffset,
-              verticalOffset,
+              concentrationPoints,
               pasquillStability);
 
         this.physicalStackHeight = physicalStackHeight;

@@ -31,9 +31,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
                                         int sampleTime,
                                         TerrainType terrainType,
                                         double sourceTerm,
-                                        ArrayList<Double> downWindOffsets,
-                                        double crossWindOffset,
-                                        double verticalOffset,
+                                        ArrayList<ConcentrationPoint> concentrationPoints,
                                         double fuelVolume,
                                         int burnDuration,
                                         double emissionRate,
@@ -48,9 +46,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
                 sampleTime,
                 terrainType,
                 sourceTerm,
-                downWindOffsets,
-                crossWindOffset,
-                verticalOffset);
+                concentrationPoints);
 
         this.fuelVolume = fuelVolume;
         this.burnDuration = burnDuration;
@@ -67,9 +63,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
                                         int sampleTime,
                                         TerrainType terrainType,
                                         double sourceTerm,
-                                        ArrayList<Double> downWindOffsets,
-                                        double crossWindOffset,
-                                        double verticalOffset,
+                                        ArrayList<ConcentrationPoint> concentrationPoints,
                                         PasquillStability pasquillStability,
                                         double fuelVolume,
                                         int burnDuration,
@@ -85,9 +79,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
                 sampleTime,
                 terrainType,
                 sourceTerm,
-                downWindOffsets,
-                crossWindOffset,
-                verticalOffset,
+                concentrationPoints,
                 pasquillStability);
 
         this.fuelVolume = fuelVolume;
