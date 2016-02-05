@@ -9,20 +9,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
 
 import com.hotspothealthcode.hotspothealthcode.fragments.OutputMapFragment;
 import com.hotspothealthcode.hotspothealthcode.fragments.OutputTableFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationPoint;
+import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationResult;
+
 public class OutputActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ArrayList<ConcentrationResult> results;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -47,6 +52,20 @@ public class OutputActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.output_tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        // TODO: GET REAL RESULTS
+        this.results = new ArrayList<ConcentrationResult>();
+
+        ConcentrationResult result = new ConcentrationResult(new ConcentrationPoint(5000, 1.5, 1.5),
+                                                                                    1234567,
+                                                                                    380);
+
+        ConcentrationResult result2 = new ConcentrationResult(new ConcentrationPoint(2000, 1.4, 1.8),
+                                                                                    1234567,
+                                                                                    400);
+
+        this.results.add(result);
+        this.results.add(result2);
     }
 
 
@@ -59,9 +78,6 @@ public class OutputActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -76,7 +92,8 @@ public class OutputActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter
+    {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -84,23 +101,26 @@ public class OutputActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
 
-            //TODO: PASS CONCENTRATION RESULTS TO FRAGMENTS AS JSON
             Bundle args = new Bundle();
 
-            //args.putString("results", );
+            // Convert to JSON array
+            JSONArray array = this.convertResultsToJSONArray();
 
-
+            // Put JSON string to args
+            args.putString("results", array.toString());
 
             if (position == 0) {
                 Fragment outputMapFragment = new OutputMapFragment();
+
+                outputMapFragment.setArguments(args);
 
                 return outputMapFragment;
             }
             else {
                 Fragment outputTableFragment = new OutputTableFragment();
+
+                outputTableFragment.setArguments(args);
 
                 return outputTableFragment;
             }
@@ -121,6 +141,24 @@ public class OutputActivity extends AppCompatActivity {
                     return "Table";
             }
             return null;
+        }
+
+        private JSONArray convertResultsToJSONArray()
+        {
+            JSONArray array = new JSONArray();
+
+            // Convert to json array
+            for (ConcentrationResult result: results)
+            {
+                try
+                {
+                    array.put(result.toJSON());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return array;
         }
     }
 }

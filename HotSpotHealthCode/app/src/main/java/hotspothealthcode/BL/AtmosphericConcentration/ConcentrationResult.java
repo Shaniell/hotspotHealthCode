@@ -1,5 +1,8 @@
 package hotspothealthcode.BL.AtmosphericConcentration;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -22,6 +25,13 @@ public class ConcentrationResult
         this.point = point;
         this.concentration = concentration;
         this.arrivalTime = arrivalTime;
+    }
+
+    public ConcentrationResult(JSONObject jsonObject) throws JSONException {
+
+        this.point = new ConcentrationPoint(jsonObject.getJSONObject("point"));
+        this.concentration = jsonObject.getDouble("concentration");
+        this.arrivalTime = jsonObject.getInt("arrivalTime");
     }
 
     public ConcentrationPoint getPoint() {
@@ -69,5 +79,15 @@ public class ConcentrationResult
             time += minutes;
 
         return time;
+    }
+
+    public JSONObject toJSON() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("point", this.point.toJSON());
+        jsonObject.put("concentration", this.concentration);
+        jsonObject.put("arrivalTime", this.arrivalTime);
+
+        return jsonObject;
     }
 }

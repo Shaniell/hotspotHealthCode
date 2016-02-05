@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import com.hotspothealthcode.hotspothealthcode.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationPoint;
@@ -31,24 +35,35 @@ public class OutputTableFragment extends Fragment
                              ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Bundle args = getArguments();
-
-        //this.results = (ArrayList<ConcentrationResult>)args.get("results");
-
         View rootView = inflater.inflate(R.layout.fragment_output_table, container, false);
 
         this.tableLayout = (TableLayout)rootView.findViewById(R.id.tlOutputTable);
 
-        OutputRow outputRow = new OutputRow(rootView.getContext(), new ConcentrationResult(new ConcentrationPoint(5000, 1.5, 1.5),
-                                                                                           1234567,
-                                                                                            380));
+        // Get passed arguments
+        Bundle args = this.getArguments();
 
-        OutputRow outputRow2 = new OutputRow(rootView.getContext(), new ConcentrationResult(new ConcentrationPoint(5000, 1.5, 1.5),
-                1234567,
-                400));
+        // Create concentration results array
+        try
+        {
+            this.results = new ArrayList<ConcentrationResult>();
 
-        outputRow.addToTable(this.tableLayout);
-        outputRow2.addToTable(this.tableLayout);
+            JSONArray array = new JSONArray(args.getString("results"));
+
+            // Convert to array list of concentration results
+            for (int i = 0; i < array.length(); i++)
+            {
+                ConcentrationResult result = new ConcentrationResult(array.getJSONObject(i));
+
+                OutputRow outputRow = new OutputRow(rootView.getContext(), result);
+
+                outputRow.addToTable(this.tableLayout);
+
+                this.results.add(result);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return rootView;
     }
