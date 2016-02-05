@@ -33,8 +33,8 @@ public class MeteorologyStepView extends StepView
     private Spinner solarInfo;
     private Spinner stability;
 
-    public MeteorologyStepView(Context context, int stepNumber, String title, int contentViewId, OnClickListener continueBtnHandler) {
-        super(context, stepNumber, title, contentViewId, continueBtnHandler);
+    public MeteorologyStepView(Context context, int stepNumber, String title, int contentViewId) {
+        super(context, stepNumber, title, contentViewId);
 
         this.initControl(context);
     }

@@ -32,8 +32,8 @@ public class GeneralPlumeStepView extends StepView
     private EditText exitVelocity;
     private EditText effluentTemp;
 
-    public GeneralPlumeStepView(Context context, int stepNumber, String title, int contentViewId, OnClickListener continueBtnHandler) {
-        super(context, stepNumber, title, contentViewId, continueBtnHandler);
+    public GeneralPlumeStepView(Context context, int stepNumber, String title, int contentViewId) {
+        super(context, stepNumber, title, contentViewId);
 
         this.initControl();
     }

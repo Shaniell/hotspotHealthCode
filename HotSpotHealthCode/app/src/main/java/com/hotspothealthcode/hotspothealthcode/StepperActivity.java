@@ -1,64 +1,77 @@
 package com.hotspothealthcode.hotspothealthcode;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import com.hotspothealthcode.hotspothealthcode.Components.Steps.CoordinatesStepView;
-import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralFireStepView;
-import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralPlumeStepView;
-import com.hotspothealthcode.hotspothealthcode.Components.Steps.MeteorologyStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.StepView;
 
-public class StepperActivity extends Activity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class StepperActivity extends AppCompatActivity {
+
+    protected LinearLayout stepLinearView;
+    protected HashMap<Integer, StepView> steps;
+    protected Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stepper);
 
-        LinearLayout stepLinearView = (LinearLayout) findViewById(R.id.stepperLinearView);
+        this.toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(this.toolbar);
+    }
 
-        StepView stepView = new GeneralFireStepView(getApplicationContext(), 1, "Dispersion Model", R.layout.general_fire_step_view, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.stepper_menu, menu);
 
-            }
-        });
-
-        stepLinearView.addView(stepView);
-
-        StepView stepView2 = new GeneralPlumeStepView(getApplicationContext(), 2, "Dispersion Model", R.layout.general_plume_step_view, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        stepLinearView.addView(stepView2);
-
-        StepView stepView3 = new MeteorologyStepView(getApplicationContext(), 3, "Dispersion Model", R.layout.meteorology_step_view, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        stepLinearView.addView(stepView3);
-
-        StepView stepView4 = new CoordinatesStepView(getApplicationContext(), 4, "Dispersion Model", R.layout.coordinate_step_view, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        stepLinearView.addView(stepView4);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_continue_to_output:
+
+                this.continueToOutput();
+
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    private void continueToOutput()
+    {
+        boolean areStepsValid = true;
+
+        for (Map.Entry<Integer, StepView> entry: this.steps.entrySet())
+        {
+            if(!entry.getValue().isValid())
+            {
+                areStepsValid = false;
+            }
+        }
+
+        if(areStepsValid)
+        {
+            //TODO: CREATE OUTPUT ACTIVITY
+        }
     }
 }

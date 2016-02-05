@@ -51,7 +51,7 @@ public class Controller
         lst.add(8.0);
         lst.add(20.0);
         lst.add(40.0);
-        lst.add(80.00);
+        lst.add(80.0);
 
         return lst;
     }

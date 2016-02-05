@@ -35,8 +35,8 @@ public class CoordinatesStepView extends StepView
     private Button restureDefaultsBtn;
     private ArrayList<CoordinateRow> coordinateRows;
 
-    public CoordinatesStepView(Context context, int stepNumber, String title, int contentViewId, OnClickListener continueBtnHandler) {
-        super(context, stepNumber, title, contentViewId, continueBtnHandler);
+    public CoordinatesStepView(Context context, int stepNumber, String title, int contentViewId) {
+        super(context, stepNumber, title, contentViewId);
 
         this.initControl(context);
     }

@@ -27,8 +27,8 @@ public class GeneralFireStepView extends StepView
     private EditText airTempCalc;
     private EditText burnDuration;
 
-    public GeneralFireStepView(Context context, int stepNumber, String title,  int contentViewId, OnClickListener continueBtnHandler) {
-        super(context, stepNumber, title, contentViewId, continueBtnHandler);
+    public GeneralFireStepView(Context context, int stepNumber, String title,  int contentViewId) {
+        super(context, stepNumber, title, contentViewId);
 
         this.initControl();
     }

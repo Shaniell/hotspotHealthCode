@@ -27,8 +27,6 @@ public abstract class StepView extends GridLayout {
     protected String title;
     protected int stepNumber;
 
-    protected boolean isValid;
-
     protected View stepIcon;
     protected Button stepContinueBtn;
     protected Button stepCancleBtn;
@@ -41,9 +39,9 @@ public abstract class StepView extends GridLayout {
     protected View stepLine;
     protected View contentView;
 
-    public StepView(Context context, int stepNumber, String title,  int contentViewId, OnClickListener continueBtnHandler) {
+    public StepView(Context context, int stepNumber, String title, int contentViewId) {
         super(context);
-        initControl(context, stepNumber, title, contentViewId, continueBtnHandler);
+        initControl(context, stepNumber, title, contentViewId);
     }
 
     public StepView(Context context) {
@@ -58,7 +56,7 @@ public abstract class StepView extends GridLayout {
         super(context, attrs, defStyle);
     }
 
-    private void initControl(Context context, int stepNumber, String title, int contentViewId, final OnClickListener continueBtnHandler)
+    private void initControl(Context context, int stepNumber, String title, int contentViewId)
     {
         // Load icons
         this.stepIconGood = context.getDrawable(R.drawable.step_icon_good);
@@ -89,10 +87,28 @@ public abstract class StepView extends GridLayout {
         // Set step number
         this.stepNumberView.setText(String.valueOf(stepNumber));
 
+        this.stepTitleLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // If the content is visible do hide animation
+                if (stepContent.getVisibility() == View.VISIBLE) {
+                    hideContent();
+
+                } else // If the content is invisible do show animation
+                {
+                    showContent();
+                }
+            }
+        });
+    }
+
+    public void setContinueHandler(final OnClickListener continueBtnHandler)
+    {
         this.stepContinueBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                isValid = validateData();
+                boolean isValid = validateData();
 
                 // hide step number
                 stepNumberView.setVisibility(INVISIBLE);
@@ -111,21 +127,6 @@ public abstract class StepView extends GridLayout {
                 {
                     // Set good icon
                     stepIcon.setBackground(stepIconBad);
-                }
-            }
-        });
-
-        this.stepTitleLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // If the content is visible do hide animation
-                if (stepContent.getVisibility() == View.VISIBLE) {
-                    hideContent();
-
-                } else // If the content is invisible do show animation
-                {
-                    showContent();
                 }
             }
         });
@@ -188,15 +189,28 @@ public abstract class StepView extends GridLayout {
                 });
     }
 
-    public void setContinueHandler(OnClickListener listener)
+    public boolean isValid()
     {
-        this.stepContinueBtn.setOnClickListener(listener);
+        boolean isDataValid = this.validateData();
+
+        // hide step number
+        this.stepNumberView.setVisibility(INVISIBLE);
+
+        if(isDataValid)
+        {
+            // Set good icon
+            this.stepIcon.setBackground(stepIconGood);
+        }
+        else
+        {
+            // Set good icon
+            this.stepIcon.setBackground(stepIconBad);
+        }
+
+        return isDataValid;
     }
 
 
-    public boolean isValid() {
-        return isValid;
-    }
 
     protected abstract boolean validateData();
 }
