@@ -4,16 +4,7 @@ import android.test.ActivityUnitTestCase;
 
 import com.hotspothealthcode.hotspothealthcode.MainActivity;
 
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
-
-import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationResult;
-import hotspothealthcode.BL.AtmosphericConcentration.MeteorologicalConditions;
-import hotspothealthcode.BL.AtmosphericConcentration.PasquillStability;
-import hotspothealthcode.BL.AtmosphericConcentration.PasquillStabilityType;
-import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentration;
-import hotspothealthcode.BL.AtmosphericConcentration.TerrainType;
 
 /**
  * Created by Giladl on 13/01/2016.

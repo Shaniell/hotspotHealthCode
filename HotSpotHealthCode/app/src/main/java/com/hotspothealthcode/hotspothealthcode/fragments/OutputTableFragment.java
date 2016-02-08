@@ -15,12 +15,12 @@ import com.hotspothealthcode.hotspothealthcode.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationPoint;
-import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
+import hotspothealthcode.controllers.Controller;
 
 /**
  * Created by Giladl on 05/02/2016.
@@ -28,7 +28,7 @@ import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationResult;
 public class OutputTableFragment extends Fragment
 {
     private TableLayout tableLayout;
-    private ArrayList<ConcentrationResult> results;
+    private OutputResult outputResult;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -39,30 +39,16 @@ public class OutputTableFragment extends Fragment
 
         this.tableLayout = (TableLayout)rootView.findViewById(R.id.tlOutputTable);
 
-        // Get passed arguments
-        Bundle args = this.getArguments();
+        this.outputResult = Controller.getOutputResultInstance();
 
-        // Create concentration results array
-        try
+        ArrayList<ConcentrationResult> results = this.outputResult.getResults();
+
+        // Add rows to table
+        for (ConcentrationResult result: results)
         {
-            this.results = new ArrayList<ConcentrationResult>();
+            OutputRow outputRow = new OutputRow(rootView.getContext(), result);
 
-            JSONArray array = new JSONArray(args.getString("results"));
-
-            // Convert to array list of concentration results
-            for (int i = 0; i < array.length(); i++)
-            {
-                ConcentrationResult result = new ConcentrationResult(array.getJSONObject(i));
-
-                OutputRow outputRow = new OutputRow(rootView.getContext(), result);
-
-                outputRow.addToTable(this.tableLayout);
-
-                this.results.add(result);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+            outputRow.addToTable(this.tableLayout);
         }
 
         return rootView;

@@ -3,6 +3,8 @@ package hotspothealthcode.BL.AtmosphericConcentration;
 import java.lang.Math;
 import java.util.List;
 
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
+
 /**
  * Created by shaniel on 15/08/15.
  */

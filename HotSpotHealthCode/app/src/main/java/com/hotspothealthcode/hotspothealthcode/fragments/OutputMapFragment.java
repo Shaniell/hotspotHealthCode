@@ -6,8 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.hotspothealthcode.hotspothealthcode.R;
 
 import org.json.JSONArray;
@@ -15,14 +21,17 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
+import hotspothealthcode.controllers.Controller;
 
 /**
  * Created by Giladl on 05/02/2016.
  */
 public class OutputMapFragment extends Fragment
 {
-    private ArrayList<ConcentrationResult> results;
+    private OutputResult outputResult;
+    private GoogleMap outputMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,28 +39,51 @@ public class OutputMapFragment extends Fragment
 
         View rootView = inflater.inflate(R.layout.fragment_output_map, container, false);
 
-        // Get passed arguments
-        Bundle args = this.getArguments();
+        // Get map view and map
+        MapView mapView = (MapView)rootView.findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
 
-        // Create concentration results array
-        try
-        {
-            this.results = new ArrayList<ConcentrationResult>();
+        mapView.onResume();
 
-            JSONArray array = new JSONArray(args.getString("results"));
+        this.outputMap = mapView.getMap();
+        UiSettings uiSettings = this.outputMap.getUiSettings();
 
-            // Convert to array list of concentration results
-            for (int i = 0; i < array.length(); i++)
-            {
-                ConcentrationResult result = new ConcentrationResult(array.getJSONObject(i));
+        uiSettings.setZoomControlsEnabled(true);
+        uiSettings.setZoomGesturesEnabled(true);
+        uiSettings.setScrollGesturesEnabled(true);
+        uiSettings.setMapToolbarEnabled(false);
 
-                this.results.add(result);
-            }
+        this.outputResult = Controller.getOutputResultInstance();
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        this.drawResultsToMap();
 
         return rootView;
+    }
+
+    private void drawResultsToMap()
+    {
+        // TODO: MOVE TO REAL POSITION
+        LatLng pos = new LatLng(40.8516701, -93.2599318);
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        markerOptions.position(pos);
+
+        this.outputMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+        this.outputMap.addMarker(markerOptions);
+
+        /*LatLng res = this.results.get(1).getPoint().toLatLng(pos, 70);
+
+        MarkerOptions markerOptions2 = new MarkerOptions();
+
+        markerOptions2.position(res);
+        markerOptions2.title("dest");
+
+        this.outputMap.addMarker(markerOptions2);
+
+        PolylineOptions polylineOptions = new PolylineOptions();
+
+        polylineOptions.add(pos, res);
+
+        this.outputMap.addPolyline(polylineOptions);*/
     }
 }

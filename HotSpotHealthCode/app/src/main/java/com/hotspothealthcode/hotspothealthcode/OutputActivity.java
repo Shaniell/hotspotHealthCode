@@ -17,17 +17,18 @@ import com.hotspothealthcode.hotspothealthcode.fragments.OutputTableFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationPoint;
-import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
+import hotspothealthcode.controllers.Controller;
 
 public class OutputActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ArrayList<ConcentrationResult> results;
+    private OutputResult outputResult;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -54,18 +55,22 @@ public class OutputActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         // TODO: GET REAL RESULTS
-        this.results = new ArrayList<ConcentrationResult>();
+        this.outputResult = Controller.getOutputResultInstance();
+
+        ArrayList<ConcentrationResult> tempResults = new ArrayList<>();
 
         ConcentrationResult result = new ConcentrationResult(new ConcentrationPoint(5000, 1.5, 1.5),
                                                                                     1234567,
                                                                                     380);
 
-        ConcentrationResult result2 = new ConcentrationResult(new ConcentrationPoint(2000, 1.4, 1.8),
+        ConcentrationResult result2 = new ConcentrationResult(new ConcentrationPoint(200000, 100000, 1.8),
                                                                                     1234567,
                                                                                     400);
 
-        this.results.add(result);
-        this.results.add(result2);
+        tempResults.add(result);
+        tempResults.add(result2);
+
+        this.outputResult.setResults(tempResults);
     }
 
 
@@ -102,25 +107,13 @@ public class OutputActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
 
-            Bundle args = new Bundle();
-
-            // Convert to JSON array
-            JSONArray array = this.convertResultsToJSONArray();
-
-            // Put JSON string to args
-            args.putString("results", array.toString());
-
             if (position == 0) {
                 Fragment outputMapFragment = new OutputMapFragment();
-
-                outputMapFragment.setArguments(args);
 
                 return outputMapFragment;
             }
             else {
                 Fragment outputTableFragment = new OutputTableFragment();
-
-                outputTableFragment.setArguments(args);
 
                 return outputTableFragment;
             }
@@ -141,24 +134,6 @@ public class OutputActivity extends AppCompatActivity {
                     return "Table";
             }
             return null;
-        }
-
-        private JSONArray convertResultsToJSONArray()
-        {
-            JSONArray array = new JSONArray();
-
-            // Convert to json array
-            for (ConcentrationResult result: results)
-            {
-                try
-                {
-                    array.put(result.toJSON());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            return array;
         }
     }
 }

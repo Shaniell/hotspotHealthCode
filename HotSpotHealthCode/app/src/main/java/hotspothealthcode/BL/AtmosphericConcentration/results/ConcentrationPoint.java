@@ -1,4 +1,4 @@
-package hotspothealthcode.BL.AtmosphericConcentration;
+package hotspothealthcode.BL.AtmosphericConcentration.results;
 
 import com.google.android.gms.maps.model.LatLng;
 

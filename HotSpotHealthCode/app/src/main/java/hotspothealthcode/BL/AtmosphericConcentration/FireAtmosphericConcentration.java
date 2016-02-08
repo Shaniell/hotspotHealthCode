@@ -5,6 +5,9 @@ import org.apache.commons.math3.analysis.solvers.NewtonRaphsonSolver;
 import java.util.ArrayList;
 
 import hotspothealthcode.BL.AtmosphericConcentration.Functions.BouyantFuelFirePlumeRiseFunc;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 
 /**
  * Created by Giladl on 09/01/2016.
@@ -169,7 +172,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 
     //region Atmospheric Concentration
 
-    public ArrayList<ConcentrationResult> calcAtmosphericConcentration()
+    public OutputResult calcAtmosphericConcentration()
     {
         double buoyancyFlux;
         double emissionRate;
@@ -191,7 +194,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 
         double windSpeed = this.calcWindSpeed(this.terrainType, effectiveReleaseHeight);
 
-        return this.getConcentrationResults(effectiveReleaseHeight, windSpeed);
+        return this.getOutputResult(effectiveReleaseHeight, windSpeed);
     }
 
     //endregion

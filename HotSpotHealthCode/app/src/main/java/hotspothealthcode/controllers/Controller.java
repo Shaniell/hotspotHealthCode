@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 import hotspothealthcode.BL.AtmosphericConcentration.MeteorologicalConditions;
 import hotspothealthcode.BL.AtmosphericConcentration.PasquillStability;
 import hotspothealthcode.BL.AtmosphericConcentration.PasquillStabilityType;
+import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 import hotspothealthcode.BL.Models.Weather;
 import hotspothealthcode.BL.Weather.WeatherManager;
 
@@ -35,6 +36,17 @@ public class Controller
     public static ArrayList<MeteorologicalConditions> getMeteorologicalConditions()
     {
         return MeteorologicalConditions.getMeteorologicalConditions();
+    }
+
+    public static OutputResult getOutputResultInstance()
+    {
+        return OutputResult.getInstance();
+    }
+
+    public static OutputResult loadOutputResult()
+    {
+        // TODO: IMPLENENT
+        return OutputResult.getInstance();
     }
 
     public static ArrayList<Double> getCoordinatesDefaultValues()

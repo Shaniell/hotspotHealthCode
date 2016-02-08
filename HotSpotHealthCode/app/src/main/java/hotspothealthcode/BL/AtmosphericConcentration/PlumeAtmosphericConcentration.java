@@ -1,12 +1,12 @@
 package hotspothealthcode.BL.AtmosphericConcentration;
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.solvers.NewtonRaphsonSolver;
 
 import java.util.ArrayList;
 
-import hotspothealthcode.BL.AtmosphericConcentration.Functions.BouyantPlumeRiseFunc;
-import hotspothealthcode.BL.AtmosphericConcentration.Functions.MomentumPlumeRiseFunc;
 import hotspothealthcode.BL.AtmosphericConcentration.Functions.WindSpeedFunc;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 
 /**
  * Created by Giladl on 09/01/2016.
@@ -349,7 +349,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
     //region Atmospheric Concentration
 
-    public ArrayList<ConcentrationResult> calcAtmosphericConcentration()
+    public OutputResult calcAtmosphericConcentration()
     {
         double concentration = 0;
         double releaseHeight;
@@ -358,7 +358,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
         if(this.pasquillStability == null)
         {
             this.pasquillStability = new PasquillStability(this.windSpeedAtReferenceHeight,
-                                                           this.meteorologicalConditions);
+                                                           this.meteorologicalCondition);
         }
 
         if(this.effectiveReleaseHeight != 0)
@@ -378,7 +378,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
         double windSpeed = this.calcWindSpeed(this.terrainType, releaseHeight);
 
-        return this.getConcentrationResults(releaseHeight, windSpeed);
+        return this.getOutputResult(releaseHeight, windSpeed);
     }
 
     //endregion

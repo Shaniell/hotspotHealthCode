@@ -2,6 +2,11 @@ package hotspothealthcode.BL.AtmosphericConcentration;
 
 import java.util.ArrayList;
 
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ResultField;
+
 /**
  * Created by Giladl on 09/01/2016.
  */
@@ -17,7 +22,7 @@ public class AtmosphericConcentration
     //region Data Members
 
     protected PasquillStability pasquillStability;
-    protected MeteorologicalConditions meteorologicalConditions;
+    protected MeteorologicalConditions meteorologicalCondition;
     protected double referenceHeight;
     protected double windSpeedAtReferenceHeight;
     protected int windDirection;
@@ -44,7 +49,7 @@ public class AtmosphericConcentration
     public AtmosphericConcentration(double referenceHeight,
                                     double windSpeedAtReferenceHeight,
                                     int windDirection,
-                                    MeteorologicalConditions meteorologicalConditions,
+                                    MeteorologicalConditions meteorologicalCondition,
                                     double surfaceRoughnessHeight,
                                     int sampleTime,
                                     TerrainType terrainType,
@@ -54,7 +59,7 @@ public class AtmosphericConcentration
         this.referenceHeight = referenceHeight;
         this.windSpeedAtReferenceHeight = windSpeedAtReferenceHeight;
         this.windDirection = windDirection;
-        this.meteorologicalConditions = meteorologicalConditions;
+        this.meteorologicalCondition = meteorologicalCondition;
         this.surfaceRoughnessHeight = surfaceRoughnessHeight;
         this.sampleTime = sampleTime;
         this.terrainType = terrainType;
@@ -76,7 +81,7 @@ public class AtmosphericConcentration
     public AtmosphericConcentration(double referenceHeight,
                                     double windSpeedAtReferenceHeight,
                                     int windDirection,
-                                    MeteorologicalConditions meteorologicalConditions,
+                                    MeteorologicalConditions meteorologicalCondition,
                                     double surfaceRoughnessHeight,
                                     int sampleTime,
                                     TerrainType terrainType,
@@ -86,7 +91,7 @@ public class AtmosphericConcentration
     {
         this.referenceHeight = referenceHeight;
         this.windSpeedAtReferenceHeight = windSpeedAtReferenceHeight;
-        this.meteorologicalConditions = meteorologicalConditions;
+        this.meteorologicalCondition = meteorologicalCondition;
         this.windDirection = windDirection;
         this.surfaceRoughnessHeight = surfaceRoughnessHeight;
         this.sampleTime = sampleTime;
@@ -396,10 +401,12 @@ public class AtmosphericConcentration
 
     //region Result Methods
 
-    protected ArrayList<ConcentrationResult> getConcentrationResults(double effectiveReleaseHeight,
-                                                                     double windSpeed)
+    protected OutputResult getOutputResult(double effectiveReleaseHeight,
+                                           double windSpeed)
     {
         ArrayList<ConcentrationResult> results = new ArrayList<ConcentrationResult>();
+
+        OutputResult outputResult = OutputResult.newInstance();
 
         // Calculate the concentration at points
         for (ConcentrationPoint point: this.concentrationPoints)
@@ -420,7 +427,14 @@ public class AtmosphericConcentration
                     results);
         }
 
-        return results;
+        outputResult.setResults(results);
+
+        outputResult.addValue(ResultField.WIND_SPEED, this.windSpeedAtReferenceHeight);
+        outputResult.addValue(ResultField.WIND_DIRECTION, this.windDirection);
+        outputResult.addValue(ResultField.STABILITY_TYPE, this.pasquillStability);
+        outputResult.addValue(ResultField.METEOROLOGICAL_CONDITION, this.meteorologicalCondition);
+
+        return outputResult;
     }
 
     private void addResult(double sourceTerm,

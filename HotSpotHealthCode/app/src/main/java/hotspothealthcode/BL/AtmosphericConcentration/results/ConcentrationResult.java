@@ -1,12 +1,10 @@
-package hotspothealthcode.BL.AtmosphericConcentration;
+package hotspothealthcode.BL.AtmosphericConcentration.results;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-
-import hotspothealthcode.BL.AtmosphericConcentration.ConcentrationPoint;
 
 /**
  * Created by Giladl on 09/01/2016.
@@ -21,7 +19,6 @@ public class ConcentrationResult
                                double concentration,
                                int arrivalTime)
     {
-
         this.point = point;
         this.concentration = concentration;
         this.arrivalTime = arrivalTime;
