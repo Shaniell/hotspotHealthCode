@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_row="0"
+        android:layout_column="0"
+        android:text="Down Wind distance:"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/tvDownWindDistance"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:layout_marginLeft="5dp"
+        android:text=""
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_row="1"
+        android:layout_column="0"
+        android:text="Cross Wind distance:"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/tvCrossWindDistance"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:layout_marginLeft="5dp"
+        android:text=""
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_row="2"
+        android:layout_column="0"
+        android:text="Vertical height:"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/tvVerticalHeight"
+        android:layout_row="2"
+        android:layout_column="1"
+        android:layout_marginLeft="5dp"
+        android:text=""
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_row="3"
+        android:layout_column="0"
+        android:text="Concentration:"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/tvConcentration"
+        android:layout_row="3"
+        android:layout_column="1"
+        android:layout_marginLeft="5dp"
+        android:text=""
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_row="4"
+        android:layout_column="0"
+        android:text="Arrival time:"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/tvArrivalTime"
+        android:layout_row="4"
+        android:layout_column="1"
+        android:layout_marginLeft="5dp"
+        android:text=""
+        android:textColor="#000"/>
+
+</GridLayout>

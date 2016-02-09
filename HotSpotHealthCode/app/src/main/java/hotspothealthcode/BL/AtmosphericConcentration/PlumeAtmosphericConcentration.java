@@ -7,6 +7,7 @@ import hotspothealthcode.BL.AtmosphericConcentration.Functions.WindSpeedFunc;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ResultField;
 
 /**
  * Created by Giladl on 09/01/2016.
@@ -378,7 +379,11 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
         double windSpeed = this.calcWindSpeed(this.terrainType, releaseHeight);
 
-        return this.getOutputResult(releaseHeight, windSpeed);
+        OutputResult outputResult = this.getOutputResult(effectiveReleaseHeight, windSpeed);
+
+        outputResult.addValue(ResultField.MODEL_TYPE, "General Plume");
+
+        return outputResult;
     }
 
     //endregion

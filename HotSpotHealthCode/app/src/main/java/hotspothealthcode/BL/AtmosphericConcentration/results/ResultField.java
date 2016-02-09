@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public enum ResultField
 {
+    MODEL_TYPE("modelType"),
     STABILITY_TYPE("stabilityType"),
     WIND_SPEED("windSpeed"),
     WIND_DIRECTION("windDirection"),

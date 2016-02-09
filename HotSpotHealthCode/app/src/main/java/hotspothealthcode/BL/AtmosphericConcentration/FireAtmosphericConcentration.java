@@ -8,6 +8,7 @@ import hotspothealthcode.BL.AtmosphericConcentration.Functions.BouyantFuelFirePl
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ResultField;
 
 /**
  * Created by Giladl on 09/01/2016.
@@ -194,7 +195,11 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 
         double windSpeed = this.calcWindSpeed(this.terrainType, effectiveReleaseHeight);
 
-        return this.getOutputResult(effectiveReleaseHeight, windSpeed);
+        OutputResult outputResult = this.getOutputResult(effectiveReleaseHeight, windSpeed);
+
+        outputResult.addValue(ResultField.MODEL_TYPE, "General Fire");
+
+        return outputResult;
     }
 
     //endregion

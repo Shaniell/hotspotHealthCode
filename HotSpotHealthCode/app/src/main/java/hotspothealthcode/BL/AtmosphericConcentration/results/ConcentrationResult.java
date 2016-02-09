@@ -87,4 +87,12 @@ public class ConcentrationResult
 
         return jsonObject;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Concentration: " + this.getStringConcentration() + "\n" +
+               "Arrival Time: " + this.getStringArrivalTime() + "\n" +
+               "Point: " + this.getStringPoint();
+    }
 }

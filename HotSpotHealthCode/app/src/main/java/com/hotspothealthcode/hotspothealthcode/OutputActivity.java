@@ -59,11 +59,11 @@ public class OutputActivity extends AppCompatActivity {
 
         ArrayList<ConcentrationResult> tempResults = new ArrayList<>();
 
-        ConcentrationResult result = new ConcentrationResult(new ConcentrationPoint(5000, 1.5, 1.5),
+        ConcentrationResult result = new ConcentrationResult(new ConcentrationPoint(5000, 1000.5, 1.5),
                                                                                     1234567,
                                                                                     380);
 
-        ConcentrationResult result2 = new ConcentrationResult(new ConcentrationPoint(200000, 100000, 1.8),
+        ConcentrationResult result2 = new ConcentrationResult(new ConcentrationPoint(20000, 2000.5, 1.8),
                                                                                     1234567,
                                                                                     400);
 

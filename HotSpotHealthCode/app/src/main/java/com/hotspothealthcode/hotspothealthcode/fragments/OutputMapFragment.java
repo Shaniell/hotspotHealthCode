@@ -11,16 +11,16 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.hotspothealthcode.hotspothealthcode.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.ArrayList;
-
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 import hotspothealthcode.controllers.Controller;
@@ -64,12 +64,38 @@ public class OutputMapFragment extends Fragment
     {
         // TODO: MOVE TO REAL POSITION
         LatLng pos = new LatLng(40.8516701, -93.2599318);
-        MarkerOptions markerOptions = new MarkerOptions();
-
-        markerOptions.position(pos);
 
         this.outputMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
-        this.outputMap.addMarker(markerOptions);
+        this.outputMap.addMarker(new MarkerOptions()
+                                .position(pos)
+                                .title("Origin"));
+
+        this.outputMap.setInfoWindowAdapter(new PointInfoWindowAdapter(getActivity()));
+
+        this.outputMap.addPolyline(new PolylineOptions()
+                .add(pos)
+                .add(new ConcentrationPoint(100000, 0, 0).toLatLng(pos, 70)));
+
+        for (ConcentrationResult result: this.outputResult.getResults())
+        {
+            LatLng res = result.getPoint().toLatLng(pos, 70);
+
+            try
+            {
+                Marker marker = this.outputMap.addMarker(new MarkerOptions()
+                        .position(res)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                        .title("Coordinate")
+                        .snippet(result.toJSON().toString()));
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+//        new MarkerOptions()
+//                .position(MELBOURNE)
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
 
         /*LatLng res = this.results.get(1).getPoint().toLatLng(pos, 70);
 
