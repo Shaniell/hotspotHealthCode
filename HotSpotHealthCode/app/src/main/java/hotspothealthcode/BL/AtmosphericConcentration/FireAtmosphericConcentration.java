@@ -27,71 +27,30 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 
     //region C'tors
 
-    public FireAtmosphericConcentration(double referenceHeight,
-                                        double windSpeedAtReferenceHeight,
-                                        int windDirection,
-                                        MeteorologicalConditions meteorologicalConditions,
-                                        double surfaceRoughnessHeight,
-                                        int sampleTime,
-                                        TerrainType terrainType,
-                                        double sourceTerm,
-                                        ArrayList<ConcentrationPoint> concentrationPoints,
-                                        double fuelVolume,
-                                        int burnDuration,
-                                        double emissionRate,
-                                        double ta,
-                                        double r)
-    {
-        super(referenceHeight,
-                windSpeedAtReferenceHeight,
-                windDirection,
-                meteorologicalConditions,
-                surfaceRoughnessHeight,
-                sampleTime,
-                terrainType,
-                sourceTerm,
-                concentrationPoints);
+    //endregion
 
+    //region setters
+
+    public void setFuelVolume(double fuelVolume) {
         this.fuelVolume = fuelVolume;
+    }
+
+    public void setBurnDuration(int burnDuration) {
         this.burnDuration = burnDuration;
+    }
+
+    public void setEmissionRate(double emissionRate) {
         this.emissionRate = emissionRate;
+    }
+
+    public void setTa(double ta) {
         this.ta = ta;
+    }
+
+    public void setR(double r) {
         this.r = r;
     }
 
-    public FireAtmosphericConcentration(double referenceHeight,
-                                        double windSpeedAtReferenceHeight,
-                                        int windDirection,
-                                        MeteorologicalConditions meteorologicalConditions,
-                                        double surfaceRoughnessHeight,
-                                        int sampleTime,
-                                        TerrainType terrainType,
-                                        double sourceTerm,
-                                        ArrayList<ConcentrationPoint> concentrationPoints,
-                                        PasquillStability pasquillStability,
-                                        double fuelVolume,
-                                        int burnDuration,
-                                        double emissionRate,
-                                        double ta,
-                                        double r)
-    {
-        super(referenceHeight,
-                windSpeedAtReferenceHeight,
-                windDirection,
-                meteorologicalConditions,
-                surfaceRoughnessHeight,
-                sampleTime,
-                terrainType,
-                sourceTerm,
-                concentrationPoints,
-                pasquillStability);
-
-        this.fuelVolume = fuelVolume;
-        this.burnDuration = burnDuration;
-        this.emissionRate = emissionRate;
-        this.ta = ta;
-        this.r = r;
-    }
 
     //endregion
 

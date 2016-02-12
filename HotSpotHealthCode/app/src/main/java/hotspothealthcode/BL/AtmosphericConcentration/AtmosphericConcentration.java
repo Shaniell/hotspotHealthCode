@@ -36,69 +36,48 @@ public class AtmosphericConcentration
 
     //region C'tors
 
-    /**
-     * The constructor
-     * @param referenceHeight - The reference height
-     * @param windSpeedAtReferenceHeight - The wind speed at reference height
-     * @param surfaceRoughnessHeight - The surface Roughness Height in cm
-     * @param sampleTime - The sample time in minutes
-     * @param terrainType - The terrain type
-     * @param sourceTerm - The source term
-     * @param concentrationPoints - The list of concentration points
-     */
-    public AtmosphericConcentration(double referenceHeight,
-                                    double windSpeedAtReferenceHeight,
-                                    int windDirection,
-                                    MeteorologicalConditions meteorologicalCondition,
-                                    double surfaceRoughnessHeight,
-                                    int sampleTime,
-                                    TerrainType terrainType,
-                                    double sourceTerm,
-                                    ArrayList<ConcentrationPoint> concentrationPoints)
-    {
-        this.referenceHeight = referenceHeight;
-        this.windSpeedAtReferenceHeight = windSpeedAtReferenceHeight;
-        this.windDirection = windDirection;
-        this.meteorologicalCondition = meteorologicalCondition;
-        this.surfaceRoughnessHeight = surfaceRoughnessHeight;
-        this.sampleTime = sampleTime;
-        this.terrainType = terrainType;
-        this.sourceTerm = sourceTerm;
-        this.concentrationPoints = concentrationPoints;
+    //endregion
+
+    //region setters
+
+    public void setPasquillStability(PasquillStability pasquillStability) {
+        this.pasquillStability = pasquillStability;
     }
 
-    /**
-     * The constructor
-     * @param referenceHeight - The reference height
-     * @param windSpeedAtReferenceHeight - The wind speed at reference height
-     * @param surfaceRoughnessHeight - The surface Roughness Height in cm
-     * @param sampleTime - The sample time in minutes
-     * @param terrainType - The terrain type
-     * @param sourceTerm - The source term
-     * @param concentrationPoints - The list of concentration points
-     * @param pasquillStability - The pasquill Stability
-     */
-    public AtmosphericConcentration(double referenceHeight,
-                                    double windSpeedAtReferenceHeight,
-                                    int windDirection,
-                                    MeteorologicalConditions meteorologicalCondition,
-                                    double surfaceRoughnessHeight,
-                                    int sampleTime,
-                                    TerrainType terrainType,
-                                    double sourceTerm,
-                                    ArrayList<ConcentrationPoint> concentrationPoints,
-                                    PasquillStability pasquillStability)
-    {
-        this.referenceHeight = referenceHeight;
-        this.windSpeedAtReferenceHeight = windSpeedAtReferenceHeight;
+    public void setMeteorologicalCondition(MeteorologicalConditions meteorologicalCondition) {
         this.meteorologicalCondition = meteorologicalCondition;
+    }
+
+    public void setReferenceHeight(double referenceHeight) {
+        this.referenceHeight = referenceHeight;
+    }
+
+    public void setWindSpeedAtReferenceHeight(double windSpeedAtReferenceHeight) {
+        this.windSpeedAtReferenceHeight = windSpeedAtReferenceHeight;
+    }
+
+    public void setWindDirection(int windDirection) {
         this.windDirection = windDirection;
+    }
+
+    public void setSurfaceRoughnessHeight(double surfaceRoughnessHeight) {
         this.surfaceRoughnessHeight = surfaceRoughnessHeight;
+    }
+
+    public void setSampleTime(int sampleTime) {
         this.sampleTime = sampleTime;
+    }
+
+    public void setTerrainType(TerrainType terrainType) {
         this.terrainType = terrainType;
+    }
+
+    public void setSourceTerm(double sourceTerm) {
         this.sourceTerm = sourceTerm;
+    }
+
+    public void setConcentrationPoints(ArrayList<ConcentrationPoint> concentrationPoints) {
         this.concentrationPoints = concentrationPoints;
-        this.pasquillStability = pasquillStability;
     }
 
     //endregion
@@ -412,7 +391,7 @@ public class AtmosphericConcentration
         for (ConcentrationPoint point: this.concentrationPoints)
         {
             // Calculate sigmaY and sigmaZ
-            ArrayList<Double> lst = this.calcSigmaYZ(this.terrainType, point.getX());
+            ArrayList<Double> lst = this.calcSigmaYZ(this.terrainType, point.getX() * 1000);
 
             double sigmaY = lst.get(0);
             double sigmaZ = lst.get(1);

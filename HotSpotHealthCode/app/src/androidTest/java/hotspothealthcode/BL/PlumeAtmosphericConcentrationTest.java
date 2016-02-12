@@ -6,6 +6,13 @@ import com.hotspothealthcode.hotspothealthcode.MainActivity;
 
 import java.util.ArrayList;
 
+import hotspothealthcode.BL.AtmosphericConcentration.MeteorologicalConditions;
+import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentration;
+import hotspothealthcode.BL.AtmosphericConcentration.TerrainType;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
+
 /**
  * Created by Giladl on 13/01/2016.
  */
@@ -24,7 +31,7 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
         int sampleTime,
         TerrainType terrainType,
         double sourceTerm,
-        ArrayList<Integer> downWindOffsets,
+        ArrayList<Integer> concetrationPoints,
         int crossWindOffset,
         int verticalOffset,
         double physicalStackHeight,
@@ -35,13 +42,31 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
         double heatEmission,
         boolean calcMomentum*/
 
-        ArrayList<Double> downWindOffsets = new ArrayList<>();
+        ArrayList<ConcentrationPoint> concetrationPoints = new ArrayList<>();
 
-        downWindOffsets.add(0.03);
-        downWindOffsets.add(0.1);
-        downWindOffsets.add(0.2);
-        downWindOffsets.add(0.3);
-        downWindOffsets.add(0.4);
+        concetrationPoints.add(new ConcentrationPoint(0.03, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(0.1, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(0.2, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(0.3, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(0.4, 0, 1.5));
+
+        PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
+
+        plume.setReferenceHeight(10);
+        plume.setSourceTerm(20000);
+        plume.setEffectiveReleaseHeight(10);
+        plume.setWindDirection(270);
+        plume.setWindSpeedAtReferenceHeight(1);
+        plume.setMeteorologicalCondition(MeteorologicalConditions.SUN_HIGH_IN_SKY);
+        plume.setTerrainType(TerrainType.STANDARD_TERRAIN);
+        plume.setSurfaceRoughnessHeight(3);
+        plume.setSampleTime(10);
+        plume.setCalcMomentum(false);
+        plume.setConcentrationPoints(concetrationPoints);
+
+        OutputResult outputResult = plume.calcAtmosphericConcentration();
+
+        int x = 9;
 
         /*PlumeAtmosphericConcentration plumeAtmosphericConcentration = new PlumeAtmosphericConcentration(10,
                                                                                                         1,
@@ -51,7 +76,7 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
                                                                                                         10,
                                                                                                         TerrainType.STANDARD_TERRAIN,
                                                                                                         20000,
-                                                                                                        downWindOffsets,
+                                                                                                        concetrationPoints,
                                                                                                         0,
                                                                                                         1.5,
                                                                                                         0,
@@ -71,7 +96,7 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
                                                                                                         10,
                                                                                                         TerrainType.STANDARD_TERRAIN,
                                                                                                         20000,
-                                                                                                        downWindOffsets,
+                                                                                                        concetrationPoints,
                                                                                                         0,
                                                                                                         15,
                                                                                                         30,
@@ -85,7 +110,5 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
                 new PasquillStability(PasquillStabilityType.TYPE_E));*/
 
         //ArrayList<ConcentrationResult> concentrationResults = plumeAtmosphericConcentration.calcAtmosphericConcentration();
-
-        int x = 9;
     }
 }

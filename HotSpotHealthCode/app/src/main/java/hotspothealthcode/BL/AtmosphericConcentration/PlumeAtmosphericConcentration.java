@@ -29,118 +29,42 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
     //region C'tors
 
-    /**
-     * The constructor
-     * @param referenceHeight - The reference height
-     * @param windSpeedAtReferenceHeight - The wind speed at reference height
-     * @param surfaceRoughnessHeight - The surface Roughness Height in cm
-     * @param sampleTime - The sample time in minutes
-     * @param terrainType - The terrain type
-     * @param sourceTerm - The source term
-     * @param concentrationPoints - The list of concentration points
-     * @param physicalStackHeight - the physical height (m)
-     * @param stackExitVelocity - stack exit velocity (m/s)
-     * @param stackRadius - stack radius (m)
-     * @param airTemp - ambient air temperature (deg K)
-     * @param stackTemp - stack effluent temperature (deg K)
-     * @param heatEmission - The heat emission
-     * @param calcMomentum - Indicates if to calculate the momentum release height
-     */
-    public PlumeAtmosphericConcentration(double referenceHeight,
-                                         double windSpeedAtReferenceHeight,
-                                         int windDirection,
-                                         MeteorologicalConditions meteorologicalConditions,
-                                         double surfaceRoughnessHeight,
-                                         int sampleTime,
-                                         TerrainType terrainType,
-                                         double sourceTerm,
-                                         ArrayList<ConcentrationPoint> concentrationPoints,
-                                         double physicalStackHeight,
-                                         double stackExitVelocity,
-                                         double stackRadius,
-                                         double airTemp,
-                                         double stackTemp,
-                                         double heatEmission,
-                                         boolean calcMomentum,
-                                         double effectiveReleaseHeight)
-    {
-        super(referenceHeight,
-              windSpeedAtReferenceHeight,
-              windDirection,
-              meteorologicalConditions,
-              surfaceRoughnessHeight,
-              sampleTime,
-              terrainType,
-              sourceTerm,
-              concentrationPoints);
+    //endregion
 
+    //region setters
+
+    public void setPhysicalStackHeight(double physicalStackHeight) {
         this.physicalStackHeight = physicalStackHeight;
+    }
+
+    public void setStackExitVelocity(double stackExitVelocity) {
         this.stackExitVelocity = stackExitVelocity;
+    }
+
+    public void setStackRadius(double stackRadius) {
         this.stackRadius = stackRadius;
+    }
+
+    public void setAirTemp(double airTemp) {
         this.airTemp = airTemp;
+    }
+
+    public void setStackTemp(double stackTemp) {
         this.stackTemp = stackTemp;
+    }
+
+    public void setHeatEmission(double heatEmission) {
         this.heatEmission = heatEmission;
+    }
+
+    public void setCalcMomentum(boolean calcMomentum) {
         this.calcMomentum = calcMomentum;
+    }
+
+    public void setEffectiveReleaseHeight(double effectiveReleaseHeight) {
         this.effectiveReleaseHeight = effectiveReleaseHeight;
     }
 
-    /**
-     * The constructor
-     * @param referenceHeight - The reference height
-     * @param windSpeedAtReferenceHeight - The wind speed at reference height
-     * @param surfaceRoughnessHeight - The surface Roughness Height in cm
-     * @param sampleTime - The sample time in minutes
-     * @param terrainType - The terrain type
-     * @param sourceTerm - The source term
-     * @param concentrationPoints - The list of concentration points
-     * @param physicalStackHeight - the physical height (m)
-     * @param stackExitVelocity - stack exit velocity (m/s)
-     * @param stackRadius - stack radius (m)
-     * @param airTemp - ambient air temperature (deg K)
-     * @param stackTemp - stack effluent temperature (deg K)
-     * @param heatEmission - The heat emission
-     * @param calcMomentum - Indicates if to calculate the momentum release height
-     * @param pasquillStability - The pasquill Stability
-     */
-    public PlumeAtmosphericConcentration(double referenceHeight,
-                                         double windSpeedAtReferenceHeight,
-                                         int windDirection,
-                                         MeteorologicalConditions meteorologicalConditions,
-                                         double surfaceRoughnessHeight,
-                                         int sampleTime,
-                                         TerrainType terrainType,
-                                         double sourceTerm,
-                                         ArrayList<ConcentrationPoint> concentrationPoints,
-                                         double physicalStackHeight,
-                                         double stackExitVelocity,
-                                         double stackRadius,
-                                         double airTemp,
-                                         double stackTemp,
-                                         double heatEmission,
-                                         boolean calcMomentum,
-                                         double effectiveReleaseHeight,
-                                         PasquillStability pasquillStability)
-    {
-        super(referenceHeight,
-              windSpeedAtReferenceHeight,
-              windDirection,
-              meteorologicalConditions,
-              surfaceRoughnessHeight,
-              sampleTime,
-              terrainType,
-              sourceTerm,
-              concentrationPoints,
-              pasquillStability);
-
-        this.physicalStackHeight = physicalStackHeight;
-        this.stackExitVelocity = stackExitVelocity;
-        this.stackRadius = stackRadius;
-        this.airTemp = airTemp;
-        this.stackTemp = stackTemp;
-        this.heatEmission = heatEmission;
-        this.calcMomentum = calcMomentum;
-        this.effectiveReleaseHeight = effectiveReleaseHeight;
-    }
 
     //endregion
 
