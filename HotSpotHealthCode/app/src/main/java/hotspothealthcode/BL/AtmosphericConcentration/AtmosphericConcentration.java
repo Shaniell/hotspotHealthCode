@@ -1,7 +1,14 @@
 package hotspothealthcode.BL.AtmosphericConcentration;
 
+import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
+import org.apache.commons.math3.analysis.integration.MidPointIntegrator;
+import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
+import org.apache.commons.math3.analysis.integration.TrapezoidIntegrator;
+import org.apache.commons.math3.analysis.integration.UnivariateIntegrator;
+
 import java.util.ArrayList;
 
+import hotspothealthcode.BL.AtmosphericConcentration.Functions.DepletionFactorFunction;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
@@ -154,6 +161,23 @@ public class AtmosphericConcentration
         retVal *= Math.exp((-point.getX()) / windSpeedAtHeight) * AtmosphericConcentration.DFX;
 
         return retVal;
+    }
+
+    //endregion
+
+    //TODO: MAYBE DELETE THIS
+    //region Depletion factor (DF(x))
+
+    private double calcDepletionFactor(double downWindDistance)
+    {
+        // TODO: MAYBE DELETE THIS
+        UnivariateIntegrator integrator = new TrapezoidIntegrator(1e-4, 1e-8, 3, 32);
+
+        DepletionFactorFunction function = new DepletionFactorFunction();
+
+        double result = integrator.integrate(20000, function, 0, downWindDistance);
+
+        return result;
     }
 
     //endregion
@@ -391,7 +415,7 @@ public class AtmosphericConcentration
         for (ConcentrationPoint point: this.concentrationPoints)
         {
             // Calculate sigmaY and sigmaZ
-            ArrayList<Double> lst = this.calcSigmaYZ(this.terrainType, point.getX() * 1000);
+            ArrayList<Double> lst = this.calcSigmaYZ(this.terrainType, point.getX());
 
             double sigmaY = lst.get(0);
             double sigmaZ = lst.get(1);

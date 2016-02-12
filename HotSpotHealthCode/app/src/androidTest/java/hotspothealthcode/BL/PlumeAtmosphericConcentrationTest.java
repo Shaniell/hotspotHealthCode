@@ -44,11 +44,11 @@ public class PlumeAtmosphericConcentrationTest extends ActivityUnitTestCase<Main
 
         ArrayList<ConcentrationPoint> concetrationPoints = new ArrayList<>();
 
-        concetrationPoints.add(new ConcentrationPoint(0.03, 0, 1.5));
-        concetrationPoints.add(new ConcentrationPoint(0.1, 0, 1.5));
-        concetrationPoints.add(new ConcentrationPoint(0.2, 0, 1.5));
-        concetrationPoints.add(new ConcentrationPoint(0.3, 0, 1.5));
-        concetrationPoints.add(new ConcentrationPoint(0.4, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(30, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(100, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(200, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(300, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(400, 0, 1.5));
 
         PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
 
