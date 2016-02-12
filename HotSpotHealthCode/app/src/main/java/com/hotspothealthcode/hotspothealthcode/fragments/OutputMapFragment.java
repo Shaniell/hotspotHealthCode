@@ -80,17 +80,11 @@ public class OutputMapFragment extends Fragment
         {
             LatLng res = result.getPoint().toLatLng(pos, 70);
 
-            try
-            {
                 Marker marker = this.outputMap.addMarker(new MarkerOptions()
-                        .position(res)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                        .title("Coordinate")
-                        .snippet(result.toJSON().toString()));
-            }
-            catch (JSONException e) {
-                e.printStackTrace();
-            }
+                                .position(res)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                .title("Coordinate")
+                                .snippet(String.valueOf(result.getId())));
         }
 
 //        new MarkerOptions()

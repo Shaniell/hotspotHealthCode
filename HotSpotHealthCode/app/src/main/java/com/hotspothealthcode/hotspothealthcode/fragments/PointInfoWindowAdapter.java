@@ -46,7 +46,7 @@ public class PointInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         if (marker.getTitle().equals("Coordinate"))
             view = this.setConcentrationPointView(marker, inflater);
         else
-            view = this.setOriginPointView(marker, inflater);
+            view = this.setOriginPointView(inflater);
 
         // Returning the view containing InfoWindow contents
         return view;
@@ -62,27 +62,31 @@ public class PointInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView tvCrossConcentration = (TextView)view.findViewById(R.id.tvConcentration);
         TextView tvArrivalTime = (TextView)view.findViewById(R.id.tvArrivalTime);
 
-        // Get json from snippet and place it in the fields
-        try
-        {
-            JSONObject jsonObject = new JSONObject(marker.getSnippet());
+        ConcentrationResult concentrationResult = null;
 
-            ConcentrationResult concentrationResult = new ConcentrationResult(jsonObject);
+        // Find the result by its id
+        for (ConcentrationResult res: OutputResult.getInstance().getResults())
+        {
+            if (res.getId() == Integer.parseInt(marker.getSnippet())) {
+                concentrationResult = res;
+                break;
+            }
+        }
+
+        // If the result was found set the fields text
+        if (concentrationResult != null) {
 
             tvDownWindDistance.setText(String.valueOf(concentrationResult.getPoint().getX() / 1000));
             tvCrossWindDistance.setText(String.valueOf(concentrationResult.getPoint().getY() / 1000));
             tvVerticalHeight.setText(String.valueOf(concentrationResult.getPoint().getZ()));
             tvCrossConcentration.setText(concentrationResult.getStringConcentration());
             tvArrivalTime.setText(concentrationResult.getStringArrivalTime());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
         return view;
     }
 
-    private View setOriginPointView(Marker marker, LayoutInflater inflater)
+    private View setOriginPointView(LayoutInflater inflater)
     {
         View view = inflater.inflate(R.layout.origin_point_info_view, null);
 

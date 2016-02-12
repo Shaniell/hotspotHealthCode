@@ -11,6 +11,9 @@ import java.text.NumberFormat;
  */
 public class ConcentrationResult
 {
+    private static int resultsNum = 0;
+
+    private int id;
     private double concentration;
     private int arrivalTime; // HH:MM
     private ConcentrationPoint point;
@@ -19,9 +22,12 @@ public class ConcentrationResult
                                double concentration,
                                int arrivalTime)
     {
+        this.id = ConcentrationResult.resultsNum;
         this.point = point;
         this.concentration = concentration;
         this.arrivalTime = arrivalTime;
+
+        ConcentrationResult.resultsNum++;
     }
 
     public ConcentrationResult(JSONObject jsonObject) throws JSONException {
@@ -29,6 +35,10 @@ public class ConcentrationResult
         this.point = new ConcentrationPoint(jsonObject.getJSONObject("point"));
         this.concentration = jsonObject.getDouble("concentration");
         this.arrivalTime = jsonObject.getInt("arrivalTime");
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public ConcentrationPoint getPoint() {
