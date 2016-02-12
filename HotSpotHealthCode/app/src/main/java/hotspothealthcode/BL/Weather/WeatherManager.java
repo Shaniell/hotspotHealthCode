@@ -14,7 +14,9 @@ import hotspothealthcode.BL.ServerAccess.AsyncHttpTask;
 /**
  * Created by Giladl on 08/12/2015.
  */
-public class WeatherManager {
+public enum WeatherManager {
+
+    INSTANCE;
 
     private static final String API_KEY = "23783e28af9a9d529cbacf224654c896";
     private static final String API_URL = "http://api.openweathermap.org/data/2.5/weather?";
@@ -22,6 +24,11 @@ public class WeatherManager {
     private static final String API_LON_PARAM = "lon=";
     private static final String API_KEY_PARAM = "APPID=";
     private static final String API_METRIC_UNITS_PARAM = "units=metric";
+
+    private WeatherManager()
+    {
+
+    }
 
     public Weather getWeatherByPosition(LatLng position) throws ExecutionException, InterruptedException
     {

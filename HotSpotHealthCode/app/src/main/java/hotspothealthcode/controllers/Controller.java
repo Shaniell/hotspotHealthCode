@@ -25,7 +25,7 @@ public class Controller
 
     public static Weather getWeatherByPosition(LatLng position) throws ExecutionException, InterruptedException
     {
-        return new WeatherManager().getWeatherByPosition(position);
+        return WeatherManager.INSTANCE.getWeatherByPosition(position);
     }
 
     public static PasquillStabilityType calcStability(double windSpeed, MeteorologicalConditions condition)

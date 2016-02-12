@@ -17,10 +17,8 @@ public class WeatherManagerTest extends TestCase {
 
     public void testGetWeatherByPosition() throws Exception {
 
-        WeatherManager w = new WeatherManager();
-
         try {
-            Weather wt = w.getWeatherByPosition(new LatLng(32.067111, 34.825975));
+            Weather wt = WeatherManager.INSTANCE.getWeatherByPosition(new LatLng(32.067111, 34.825975));
 
             assertNotNull(wt);
         } catch (Exception e) {
@@ -29,7 +27,6 @@ public class WeatherManagerTest extends TestCase {
     }
 
     public void testParseJsonWeather() throws Exception {
-        WeatherManager w = new WeatherManager();
 
         try {
             JSONObject j = new JSONObject("{\"coord\":{\"lon\":138.93,\"lat\":34.97},\"weather\":[{\"id\":804,\"main\":\"Clouds\",\"description\":\"overcast clouds\",\"icon\":\"04n\"}],\"base\":\"stations\",\"main\":{\"temp\":287.022,\"pressure\":1027.04,\"humidity\":100,\"temp_min\":287.022,\"temp_max\":287.022,\"sea_level\":1035.12,\"grnd_level\":1027.04},\"wind\":{\"speed\":10.01,\"deg\":37.0011},\"clouds\":{\"all\":88},\"dt\":1449933386,\"sys\":{\"message\":0.0337,\"country\":\"JP\",\"sunrise\":1449870155,\"sunset\":1449905595},\"id\":1851632,\"name\":\"Shuzenji\",\"cod\":200}0");
