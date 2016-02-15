@@ -8,15 +8,23 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.ToggleButton;
 
 import com.hotspothealthcode.hotspothealthcode.R;
+
+import java.util.HashMap;
+
+import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
+import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentration;
+import hotspothealthcode.BL.Models.Weather;
+import hotspothealthcode.controllers.Controller;
 
 /**
  * Created by Giladl on 16/01/2016.
  */
 public class GeneralPlumeStepView extends StepView
 {
+    private Weather weather;
+
     private EditText materialAtRisk;
 
     private TabHost tabHost;
@@ -32,8 +40,8 @@ public class GeneralPlumeStepView extends StepView
     private EditText exitVelocity;
     private EditText effluentTemp;
 
-    public GeneralPlumeStepView(Context context, int stepNumber, String title, int contentViewId) {
-        super(context, stepNumber, title, contentViewId);
+    public GeneralPlumeStepView(Context context, int stepNumber, String title, int contentViewId, AtmosphericConcentration calcConcentration) {
+        super(context, stepNumber, title, contentViewId, calcConcentration);
 
         this.initControl();
     }
@@ -79,8 +87,11 @@ public class GeneralPlumeStepView extends StepView
         this.stackRadios = (EditText)findViewById(R.id.etStackRadius);
         this.exitVelocity = (EditText)findViewById(R.id.etExitVelocity);
         this.effluentTemp = (EditText)findViewById(R.id.etEffluentTemp);
-
         this.materialAtRisk = (EditText)findViewById(R.id.etMaterialAtRisk);
+
+        this.weather = Controller.getCurrentWeather();
+
+        this.setDefaultWeatherData();
 
         // Set events
 
@@ -108,13 +119,29 @@ public class GeneralPlumeStepView extends StepView
             @Override
             public void onTabChanged(String tabId) {
                 // If the enter height tab was clicked and include momentum is not checked
-                if ((tabId == "EnterHeight") && (!momentumCalc.isChecked()))
-                    heatEmissionEnter.callOnClick();
+                if (tabId == "EnterHeight") {
+
+/*                    // Hide momentum check box
+                    momentumCalc.setVisibility(GONE);
+                    momentumGrid.setVisibility(GONE);*/
+
+                    if((!momentumCalc.isChecked()))
+                        heatEmissionEnter.callOnClick();
+                }
+                else
+                {
+                    momentumCalc.setVisibility(VISIBLE);
+                }
             }
         });
 
         // Disable tab focus (so the keyboard wont pop up when view loads)
         this.tabHost.clearFocus();
+    }
+
+    private void setDefaultWeatherData()
+    {
+        this.airTemp.setText(String.valueOf(this.weather.getTemperature()));
     }
 
     private void ShowMomentumGrid()
@@ -154,5 +181,56 @@ public class GeneralPlumeStepView extends StepView
 
         return ((emptyFieldsInTab) &&
                 (!this.materialAtRisk.getText().toString().matches("")));
+    }
+
+    @Override
+    protected void setFieldsToCalculate() {
+
+        PlumeAtmosphericConcentration concentration = (PlumeAtmosphericConcentration)this.calcConcentration;
+
+        concentration.setSourceTerm(Double.parseDouble(this.materialAtRisk.getText().toString()));
+
+        // Check which tab is selected
+        switch (this.tabHost.getCurrentTab())
+        {
+            // Enter height tab
+            case 0:
+            {
+                concentration.setEffectiveReleaseHeight(Double.parseDouble(this.releaseHeight.getText().toString()));
+
+                break;
+            }
+            // Calc height tab
+            case 1:
+            {
+                concentration.setAirTemp(Double.parseDouble(this.airTemp.getText().toString()));
+                concentration.setPhysicalStackHeight(Double.parseDouble(this.stackHeight.getText().toString()));
+
+                // If the heat emission is not calculated
+                if(this.heatEmissionEnter.isChecked())
+                {
+                    concentration.setHeatEmission(Double.parseDouble(this.heatEmission.getText().toString()));
+                }
+
+                // If the include momentum is marked or we need to calculate the heat emission
+                if ((!this.heatEmissionEnter.isChecked()) || (this.momentumCalc.isChecked()))
+                {
+                    if(this.momentumCalc.isChecked())
+                        concentration.setCalcMomentum(true);
+                    else
+                        concentration.setCalcMomentum(false);
+
+                    concentration.setStackRadius(Double.parseDouble(this.stackRadios.getText().toString()));
+                    concentration.setStackExitVelocity(Double.parseDouble(this.exitVelocity.getText().toString()));
+                    concentration.setStackTemp(Double.parseDouble(this.effluentTemp.getText().toString()));
+                }
+                else
+                {
+                    concentration.setCalcMomentum(false);
+                }
+
+                break;
+            }
+        }
     }
 }

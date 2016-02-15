@@ -1,25 +1,19 @@
 package com.hotspothealthcode.hotspothealthcode.Components.Steps;
 
 import android.content.Context;
-import android.support.annotation.StyleRes;
-import android.text.InputType;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.hotspothealthcode.hotspothealthcode.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
 import hotspothealthcode.controllers.Controller;
 
 /**
@@ -35,8 +29,8 @@ public class CoordinatesStepView extends StepView
     private Button restureDefaultsBtn;
     private ArrayList<CoordinateRow> coordinateRows;
 
-    public CoordinatesStepView(Context context, int stepNumber, String title, int contentViewId) {
-        super(context, stepNumber, title, contentViewId);
+    public CoordinatesStepView(Context context, int stepNumber, String title, int contentViewId, AtmosphericConcentration calcConcentration) {
+        super(context, stepNumber, title, contentViewId, calcConcentration);
 
         this.initControl(context);
     }
@@ -123,6 +117,11 @@ public class CoordinatesStepView extends StepView
 
         return ((!this.verticalOffset.getText().toString().matches("")) &&
                 (atLeastOneEntered));
+    }
+
+    @Override
+    protected void setFieldsToCalculate() {
+
     }
 
     private class CoordinateRow

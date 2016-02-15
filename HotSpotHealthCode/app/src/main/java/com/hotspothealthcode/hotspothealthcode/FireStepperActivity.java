@@ -1,11 +1,11 @@
 package com.hotspothealthcode.hotspothealthcode;
 
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.CoordinatesStepView;
+import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralFireStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralPlumeStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.MeteorologyStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.StepView;
@@ -13,26 +13,27 @@ import com.hotspothealthcode.hotspothealthcode.Components.Steps.StepView;
 import java.util.HashMap;
 
 import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
-import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentration;
+import hotspothealthcode.BL.AtmosphericConcentration.FireAtmosphericConcentration;
+import hotspothealthcode.controllers.Controller;
 
-public class PlumeStepperActivity extends StepperActivity{
+public class FireStepperActivity extends StepperActivity{
 
-    private PlumeAtmosphericConcentration plumeAtmosphericConcentration;
+    private FireAtmosphericConcentration fireAtmosphericConcentration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.plumeAtmosphericConcentration = new PlumeAtmosphericConcentration();
+        this.fireAtmosphericConcentration = new FireAtmosphericConcentration();
 
         this.stepLinearView = (LinearLayout) findViewById(R.id.stepperLinearView);
         this.steps = new HashMap<Integer, StepView>();
 
-        StepView stepView = new GeneralPlumeStepView(getApplicationContext(),
-                                                     1,
-                                                     "General Plume Data",
-                                                     R.layout.general_plume_step_view,
-                                                     this.plumeAtmosphericConcentration);
+        StepView stepView = new GeneralFireStepView(getApplicationContext(),
+                                                    1,
+                                                    "General Fire Data",
+                                                    R.layout.general_fire_step_view,
+                                                    this.fireAtmosphericConcentration);
 
         this.stepLinearView.addView(stepView);
         this.steps.put(1, stepView);
@@ -41,7 +42,7 @@ public class PlumeStepperActivity extends StepperActivity{
                                                      2,
                                                      "Meteorology Data",
                                                      R.layout.meteorology_step_view,
-                                                     this.plumeAtmosphericConcentration);
+                                                     this.fireAtmosphericConcentration);
 
         this.stepLinearView.addView(stepView2);
         this.steps.put(2, stepView2);
@@ -50,7 +51,7 @@ public class PlumeStepperActivity extends StepperActivity{
                                                      3,
                                                      "Coordinates Data",
                                                      R.layout.coordinate_step_view,
-                                                     this.plumeAtmosphericConcentration);
+                                                     this.fireAtmosphericConcentration);
 
         this.stepLinearView.addView(stepView3);
         this.steps.put(3, stepView3);

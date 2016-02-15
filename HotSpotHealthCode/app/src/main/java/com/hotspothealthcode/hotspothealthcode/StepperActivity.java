@@ -7,12 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.StepView;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class StepperActivity extends AppCompatActivity {
+import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
+import hotspothealthcode.controllers.Controller;
+
+public abstract class StepperActivity extends AppCompatActivity {
 
     protected LinearLayout stepLinearView;
     protected HashMap<Integer, StepView> steps;
@@ -25,6 +29,9 @@ public class StepperActivity extends AppCompatActivity {
 
         this.toolbar = (Toolbar) findViewById(R.id.stepper_toolbar);
         setSupportActionBar(this.toolbar);
+
+        //Todo: remove this
+        Controller.init(new LatLng(40.8516701, -93.2599318));
     }
 
     @Override
@@ -74,4 +81,6 @@ public class StepperActivity extends AppCompatActivity {
             //TODO: CREATE OUTPUT ACTIVITY
         }
     }
+
+    protected abstract AtmosphericConcentration createCalculationObject();
 }

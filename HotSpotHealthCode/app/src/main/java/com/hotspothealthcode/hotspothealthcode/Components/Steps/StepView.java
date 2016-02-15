@@ -16,10 +16,14 @@ import android.widget.TextView;
 
 import com.hotspothealthcode.hotspothealthcode.R;
 
+import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
+
 public abstract class StepView extends GridLayout {
 
     protected static final int CURRENT_STEP = Color.parseColor("#C5CAE9");
     protected static final int REGULAR_STEP = Color.WHITE;
+
+    protected AtmosphericConcentration calcConcentration;
 
     protected Drawable stepIconGood;
     protected Drawable stepIconBad;
@@ -39,8 +43,11 @@ public abstract class StepView extends GridLayout {
     protected View stepLine;
     protected View contentView;
 
-    public StepView(Context context, int stepNumber, String title, int contentViewId) {
+    public StepView(Context context, int stepNumber, String title, int contentViewId, AtmosphericConcentration calcConcentration) {
         super(context);
+
+        this.calcConcentration = calcConcentration;
+
         initControl(context, stepNumber, title, contentViewId);
     }
 
@@ -210,7 +217,7 @@ public abstract class StepView extends GridLayout {
         return isDataValid;
     }
 
-
-
     protected abstract boolean validateData();
+
+    protected abstract void setFieldsToCalculate();
 }

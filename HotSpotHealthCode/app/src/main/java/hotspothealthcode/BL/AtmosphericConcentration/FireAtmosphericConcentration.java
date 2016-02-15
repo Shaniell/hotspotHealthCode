@@ -5,7 +5,6 @@ import org.apache.commons.math3.analysis.solvers.NewtonRaphsonSolver;
 import java.util.ArrayList;
 
 import hotspothealthcode.BL.AtmosphericConcentration.Functions.BouyantFuelFirePlumeRiseFunc;
-import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ResultField;
@@ -17,11 +16,12 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 {
     //region Data Members
 
+    private double cloudTop;
     private double fuelVolume;
     private int burnDuration;
     private double emissionRate;
-    private double ta;
-    private double r;
+    private double airTemp;
+    private double releaseRadios;
 
     //endregion
 
@@ -30,6 +30,10 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
     //endregion
 
     //region setters
+
+    public void setCloudTop(double cloudTop) {
+        this.cloudTop = cloudTop;
+    }
 
     public void setFuelVolume(double fuelVolume) {
         this.fuelVolume = fuelVolume;
@@ -43,12 +47,12 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
         this.emissionRate = emissionRate;
     }
 
-    public void setTa(double ta) {
-        this.ta = ta;
+    public void setAirTemp(double airTemp) {
+        this.airTemp = airTemp;
     }
 
-    public void setR(double r) {
-        this.r = r;
+    public void setReleaseRadios(double releaseRadios) {
+        this.releaseRadios = releaseRadios;
     }
 
 
@@ -144,13 +148,21 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
             emissionRate = this.emissionRate;
 
         // Calc buoyancy Flux
-        buoyancyFlux = this.calcBuoyancyFlux(emissionRate, this.ta);
+        buoyancyFlux = this.calcBuoyancyFlux(emissionRate, this.airTemp);
 
         ArrayList<ConcentrationResult> results = new ArrayList<ConcentrationResult>();
 
-        double effectiveReleaseHeight = this.calcEffectiveReleaseHeight(this.r,
-                                                                        this.ta,
-                                                                        buoyancyFlux);
+        double effectiveReleaseHeight;
+
+        if (this.cloudTop == 0) {
+            effectiveReleaseHeight = this.calcEffectiveReleaseHeight(this.releaseRadios,
+                                                                     this.airTemp,
+                                                                     buoyancyFlux);
+        }
+        else
+        {
+            effectiveReleaseHeight = this.cloudTop;
+        }
 
         double windSpeed = this.calcWindSpeed(this.terrainType, effectiveReleaseHeight);
 

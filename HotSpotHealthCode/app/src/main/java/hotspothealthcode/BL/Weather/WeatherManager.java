@@ -40,7 +40,7 @@ public enum WeatherManager {
 
         httpTask.execute(Url);
 
-        while(httpTask.getStatus() == AsyncTask.Status.RUNNING);
+        //while(httpTask.getStatus() == AsyncTask.Status.RUNNING);
 
         JSONObject jsonObject = httpTask.get();
 

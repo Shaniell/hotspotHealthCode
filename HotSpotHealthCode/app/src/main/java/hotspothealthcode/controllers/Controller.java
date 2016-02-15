@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.concurrent.ExecutionException;
 
+import hotspothealthcode.BL.AtmosphericConcentration.FireAtmosphericConcentration;
 import hotspothealthcode.BL.AtmosphericConcentration.MeteorologicalConditions;
 import hotspothealthcode.BL.AtmosphericConcentration.PasquillStability;
 import hotspothealthcode.BL.AtmosphericConcentration.PasquillStabilityType;
+import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentration;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 import hotspothealthcode.BL.Models.Weather;
 import hotspothealthcode.BL.Weather.WeatherManager;
@@ -18,14 +20,42 @@ import hotspothealthcode.BL.Weather.WeatherManager;
  */
 public class Controller
 {
+    private static LatLng currentLocation = new LatLng(40.8516701, -93.2599318); // TODO: DELETE DEFAULT VALUE
+    private static Weather currentWeather;
+
+    public static void init(LatLng location)
+    {
+        Controller.currentLocation = location;
+
+        Controller.currentWeather = Controller.getWeatherByLocation();
+    }
+
     public static ArrayList<PasquillStabilityType> getStabilityTypes()
     {
         return PasquillStabilityType.getStabilityTypes();
     }
 
-    public static Weather getWeatherByPosition(LatLng position) throws ExecutionException, InterruptedException
+    public static LatLng getCurrentLocation()
     {
-        return WeatherManager.INSTANCE.getWeatherByPosition(position);
+        return Controller.currentLocation;
+    }
+
+    public static Weather getCurrentWeather()
+    {
+        return Controller.currentWeather;
+    }
+
+    public static Weather getWeatherByLocation()
+    {
+        try {
+            return WeatherManager.INSTANCE.getWeatherByPosition(Controller.currentLocation);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static PasquillStabilityType calcStability(double windSpeed, MeteorologicalConditions condition)
@@ -67,4 +97,20 @@ public class Controller
 
         return lst;
     }
+
+    public static PlumeAtmosphericConcentration createPlumeCalculation()
+    {
+        return new PlumeAtmosphericConcentration();
+    }
+
+    public static FireAtmosphericConcentration createFireCalculation()
+    {
+        return new FireAtmosphericConcentration();
+    }
+
+/*  TODO: CREATE IMPLEMENTATION AFTER CREATING THE EXPLOSION CALCULATIONS
+    public static ExplosionAtmosphericConcentration createExplosionCalculation()
+    {
+        return new ExplosionAtmosphericConcentration();
+    }*/
 }

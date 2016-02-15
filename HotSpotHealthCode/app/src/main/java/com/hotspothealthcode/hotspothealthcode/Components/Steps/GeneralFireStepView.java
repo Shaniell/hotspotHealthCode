@@ -1,21 +1,25 @@
 package com.hotspothealthcode.hotspothealthcode.Components.Steps;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.TabWidget;
 
 import com.hotspothealthcode.hotspothealthcode.R;
+
+import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
+import hotspothealthcode.BL.AtmosphericConcentration.FireAtmosphericConcentration;
+import hotspothealthcode.BL.Models.Weather;
+import hotspothealthcode.controllers.Controller;
 
 /**
  * Created by Giladl on 16/01/2016.
  */
 public class GeneralFireStepView extends StepView
 {
+    private Weather weather;
+
     private EditText materialAtRisk;
     private EditText releaseRadios;
 
@@ -27,8 +31,8 @@ public class GeneralFireStepView extends StepView
     private EditText airTempCalc;
     private EditText burnDuration;
 
-    public GeneralFireStepView(Context context, int stepNumber, String title,  int contentViewId) {
-        super(context, stepNumber, title, contentViewId);
+    public GeneralFireStepView(Context context, int stepNumber, String title,  int contentViewId, AtmosphericConcentration calcConcentration) {
+        super(context, stepNumber, title, contentViewId, calcConcentration);
 
         this.initControl();
     }
@@ -79,8 +83,18 @@ public class GeneralFireStepView extends StepView
         this.materialAtRisk = (EditText)findViewById(R.id.etMaterialAtRisk);
         this.releaseRadios = (EditText)findViewById(R.id.etReleaseRadios);
 
+        this.weather = Controller.getCurrentWeather();
+
+        this.setDefaultWeatherData();
+
         // Disable tab focus (so the keyboard wont pop up when view loads)
         this.tabHost.clearFocus();
+    }
+
+    private void setDefaultWeatherData()
+    {
+        this.airTempEnter.setText(String.valueOf(this.weather.getTemperature()));
+        this.airTempCalc.setText(String.valueOf(this.weather.getTemperature()));
     }
 
     @Override
@@ -121,5 +135,42 @@ public class GeneralFireStepView extends StepView
         return ((emptyFieldsInTab) &&
                 (!this.materialAtRisk.getText().toString().matches("")) &&
                 (!this.releaseRadios.getText().toString().matches("")));
+    }
+
+    @Override
+    protected void setFieldsToCalculate() {
+        FireAtmosphericConcentration concentration = (FireAtmosphericConcentration)this.calcConcentration;
+
+        concentration.setSourceTerm(Double.parseDouble(this.materialAtRisk.getText().toString()));
+        concentration.setReleaseRadios(Double.parseDouble(this.releaseRadios.getText().toString()));
+
+        // Check which tab is selected
+        switch (this.tabHost.getCurrentTab())
+        {
+            // Enter cloud top
+            case 0:
+            {
+                concentration.setCloudTop(Double.parseDouble(this.cloudTop.getText().toString()));
+
+                break;
+            }
+            // Enter emission tab
+            case 1:
+            {
+                concentration.setEmissionRate(Double.parseDouble(this.heatEmission.getText().toString()));
+                concentration.setAirTemp(Double.parseDouble(this.airTempEnter.getText().toString()));
+
+                break;
+            }
+            // calc emission tab
+            case 2:
+            {
+                concentration.setFuelVolume(Double.parseDouble(this.fuelVolume.getText().toString()));
+                concentration.setAirTemp(Double.parseDouble(this.airTempCalc.getText().toString()));
+                concentration.setBurnDuration(Integer.parseInt(this.burnDuration.getText().toString()));
+
+                break;
+            }
+        }
     }
 }

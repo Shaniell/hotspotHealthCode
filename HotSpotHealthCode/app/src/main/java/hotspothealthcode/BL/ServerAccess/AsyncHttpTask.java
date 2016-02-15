@@ -64,7 +64,7 @@ public class AsyncHttpTask extends AsyncTask<String, Void, JSONObject> {
             e.printStackTrace();
         }
 
-        return null;
+        return new JSONObject();
     }
 
     @Override

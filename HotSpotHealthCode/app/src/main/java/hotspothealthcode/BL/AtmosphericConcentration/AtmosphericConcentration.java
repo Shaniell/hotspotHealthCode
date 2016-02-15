@@ -32,7 +32,7 @@ public class AtmosphericConcentration
     protected MeteorologicalConditions meteorologicalCondition;
     protected double referenceHeight;
     protected double windSpeedAtReferenceHeight;
-    protected int windDirection;
+    protected double windDirection;
     protected double surfaceRoughnessHeight; // cm
     protected int sampleTime;
     protected TerrainType terrainType;
@@ -63,7 +63,7 @@ public class AtmosphericConcentration
         this.windSpeedAtReferenceHeight = windSpeedAtReferenceHeight;
     }
 
-    public void setWindDirection(int windDirection) {
+    public void setWindDirection(double windDirection) {
         this.windDirection = windDirection;
     }
 

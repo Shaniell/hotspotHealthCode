@@ -4,22 +4,21 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 
 import com.hotspothealthcode.hotspothealthcode.R;
 
+import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
 import hotspothealthcode.BL.AtmosphericConcentration.MeteorologicalConditions;
+import hotspothealthcode.BL.AtmosphericConcentration.PasquillStability;
 import hotspothealthcode.BL.AtmosphericConcentration.PasquillStabilityType;
+import hotspothealthcode.BL.Models.Weather;
 import hotspothealthcode.controllers.Controller;
 
 /**
@@ -27,14 +26,17 @@ import hotspothealthcode.controllers.Controller;
  */
 public class MeteorologyStepView extends StepView
 {
+    private Weather weather;
+
     private EditText windSpeed;
     private EditText windDirection;
     private CheckBox calcStability;
     private Spinner solarInfo;
     private Spinner stability;
+    private Button windDefaults;
 
-    public MeteorologyStepView(Context context, int stepNumber, String title, int contentViewId) {
-        super(context, stepNumber, title, contentViewId);
+    public MeteorologyStepView(Context context, int stepNumber, String title, int contentViewId, AtmosphericConcentration calcConcentration) {
+        super(context, stepNumber, title, contentViewId, calcConcentration);
 
         this.initControl(context);
     }
@@ -59,9 +61,14 @@ public class MeteorologyStepView extends StepView
         this.calcStability = (CheckBox)findViewById(R.id.cbCalcStability);
         this.solarInfo = (Spinner)findViewById(R.id.spSolarInfo);
         this.stability = (Spinner)findViewById(R.id.spStability);
+        this.windDefaults = (Button)findViewById(R.id.btnWindDefaults);
 
         this.solarInfo.setEnabled(false);
         this.stability.setEnabled(true);
+
+        this.weather = Controller.getCurrentWeather();
+
+        this.setDefaultWeatherData();
 
         // Fill stability types
         this.stability.setAdapter(new ArrayAdapter<PasquillStabilityType>(context,
@@ -108,7 +115,7 @@ public class MeteorologyStepView extends StepView
             }
         });
 
-                // Set calcStability click listener
+        // Set calcStability click listener
         this.calcStability.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +133,20 @@ public class MeteorologyStepView extends StepView
                 }
             }
         });
+
+        // Set wind default values event listener
+        this.windDefaults.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDefaultWeatherData();
+            }
+        });
+    }
+
+    private void setDefaultWeatherData()
+    {
+        this.windDirection.setText(String.valueOf(this.weather.getWindDirection()));
+        this.windSpeed.setText(String.valueOf(this.weather.getWindSpeed()));
     }
 
     private void calcStability()
@@ -165,5 +186,13 @@ public class MeteorologyStepView extends StepView
         }
 
         return allFieldsNotEmpty;
+    }
+
+    @Override
+    protected void setFieldsToCalculate()
+    {
+        this.calcConcentration.setWindDirection(Double.parseDouble(this.windDirection.getText().toString()));
+        this.calcConcentration.setWindSpeedAtReferenceHeight(Double.parseDouble(this.windSpeed.getText().toString()));
+        this.calcConcentration.setPasquillStability(new PasquillStability((PasquillStabilityType) this.stability.getSelectedItem()));
     }
 }

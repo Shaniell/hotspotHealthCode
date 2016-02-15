@@ -1,5 +1,7 @@
 package hotspothealthcode.BL.AtmosphericConcentration.results;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +58,28 @@ public class OutputResult
         // Convert fields to hash map
         for (ResultField resultField: ResultField.getResultFields())
         {
-            OutputResult.INSTANCE.addValue(resultField, (Number)jsonObject.get(resultField.toString()));
+            Object obj;
+
+            switch (resultField)
+            {
+                case LOCATION:
+                {
+                    obj = (LatLng)jsonObject.get(resultField.toString());
+
+                    break;
+                }
+                case MODEL_TYPE:
+                {
+                    obj = (ModelType)jsonObject.get(resultField.toString());
+
+                    break;
+                }
+                default:
+                {
+                    obj = (Number)jsonObject.get(resultField.toString());
+                }
+            }
+            OutputResult.INSTANCE.addValue(resultField, obj);
         }
 
         return OutputResult.INSTANCE;
