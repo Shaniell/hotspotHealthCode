@@ -62,7 +62,7 @@ public class Controller
 
     public static PasquillStabilityType calcStability(double windSpeed, MeteorologicalConditions condition)
     {
-        return (new PasquillStability(windSpeed, condition)).stabilityType;
+        return (new PasquillStability(windSpeed, condition)).getStabilityType();
     }
 
     public static ArrayList<MeteorologicalConditions> getMeteorologicalConditions()

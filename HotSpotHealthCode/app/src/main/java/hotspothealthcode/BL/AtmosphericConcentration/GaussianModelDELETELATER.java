@@ -268,7 +268,7 @@ public class GaussianModelDELETELATER {
         double Aparameter = 0;
         double Bparameter = 1;
 
-        switch (this.PasquillStability.stabilityType){
+        switch (this.PasquillStability.getStabilityType()){
             case TYPE_A: {  parameter = 0.22; Aparameter = 0.20; Bparameter = 1; break; }
             case TYPE_B: {  parameter = 0.16; Aparameter = 0.12; Bparameter = 1; break; }
             case TYPE_C: {  parameter = 0.11; Aparameter = 0.080; Bparameter = Math.sqrt(1 + (0.0002 * this.x)); break; }
@@ -290,7 +290,7 @@ public class GaussianModelDELETELATER {
         double Aparameter = 0;
         double Bparameter = 1;
 
-        switch (this.PasquillStability.stabilityType){
+        switch (this.PasquillStability.getStabilityType()){
             case TYPE_A: { }
             case TYPE_B: {  parameter = 0.32; Aparameter = 0.24 * Math.sqrt(1 + (0.001 * this.x)); Bparameter = 1; break; }
             case TYPE_C: {  parameter = 0.22; Aparameter = 0.20; Bparameter = 1; break; }
@@ -315,7 +315,7 @@ public class GaussianModelDELETELATER {
     private double getStandardTerrainWindExpoFactor() {
         double p = 0;
 
-        switch (this.PasquillStability.stabilityType) {
+        switch (this.PasquillStability.getStabilityType()) {
             case TYPE_A: {
                 p = 0.07;
                 break;
@@ -352,7 +352,7 @@ public class GaussianModelDELETELATER {
     private double getCityTerrainWindExpoFactor() {
         double p = 0;
 
-        switch (this.PasquillStability.stabilityType) {
+        switch (this.PasquillStability.getStabilityType()) {
             case TYPE_A: {
                 p = 0.15;
                 break;
@@ -446,10 +446,10 @@ public class GaussianModelDELETELATER {
             buoyancyFlux = flux;
         }
 
-        if(this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_A ||
-           this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_B ||
-           this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_C ||
-           this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_D) {
+        if(this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_A ||
+           this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_B ||
+           this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_C ||
+           this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_D) {
             if (buoyancyFlux >= 55) {
                 x = 119 * Math.pow(buoyancyFlux, 0.4);
             } else {
@@ -486,7 +486,7 @@ public class GaussianModelDELETELATER {
                 uh = calcWindSpeed(this.terrainType, h);
             }
 
-            if (this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_E)
+            if (this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_E)
             {
                 s = (0.020 * GaussianModelDELETELATER.G) / ta;
             }
@@ -530,10 +530,10 @@ public class GaussianModelDELETELATER {
 
         uh = calcWindSpeed(this.terrainType, h);
 
-        if(this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_A ||
-           this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_B ||
-           this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_C ||
-           this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_D) {
+        if(this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_A ||
+           this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_B ||
+           this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_C ||
+           this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_D) {
 
             effectiveReleaseHeight += ((6 * v * r) / uh);
         }
@@ -541,7 +541,7 @@ public class GaussianModelDELETELATER {
         {
             momentumFlux = 0.25 * Math.pow(2 * r * v, 2);
 
-            if (this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_E)
+            if (this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_E)
             {
                 s = 0.000875;
             }
@@ -609,9 +609,9 @@ public class GaussianModelDELETELATER {
         double retValH = 0;
 
         // If Stability class is A.B and C Then it's unstable
-        if ((this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_A) ||
-                (this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_B) ||
-                (this.PasquillStability.stabilityType == PasquillStabilityType.TYPE_C)) {
+        if ((this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_A) ||
+                (this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_B) ||
+                (this.PasquillStability.getStabilityType() == PasquillStabilityType.TYPE_C)) {
             retValH = 27.4 * Math.pow(this.w, 0.48);
         }
 

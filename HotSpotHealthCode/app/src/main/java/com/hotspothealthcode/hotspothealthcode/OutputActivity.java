@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.hotspothealthcode.hotspothealthcode.fragments.OutputDetailsFragment;
 import com.hotspothealthcode.hotspothealthcode.fragments.OutputMapFragment;
 import com.hotspothealthcode.hotspothealthcode.fragments.OutputTableFragment;
 
@@ -20,12 +21,22 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
+import hotspothealthcode.BL.AtmosphericConcentration.MeteorologicalConditions;
+import hotspothealthcode.BL.AtmosphericConcentration.PasquillStability;
+import hotspothealthcode.BL.AtmosphericConcentration.PasquillStabilityType;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ResultField;
 import hotspothealthcode.controllers.Controller;
 
 public class OutputActivity extends AppCompatActivity {
+
+    private final int TABS_NUM = 3;
+
+    private OutputDetailsFragment outputDetailsFragment = new OutputDetailsFragment();
+    private OutputTableFragment outputResultsFragment = new OutputTableFragment();
+    private OutputMapFragment outputMapFragment = new OutputMapFragment();
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private OutputResult outputResult;
@@ -57,6 +68,12 @@ public class OutputActivity extends AppCompatActivity {
         // TODO: GET REAL RESULTS
         this.outputResult = Controller.getOutputResultInstance();
 
+        this.outputResult.addValue(ResultField.MODEL_TYPE, "General plume");
+        this.outputResult.addValue(ResultField.WIND_SPEED, 3.5);
+        this.outputResult.addValue(ResultField.WIND_DIRECTION, 270.7);
+        this.outputResult.addValue(ResultField.STABILITY_TYPE, PasquillStabilityType.TYPE_A);
+        this.outputResult.addValue(ResultField.METEOROLOGICAL_CONDITION, MeteorologicalConditions.SUN_HIGH_IN_SKY);
+
         ArrayList<ConcentrationResult> tempResults = new ArrayList<>();
 
         ConcentrationResult result = new ConcentrationResult(new ConcentrationPoint(5000, 1000.5, 1.5),
@@ -71,6 +88,10 @@ public class OutputActivity extends AppCompatActivity {
         tempResults.add(result2);
 
         this.outputResult.setResults(tempResults);
+
+        this.outputDetailsFragment = new OutputDetailsFragment();
+        this.outputResultsFragment = new OutputTableFragment();
+        this.outputMapFragment = new OutputMapFragment();
     }
 
 
@@ -107,31 +128,44 @@ public class OutputActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
 
-            if (position == 0) {
-                Fragment outputMapFragment = new OutputMapFragment();
+            switch (position)
+            {
+                case 0:
+                {
+                    return outputDetailsFragment;
+                }
 
-                return outputMapFragment;
+                case 1:
+                {
+                    return outputResultsFragment;
+                }
+                case 2:
+                {
+                    return outputMapFragment;
+                }
             }
-            else {
-                Fragment outputTableFragment = new OutputTableFragment();
 
-                return outputTableFragment;
-            }
+            return null;
         }
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
-            return 2;
+            // Show 3 total pages.
+            return TABS_NUM;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
+
                 case 0:
-                    return "Map";
+                    return "Details";
+
                 case 1:
-                    return "Table";
+                    return "Results";
+
+                case 2:
+                    return "Map";
             }
             return null;
         }

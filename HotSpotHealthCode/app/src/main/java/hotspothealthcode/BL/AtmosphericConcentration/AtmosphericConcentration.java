@@ -191,7 +191,7 @@ public abstract class AtmosphericConcentration
     private double getStandardTerrainWindExpoFactor() {
         double p = 0;
 
-        switch (this.pasquillStability.stabilityType) {
+        switch (this.pasquillStability.getStabilityType()) {
             case TYPE_A: {
                 p = 0.07;
                 break;
@@ -228,7 +228,7 @@ public abstract class AtmosphericConcentration
     protected double getCityTerrainWindExpoFactor() {
         double p = 0;
 
-        switch (this.pasquillStability.stabilityType) {
+        switch (this.pasquillStability.getStabilityType()) {
             case TYPE_A: {
                 p = 0.15;
                 break;
@@ -350,7 +350,7 @@ public abstract class AtmosphericConcentration
         double sigmaZ;
         ArrayList<Double> lst = new ArrayList<>();
 
-        switch (this.pasquillStability.stabilityType){
+        switch (this.pasquillStability.getStabilityType()){
             case TYPE_A: {  parameter = 0.22; Aparameter = 0.20; Bparameter = 1; break; }
             case TYPE_B: {  parameter = 0.16; Aparameter = 0.12; Bparameter = 1; break; }
             case TYPE_C: {  parameter = 0.11; Aparameter = 0.080; Bparameter = Math.sqrt(1 + (0.0002 * downWindOffset)); break; }
@@ -382,7 +382,7 @@ public abstract class AtmosphericConcentration
         double sigmaZ;
         ArrayList<Double> lst = new ArrayList<>();
 
-        switch (this.pasquillStability.stabilityType){
+        switch (this.pasquillStability.getStabilityType()){
             case TYPE_A: { }
             case TYPE_B: {  parameter = 0.32; Aparameter = 0.24 * Math.sqrt(1 + (0.001 * downWindOffset)); Bparameter = 1; break; }
             case TYPE_C: {  parameter = 0.22; Aparameter = 0.20; Bparameter = 1; break; }
@@ -434,7 +434,7 @@ public abstract class AtmosphericConcentration
 
         outputResult.addValue(ResultField.WIND_SPEED, this.windSpeedAtReferenceHeight);
         outputResult.addValue(ResultField.WIND_DIRECTION, this.windDirection);
-        outputResult.addValue(ResultField.STABILITY_TYPE, this.pasquillStability);
+        outputResult.addValue(ResultField.STABILITY_TYPE, this.pasquillStability.getStabilityType());
         outputResult.addValue(ResultField.METEOROLOGICAL_CONDITION, this.meteorologicalCondition);
 
         return outputResult;

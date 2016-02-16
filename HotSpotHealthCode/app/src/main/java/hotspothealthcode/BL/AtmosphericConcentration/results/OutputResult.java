@@ -99,7 +99,7 @@ public class OutputResult
         this.values.put(fieldName, value);
     }
 
-    public Object getValue(String fieldName)
+    public Object getValue(ResultField fieldName)
     {
         return this.values.get(fieldName);
     }

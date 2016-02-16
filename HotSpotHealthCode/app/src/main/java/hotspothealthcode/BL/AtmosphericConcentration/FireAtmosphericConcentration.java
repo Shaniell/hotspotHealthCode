@@ -92,10 +92,10 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 
         NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
 
-        if (this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_A ||
-            this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_B ||
-            this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_C ||
-            this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_D) {
+        if (this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_A ||
+            this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_B ||
+            this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_C ||
+            this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_D) {
 
             if (buoyancyFlux >= 55) {
                 x = 119 * Math.pow(buoyancyFlux, 0.4);
@@ -114,7 +114,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
             effectiveReleaseHeight = solver.solve(10, bouyantFuelFirePlumeRiseFunc, 0, 100);
         } else {
 
-            if (this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_E)
+            if (this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_E)
             {
                 s = (0.020 * AtmosphericConcentration.G) / ta;
             }

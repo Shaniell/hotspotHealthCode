@@ -7,7 +7,7 @@ public class PasquillStability {
 
     private double windSpeed;
     private MeteorologicalConditions MC;
-    public PasquillStabilityType stabilityType;
+    private PasquillStabilityType stabilityType;
 
     public PasquillStability(PasquillStabilityType stabilityType)
     {
@@ -107,5 +107,9 @@ public class PasquillStability {
                 }
             }
         }
+    }
+
+    public PasquillStabilityType getStabilityType() {
+        return stabilityType;
     }
 }

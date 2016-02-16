@@ -98,11 +98,11 @@ public class PointInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         OutputResult result = OutputResult.getInstance();
 
-        tvModelType.setText(result.getValue(ResultField.MODEL_TYPE.toString()).toString());
-        tvStabilityType.setText(result.getValue(ResultField.STABILITY_TYPE.toString()).toString());
-        tvMeteorologicalCondition.setText(result.getValue(ResultField.METEOROLOGICAL_CONDITION.toString()).toString());
-        tvWindSpeed.setText(result.getValue(ResultField.WIND_SPEED.toString()).toString());
-        tvWindDirection.setText(result.getValue(ResultField.WIND_DIRECTION.toString()).toString());
+        tvModelType.setText(result.getValue(ResultField.MODEL_TYPE).toString());
+        tvStabilityType.setText(result.getValue(ResultField.STABILITY_TYPE).toString());
+        tvMeteorologicalCondition.setText(result.getValue(ResultField.METEOROLOGICAL_CONDITION).toString());
+        tvWindSpeed.setText(result.getValue(ResultField.WIND_SPEED).toString());
+        tvWindDirection.setText(result.getValue(ResultField.WIND_DIRECTION).toString());
 
         return view;
     }

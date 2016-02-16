@@ -104,10 +104,10 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
         double uh; // Wind speed at physical height
         double s;
 
-        if (this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_A ||
-            this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_B ||
-            this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_C ||
-            this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_D) {
+        if (this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_A ||
+            this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_B ||
+            this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_C ||
+            this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_D) {
             if (buoyancyFlux >= 55) {
                 x = 119 * Math.pow(buoyancyFlux, 0.4);
             } else {
@@ -133,7 +133,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
             windSpeedAtStackHeight = this.calcWindSpeed(this.terrainType, this.physicalStackHeight);
 
-            if (this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_E) {
+            if (this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_E) {
                 s = (0.020 * AtmosphericConcentration.G) / ta;
             } else // TYPE_F
             {
@@ -180,10 +180,10 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
         uh = calcWindSpeed(this.terrainType, h);
 
-        if(this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_A ||
-           this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_B ||
-           this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_C ||
-           this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_D) {
+        if(this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_A ||
+           this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_B ||
+           this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_C ||
+           this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_D) {
 
             effectiveReleaseHeight = h + ((6 * v * r) / uh);
         }
@@ -193,7 +193,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
             double p = this.getCityTerrainWindExpoFactor();
 
-            if (this.pasquillStability.stabilityType == PasquillStabilityType.TYPE_E)
+            if (this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_E)
             {
                 s = 0.000875;
             }
