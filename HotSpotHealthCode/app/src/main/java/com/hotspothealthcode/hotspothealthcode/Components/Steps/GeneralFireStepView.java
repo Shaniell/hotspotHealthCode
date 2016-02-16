@@ -31,8 +31,8 @@ public class GeneralFireStepView extends StepView
     private EditText airTempCalc;
     private EditText burnDuration;
 
-    public GeneralFireStepView(Context context, int stepNumber, String title,  int contentViewId, AtmosphericConcentration calcConcentration) {
-        super(context, stepNumber, title, contentViewId, calcConcentration);
+    public GeneralFireStepView(Context context, int stepNumber, String title,  int contentViewId) {
+        super(context, stepNumber, title, contentViewId);
 
         this.initControl();
     }
@@ -138,8 +138,8 @@ public class GeneralFireStepView extends StepView
     }
 
     @Override
-    protected void setFieldsToCalculate() {
-        FireAtmosphericConcentration concentration = (FireAtmosphericConcentration)this.calcConcentration;
+    public void setFieldsToCalculate(AtmosphericConcentration calcConcentration) {
+        FireAtmosphericConcentration concentration = (FireAtmosphericConcentration)calcConcentration;
 
         concentration.setSourceTerm(Double.parseDouble(this.materialAtRisk.getText().toString()));
         concentration.setReleaseRadios(Double.parseDouble(this.releaseRadios.getText().toString()));

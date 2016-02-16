@@ -23,8 +23,6 @@ public abstract class StepView extends GridLayout {
     protected static final int CURRENT_STEP = Color.parseColor("#C5CAE9");
     protected static final int REGULAR_STEP = Color.WHITE;
 
-    protected AtmosphericConcentration calcConcentration;
-
     protected Drawable stepIconGood;
     protected Drawable stepIconBad;
 
@@ -43,10 +41,8 @@ public abstract class StepView extends GridLayout {
     protected View stepLine;
     protected View contentView;
 
-    public StepView(Context context, int stepNumber, String title, int contentViewId, AtmosphericConcentration calcConcentration) {
+    public StepView(Context context, int stepNumber, String title, int contentViewId) {
         super(context);
-
-        this.calcConcentration = calcConcentration;
 
         initControl(context, stepNumber, title, contentViewId);
     }
@@ -219,5 +215,5 @@ public abstract class StepView extends GridLayout {
 
     protected abstract boolean validateData();
 
-    protected abstract void setFieldsToCalculate();
+    public abstract void setFieldsToCalculate(AtmosphericConcentration calcConcentration);
 }

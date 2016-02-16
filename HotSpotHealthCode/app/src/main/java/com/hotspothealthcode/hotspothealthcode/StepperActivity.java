@@ -14,9 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
+import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentration;
 import hotspothealthcode.controllers.Controller;
 
 public abstract class StepperActivity extends AppCompatActivity {
+
+    protected AtmosphericConcentration calcConcentration;
 
     protected LinearLayout stepLinearView;
     protected HashMap<Integer, StepView> steps;
@@ -73,14 +76,26 @@ public abstract class StepperActivity extends AppCompatActivity {
             if(!entry.getValue().isValid())
             {
                 areStepsValid = false;
+
+                break;
             }
         }
 
         if(areStepsValid)
         {
+            createCalculationObject();
+
+            Controller.setCalcConcentration(this.calcConcentration);
             //TODO: CREATE OUTPUT ACTIVITY
         }
     }
 
-    protected abstract AtmosphericConcentration createCalculationObject();
+    private void createCalculationObject()
+    {
+        // Get all the data from ths steps
+        for(Map.Entry<Integer, StepView> entry: this.steps.entrySet())
+        {
+            entry.getValue().setFieldsToCalculate(this.calcConcentration);
+        }
+    }
 }

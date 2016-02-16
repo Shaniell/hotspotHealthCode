@@ -11,8 +11,6 @@ import android.widget.TabHost.TabSpec;
 
 import com.hotspothealthcode.hotspothealthcode.R;
 
-import java.util.HashMap;
-
 import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
 import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentration;
 import hotspothealthcode.BL.Models.Weather;
@@ -40,8 +38,8 @@ public class GeneralPlumeStepView extends StepView
     private EditText exitVelocity;
     private EditText effluentTemp;
 
-    public GeneralPlumeStepView(Context context, int stepNumber, String title, int contentViewId, AtmosphericConcentration calcConcentration) {
-        super(context, stepNumber, title, contentViewId, calcConcentration);
+    public GeneralPlumeStepView(Context context, int stepNumber, String title, int contentViewId) {
+        super(context, stepNumber, title, contentViewId);
 
         this.initControl();
     }
@@ -184,9 +182,9 @@ public class GeneralPlumeStepView extends StepView
     }
 
     @Override
-    protected void setFieldsToCalculate() {
+    public void setFieldsToCalculate(AtmosphericConcentration calcConcentration) {
 
-        PlumeAtmosphericConcentration concentration = (PlumeAtmosphericConcentration)this.calcConcentration;
+        PlumeAtmosphericConcentration concentration = (PlumeAtmosphericConcentration)calcConcentration;
 
         concentration.setSourceTerm(Double.parseDouble(this.materialAtRisk.getText().toString()));
 

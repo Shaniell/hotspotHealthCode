@@ -14,6 +14,7 @@ import com.hotspothealthcode.hotspothealthcode.R;
 import java.util.ArrayList;
 
 import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
 import hotspothealthcode.controllers.Controller;
 
 /**
@@ -29,8 +30,8 @@ public class CoordinatesStepView extends StepView
     private Button restureDefaultsBtn;
     private ArrayList<CoordinateRow> coordinateRows;
 
-    public CoordinatesStepView(Context context, int stepNumber, String title, int contentViewId, AtmosphericConcentration calcConcentration) {
-        super(context, stepNumber, title, contentViewId, calcConcentration);
+    public CoordinatesStepView(Context context, int stepNumber, String title, int contentViewId) {
+        super(context, stepNumber, title, contentViewId);
 
         this.initControl(context);
     }
@@ -103,25 +104,61 @@ public class CoordinatesStepView extends StepView
     @Override
     protected boolean validateData() {
 
-        boolean atLeastOneEntered = false;
+        boolean atLeastOneEntered = true;
+        int enabledRows = 0;
 
         for (CoordinateRow coordinateRow: coordinateRows) {
+
+            // If the row is enabled
+            if(coordinateRow.isEnabled.isChecked())
+            {
+                // if the x field is empty, stop
+                if(coordinateRow.xIEdit.getText().toString().matches("")) {
+                    atLeastOneEntered = false;
+
+                    break;
+                }
+
+                enabledRows++;
+            }
+
             if (!(coordinateRow.xIEdit.getText().toString().matches("")))
             {
                 atLeastOneEntered = true;
 
                 break;
             }
-
         }
 
         return ((!this.verticalOffset.getText().toString().matches("")) &&
-                (atLeastOneEntered));
+                (atLeastOneEntered) &&
+                (enabledRows > 0));
     }
 
     @Override
-    protected void setFieldsToCalculate() {
+    public void setFieldsToCalculate(AtmosphericConcentration calcConcentration) {
 
+        ArrayList<ConcentrationPoint> points = new ArrayList<>();
+
+        double verticalOffset = Double.parseDouble(this.verticalOffset.getText().toString());
+
+        // Create concentration points
+        for (CoordinateRow coordinateRow: coordinateRows) {
+
+            // If the row is enabled, take its values
+            if(coordinateRow.isEnabled.isChecked()) {
+                double downWindOffset = Double.parseDouble(coordinateRow.xIEdit.getText().toString());
+                double crossWindOffset = 0;
+
+                // If the user ented a cross wind offset
+                if(!coordinateRow.yIEdit.getText().toString().matches(""))
+                    crossWindOffset = Double.parseDouble(coordinateRow.yIEdit.getText().toString());
+
+                points.add(new ConcentrationPoint(downWindOffset, crossWindOffset, verticalOffset));
+            }
+        }
+
+        calcConcentration.setConcentrationPoints(points);
     }
 
     private class CoordinateRow

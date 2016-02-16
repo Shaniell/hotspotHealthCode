@@ -18,13 +18,11 @@ import hotspothealthcode.controllers.Controller;
 
 public class FireStepperActivity extends StepperActivity{
 
-    private FireAtmosphericConcentration fireAtmosphericConcentration;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.fireAtmosphericConcentration = new FireAtmosphericConcentration();
+        this.calcConcentration = new FireAtmosphericConcentration();
 
         this.stepLinearView = (LinearLayout) findViewById(R.id.stepperLinearView);
         this.steps = new HashMap<Integer, StepView>();
@@ -32,8 +30,7 @@ public class FireStepperActivity extends StepperActivity{
         StepView stepView = new GeneralFireStepView(getApplicationContext(),
                                                     1,
                                                     "General Fire Data",
-                                                    R.layout.general_fire_step_view,
-                                                    this.fireAtmosphericConcentration);
+                                                    R.layout.general_fire_step_view);
 
         this.stepLinearView.addView(stepView);
         this.steps.put(1, stepView);
@@ -41,8 +38,7 @@ public class FireStepperActivity extends StepperActivity{
         StepView stepView2 = new MeteorologyStepView(getApplicationContext(),
                                                      2,
                                                      "Meteorology Data",
-                                                     R.layout.meteorology_step_view,
-                                                     this.fireAtmosphericConcentration);
+                                                     R.layout.meteorology_step_view);
 
         this.stepLinearView.addView(stepView2);
         this.steps.put(2, stepView2);
@@ -50,8 +46,7 @@ public class FireStepperActivity extends StepperActivity{
         StepView stepView3 = new CoordinatesStepView(getApplicationContext(),
                                                      3,
                                                      "Coordinates Data",
-                                                     R.layout.coordinate_step_view,
-                                                     this.fireAtmosphericConcentration);
+                                                     R.layout.coordinate_step_view);
 
         this.stepLinearView.addView(stepView3);
         this.steps.put(3, stepView3);
@@ -74,10 +69,5 @@ public class FireStepperActivity extends StepperActivity{
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
-    protected AtmosphericConcentration createCalculationObject() {
-        return null;
     }
 }

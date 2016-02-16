@@ -11,19 +11,18 @@ import com.hotspothealthcode.hotspothealthcode.Components.Steps.MeteorologyStepV
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.StepView;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
 import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentration;
 
 public class PlumeStepperActivity extends StepperActivity{
 
-    private PlumeAtmosphericConcentration plumeAtmosphericConcentration;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.plumeAtmosphericConcentration = new PlumeAtmosphericConcentration();
+        this.calcConcentration = new PlumeAtmosphericConcentration();
 
         this.stepLinearView = (LinearLayout) findViewById(R.id.stepperLinearView);
         this.steps = new HashMap<Integer, StepView>();
@@ -31,8 +30,7 @@ public class PlumeStepperActivity extends StepperActivity{
         StepView stepView = new GeneralPlumeStepView(getApplicationContext(),
                                                      1,
                                                      "General Plume Data",
-                                                     R.layout.general_plume_step_view,
-                                                     this.plumeAtmosphericConcentration);
+                                                     R.layout.general_plume_step_view);
 
         this.stepLinearView.addView(stepView);
         this.steps.put(1, stepView);
@@ -40,8 +38,7 @@ public class PlumeStepperActivity extends StepperActivity{
         StepView stepView2 = new MeteorologyStepView(getApplicationContext(),
                                                      2,
                                                      "Meteorology Data",
-                                                     R.layout.meteorology_step_view,
-                                                     this.plumeAtmosphericConcentration);
+                                                     R.layout.meteorology_step_view);
 
         this.stepLinearView.addView(stepView2);
         this.steps.put(2, stepView2);
@@ -49,8 +46,7 @@ public class PlumeStepperActivity extends StepperActivity{
         StepView stepView3 = new CoordinatesStepView(getApplicationContext(),
                                                      3,
                                                      "Coordinates Data",
-                                                     R.layout.coordinate_step_view,
-                                                     this.plumeAtmosphericConcentration);
+                                                     R.layout.coordinate_step_view);
 
         this.stepLinearView.addView(stepView3);
         this.steps.put(3, stepView3);
@@ -73,10 +69,5 @@ public class PlumeStepperActivity extends StepperActivity{
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
-    protected AtmosphericConcentration createCalculationObject() {
-        return null;
     }
 }

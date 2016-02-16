@@ -35,8 +35,8 @@ public class MeteorologyStepView extends StepView
     private Spinner stability;
     private Button windDefaults;
 
-    public MeteorologyStepView(Context context, int stepNumber, String title, int contentViewId, AtmosphericConcentration calcConcentration) {
-        super(context, stepNumber, title, contentViewId, calcConcentration);
+    public MeteorologyStepView(Context context, int stepNumber, String title, int contentViewId) {
+        super(context, stepNumber, title, contentViewId);
 
         this.initControl(context);
     }
@@ -189,10 +189,10 @@ public class MeteorologyStepView extends StepView
     }
 
     @Override
-    protected void setFieldsToCalculate()
+    public void setFieldsToCalculate(AtmosphericConcentration calcConcentration)
     {
-        this.calcConcentration.setWindDirection(Double.parseDouble(this.windDirection.getText().toString()));
-        this.calcConcentration.setWindSpeedAtReferenceHeight(Double.parseDouble(this.windSpeed.getText().toString()));
-        this.calcConcentration.setPasquillStability(new PasquillStability((PasquillStabilityType) this.stability.getSelectedItem()));
+        calcConcentration.setWindDirection(Double.parseDouble(this.windDirection.getText().toString()));
+        calcConcentration.setWindSpeedAtReferenceHeight(Double.parseDouble(this.windSpeed.getText().toString()));
+        calcConcentration.setPasquillStability(new PasquillStability((PasquillStabilityType) this.stability.getSelectedItem()));
     }
 }

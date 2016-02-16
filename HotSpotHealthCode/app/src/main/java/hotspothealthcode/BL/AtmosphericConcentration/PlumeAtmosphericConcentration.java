@@ -274,6 +274,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
     //region Atmospheric Concentration
 
+    @Override
     public OutputResult calcAtmosphericConcentration()
     {
         double concentration = 0;

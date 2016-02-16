@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.concurrent.ExecutionException;
 
+import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
 import hotspothealthcode.BL.AtmosphericConcentration.FireAtmosphericConcentration;
 import hotspothealthcode.BL.AtmosphericConcentration.MeteorologicalConditions;
 import hotspothealthcode.BL.AtmosphericConcentration.PasquillStability;
@@ -22,6 +23,7 @@ public class Controller
 {
     private static LatLng currentLocation = new LatLng(40.8516701, -93.2599318); // TODO: DELETE DEFAULT VALUE
     private static Weather currentWeather;
+    private static AtmosphericConcentration calcConcentration;
 
     public static void init(LatLng location)
     {
@@ -98,19 +100,10 @@ public class Controller
         return lst;
     }
 
-    public static PlumeAtmosphericConcentration createPlumeCalculation()
+    public static void setCalcConcentration(AtmosphericConcentration calcConcentration)
     {
-        return new PlumeAtmosphericConcentration();
-    }
+        Controller.calcConcentration = calcConcentration;
 
-    public static FireAtmosphericConcentration createFireCalculation()
-    {
-        return new FireAtmosphericConcentration();
+        Controller.calcConcentration.calcAtmosphericConcentration();
     }
-
-/*  TODO: CREATE IMPLEMENTATION AFTER CREATING THE EXPLOSION CALCULATIONS
-    public static ExplosionAtmosphericConcentration createExplosionCalculation()
-    {
-        return new ExplosionAtmosphericConcentration();
-    }*/
 }

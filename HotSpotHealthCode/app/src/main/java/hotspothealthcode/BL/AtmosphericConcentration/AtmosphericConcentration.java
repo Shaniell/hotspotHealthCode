@@ -17,7 +17,7 @@ import hotspothealthcode.BL.AtmosphericConcentration.results.ResultField;
 /**
  * Created by Giladl on 09/01/2016.
  */
-public class AtmosphericConcentration
+public abstract class AtmosphericConcentration
 {
     //region Static constants
 
@@ -455,8 +455,10 @@ public class AtmosphericConcentration
                                                         windSpeed,
                                                         point);
 
-        results.add(new ConcentrationResult(point, concentration, (int)(point.getX() / windSpeed)));
+        results.add(new ConcentrationResult(point, concentration, (int) (point.getX() / windSpeed)));
     }
+
+    public abstract OutputResult calcAtmosphericConcentration();
 
     //endregion
 }

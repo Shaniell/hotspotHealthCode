@@ -136,6 +136,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 
     //region Atmospheric Concentration
 
+    @Override
     public OutputResult calcAtmosphericConcentration()
     {
         double buoyancyFlux;
