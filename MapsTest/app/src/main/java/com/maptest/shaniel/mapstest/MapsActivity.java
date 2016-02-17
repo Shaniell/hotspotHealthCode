@@ -1,4 +1,4 @@
-package com.hotspothealthcode.hotspothealthcode;
+package com.maptest.shaniel.mapstest;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -42,26 +42,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.setMyLocationEnabled(true);
-    }
-    
-    @Override
-    protected void onResume(){
-        super.onResume();
-        setUpMapIfNeeded();
-    }
-
-    private void setUpMapIfNeeded() {
-        if (mMap == null){
-            mMap = ((SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-
-            if(mMap != null){
-                setUpMap();
-            }
-        }
-    }
-
-    private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(31.984053, 34.758536)).title("Testt"));
     }
 }

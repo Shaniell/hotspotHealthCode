@@ -1,5 +1,6 @@
 package com.hotspothealthcode.hotspothealthcode;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -97,8 +98,7 @@ public class OutputActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter
-    {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter implements com.hotspothealthcode.hotspothealthcode.SectionsPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -134,6 +134,23 @@ public class OutputActivity extends AppCompatActivity {
                     return "Table";
             }
             return null;
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            // Handle item selection
+
+
+            switch (item.getItemId()) {
+                case R.id.action_LocationChoice: {
+                    Intent myIntent = new Intent(getBaseContext(), MapsActivity.class);
+                    startActivityForResult(myIntent, 0);
+                    return true;
+                }
+                default:{break;}
+            }
+
+            return false;
         }
     }
 }
