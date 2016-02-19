@@ -76,11 +76,10 @@ public abstract class StepperActivity extends AppCompatActivity {
 
         for (Map.Entry<Integer, StepView> entry: this.steps.entrySet())
         {
+            // Check if step valid. DO NOT BREAK THE LOOP SO ALL STEPS WILL BE VALIDATED
             if(!entry.getValue().isValid())
             {
                 areStepsValid = false;
-
-                break;
             }
         }
 
