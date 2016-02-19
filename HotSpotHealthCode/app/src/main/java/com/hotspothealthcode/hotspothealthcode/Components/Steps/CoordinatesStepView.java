@@ -147,12 +147,12 @@ public class CoordinatesStepView extends StepView
 
             // If the row is enabled, take its values
             if(coordinateRow.isEnabled.isChecked()) {
-                double downWindOffset = Double.parseDouble(coordinateRow.xIEdit.getText().toString());
+                double downWindOffset = Double.parseDouble(coordinateRow.xIEdit.getText().toString()) * 1000;
                 double crossWindOffset = 0;
 
                 // If the user ented a cross wind offset
                 if(!coordinateRow.yIEdit.getText().toString().matches(""))
-                    crossWindOffset = Double.parseDouble(coordinateRow.yIEdit.getText().toString());
+                    crossWindOffset = Double.parseDouble(coordinateRow.yIEdit.getText().toString()) * 1000;
 
                 points.add(new ConcentrationPoint(downWindOffset, crossWindOffset, verticalOffset));
             }

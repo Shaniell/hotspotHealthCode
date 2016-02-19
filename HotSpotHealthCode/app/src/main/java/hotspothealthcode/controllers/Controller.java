@@ -12,6 +12,7 @@ import hotspothealthcode.BL.AtmosphericConcentration.MeteorologicalConditions;
 import hotspothealthcode.BL.AtmosphericConcentration.PasquillStability;
 import hotspothealthcode.BL.AtmosphericConcentration.PasquillStabilityType;
 import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentration;
+import hotspothealthcode.BL.AtmosphericConcentration.TerrainType;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 import hotspothealthcode.BL.Models.Weather;
 import hotspothealthcode.BL.Weather.WeatherManager;
@@ -68,6 +69,11 @@ public class Controller
     public static ArrayList<MeteorologicalConditions> getMeteorologicalConditions()
     {
         return MeteorologicalConditions.getMeteorologicalConditions();
+    }
+
+    public static ArrayList<TerrainType> getTerrainTypes()
+    {
+        return TerrainType.getTerrainTypes();
     }
 
     public static OutputResult getOutputResultInstance()

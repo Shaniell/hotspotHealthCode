@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.hotspothealthcode.hotspothealthcode.Components.Steps.AdditionalDataStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.CoordinatesStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralFireStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralPlumeStepView;
@@ -21,8 +22,6 @@ public class FireStepperActivity extends StepperActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.calcConcentration = new FireAtmosphericConcentration();
 
         this.stepLinearView = (LinearLayout) findViewById(R.id.stepperLinearView);
         this.steps = new HashMap<Integer, StepView>();
@@ -51,6 +50,14 @@ public class FireStepperActivity extends StepperActivity{
         this.stepLinearView.addView(stepView3);
         this.steps.put(3, stepView3);
 
+        StepView stepView4 = new AdditionalDataStepView(getApplicationContext(),
+                                                        4,
+                                                        "Additional Data",
+                                                        R.layout.additional_data_step_view);
+
+        this.stepLinearView.addView(stepView4);
+        this.steps.put(4, stepView4);
+
         stepView.setContinueHandler(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,10 +71,30 @@ public class FireStepperActivity extends StepperActivity{
                 steps.get(3).showContent();
             }
         });
+
+        stepView3.setContinueHandler(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                steps.get(4).showContent();
+            }
+        });
+
+        stepView4.setContinueHandler(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                steps.get(4).hideContent();
+            }
+        });
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initCalculationObject()
+    {
+        this.calcConcentration = new FireAtmosphericConcentration();
     }
 }

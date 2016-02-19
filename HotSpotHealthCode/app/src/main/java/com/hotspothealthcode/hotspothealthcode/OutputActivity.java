@@ -68,7 +68,7 @@ public class OutputActivity extends AppCompatActivity {
         // TODO: GET REAL RESULTS
         this.outputResult = Controller.getOutputResultInstance();
 
-        this.outputResult.addValue(ResultField.MODEL_TYPE, "General plume");
+/*        this.outputResult.addValue(ResultField.MODEL_TYPE, "General plume");
         this.outputResult.addValue(ResultField.WIND_SPEED, 3.5);
         this.outputResult.addValue(ResultField.WIND_DIRECTION, 270.7);
         this.outputResult.addValue(ResultField.STABILITY_TYPE, PasquillStabilityType.TYPE_A);
@@ -87,7 +87,7 @@ public class OutputActivity extends AppCompatActivity {
         tempResults.add(result);
         tempResults.add(result2);
 
-        this.outputResult.setResults(tempResults);
+        this.outputResult.setResults(tempResults);*/
 
         this.outputDetailsFragment = new OutputDetailsFragment();
         this.outputResultsFragment = new OutputTableFragment();
