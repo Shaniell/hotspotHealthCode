@@ -1,5 +1,6 @@
 package com.hotspothealthcode.hotspothealthcode;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -67,6 +68,8 @@ public abstract class StepperActivity extends AppCompatActivity {
         }
     }
 
+    protected abstract void initCalculationObject();
+
     private void continueToOutput()
     {
         boolean areStepsValid = true;
@@ -86,12 +89,18 @@ public abstract class StepperActivity extends AppCompatActivity {
             createCalculationObject();
 
             Controller.setCalcConcentration(this.calcConcentration);
-            //TODO: CREATE OUTPUT ACTIVITY
+
+            // Go to output activity
+            Intent outpotActivityIntent = new Intent(getApplicationContext(), OutputActivity.class);
+
+            startActivity(outpotActivityIntent);
         }
     }
 
     private void createCalculationObject()
     {
+        this.initCalculationObject();
+
         // Get all the data from ths steps
         for(Map.Entry<Integer, StepView> entry: this.steps.entrySet())
         {
