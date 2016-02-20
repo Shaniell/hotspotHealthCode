@@ -118,16 +118,16 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
             uh = this.calcWindSpeed(this.terrainType, h);
 
-            effectiveReleaseHeight += ((1.6 * Math.pow(buoyancyFlux, 1 / 3)) * Math.pow(x, 2 / 3)) / uh;
+            effectiveReleaseHeight += ((1.6 * Math.pow(buoyancyFlux, (1.0 / 3.0))) * Math.pow(x, (2.0 / 3.0))) / uh;
         } else {
             NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
 
             double p = this.getCityTerrainWindExpoFactor();
 
             // Create a wind speed function to find the wind speed at effective release height numericly
-            WindSpeedFunc windSpeedFunc = new WindSpeedFunc(this.windSpeedAtReferenceHeight,
+            /*WindSpeedFunc windSpeedFunc = new WindSpeedFunc(this.windSpeedAtReferenceHeight,
                                                             this.referenceHeight,
-                                                            p);
+                                                            p);*/
 
             //windSpeedAtEffectiveHeight = solver.solve(10000, windSpeedFunc, 1, 15);
 
@@ -152,10 +152,10 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
                 effectiveReleaseHeight = solver.solve(100, bouyantPlumeRiseFunc, 0, 100);*/
 
-                effectiveReleaseHeight = h + 2.6 * Math.pow((buoyancyFlux / (windSpeedAtStackHeight * s)), 1 / 3);
+                effectiveReleaseHeight = h + 2.6 * Math.pow((buoyancyFlux / (windSpeedAtStackHeight * s)), (1.0 / 3.0));
 
             } else {
-                effectiveReleaseHeight = h + 5 * Math.pow(buoyancyFlux, 1 / 4) * Math.pow(s, -3.8);
+                effectiveReleaseHeight = h + 5 * Math.pow(buoyancyFlux, (1.0 / 4.0)) * Math.pow(s, -3.8);
             }
         }
 
@@ -213,7 +213,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
             effectiveReleaseHeight = h + solver.solve(100, momentumPlumeRiseFunc, 0, 100);*/
 
-            effectiveReleaseHeight = h + 1.5 * Math.pow((momentumFlux / uh), 1 / 3) * Math.pow(s, -1 / 6);
+            effectiveReleaseHeight = h + 1.5 * Math.pow((momentumFlux / uh), (1.0 / 3.0)) * Math.pow(s, (-1.0 / 6.0));
         }
 
         return effectiveReleaseHeight;

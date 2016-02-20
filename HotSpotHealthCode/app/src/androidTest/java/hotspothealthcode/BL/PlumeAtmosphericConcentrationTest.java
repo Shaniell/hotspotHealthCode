@@ -11,6 +11,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import junit.framework.Assert;
 
 import java.util.ArrayList;
 
@@ -29,8 +30,10 @@ import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 @RunWith(AndroidJUnit4.class)
 public class PlumeAtmosphericConcentrationTest
 {
+    //region Unstable
+
     @Test
-    public void testCalcAtmosphericConcentrationWithEffectiveHeight()
+    public void testCalcAtmosphericConcentrationWithEffectiveHeightUnstable()
     {
         PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
 
@@ -64,11 +67,11 @@ public class PlumeAtmosphericConcentrationTest
 
         OutputResult outputResult = plume.calcAtmosphericConcentration();
 
-        assert true == true;
+        Assert.assertEquals(true, true);
     }
 
     @Test
-    public void testCalcAtmosphericConcentrationWithHeatEmissionWithoutMomentum()
+    public void testCalcAtmosphericConcentrationWithHeatEmissionWithoutMomentumUnstable()
     {
         PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
 
@@ -81,6 +84,7 @@ public class PlumeAtmosphericConcentrationTest
         // Set plume data
         plume.setSourceTerm(20000);
         plume.setHeatEmission(1000);
+        plume.setPhysicalStackHeight(15);
         plume.setCalcMomentum(false);
 
         // Set meto conditions
@@ -102,11 +106,11 @@ public class PlumeAtmosphericConcentrationTest
 
         OutputResult outputResult = plume.calcAtmosphericConcentration();
 
-        assert true == true;
+        Assert.assertEquals(true, true);
     }
 
     @Test
-    public void testCalcAtmosphericConcentrationWithHeatEmissionWithMomentum()
+    public void testCalcAtmosphericConcentrationWithHeatEmissionWithMomentumUnstable()
     {
         PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
 
@@ -123,7 +127,6 @@ public class PlumeAtmosphericConcentrationTest
         plume.setStackTemp(15);
         plume.setStackExitVelocity(10);
         plume.setStackRadius(4);
-        plume.setPhysicalStackHeight(10);
         plume.setAirTemp(10.7);
         plume.setCalcMomentum(true);
 
@@ -146,11 +149,11 @@ public class PlumeAtmosphericConcentrationTest
 
         OutputResult outputResult = plume.calcAtmosphericConcentration();
 
-        assert true == true;
+        Assert.assertEquals(true, true);
     }
 
     @Test
-    public void testCalcAtmosphericConcentrationWithoutHeatEmissionWithoutMomentum()
+    public void testCalcAtmosphericConcentrationWithoutHeatEmissionWithoutMomentumUnstable()
     {
         PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
 
@@ -165,8 +168,7 @@ public class PlumeAtmosphericConcentrationTest
         plume.setPhysicalStackHeight(15);
         plume.setStackTemp(15);
         plume.setStackExitVelocity(10);
-        plume.setStackRadius(8);
-        plume.setPhysicalStackHeight(10);
+        plume.setStackRadius(4);
         plume.setAirTemp(10.7);
         plume.setCalcMomentum(false);
 
@@ -189,11 +191,11 @@ public class PlumeAtmosphericConcentrationTest
 
         OutputResult outputResult = plume.calcAtmosphericConcentration();
 
-        assert true == true;
+        Assert.assertEquals(true, true);
     }
 
     @Test
-    public void testCalcAtmosphericConcentrationWithoutHeatEmissionWithMomentum()
+    public void testCalcAtmosphericConcentrationWithoutHeatEmissionWithMomentumUnstable()
     {
         PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
 
@@ -209,7 +211,6 @@ public class PlumeAtmosphericConcentrationTest
         plume.setStackTemp(15);
         plume.setStackExitVelocity(10);
         plume.setStackRadius(4);
-        plume.setPhysicalStackHeight(10);
         plume.setAirTemp(10.7);
         plume.setCalcMomentum(true);
 
@@ -232,6 +233,216 @@ public class PlumeAtmosphericConcentrationTest
 
         OutputResult outputResult = plume.calcAtmosphericConcentration();
 
-        assert true == true;
+        Assert.assertEquals(true, true);
     }
+
+    //endregion
+
+    //region Stable
+
+    @Test
+    public void testCalcAtmosphericConcentrationWithEffectiveHeightStable()
+    {
+        PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
+
+        // Set additional data
+        plume.setReferenceHeight(10);
+        plume.setSurfaceRoughnessHeight(3);
+        plume.setSampleTime(10);
+        plume.setTerrainType(TerrainType.STANDARD_TERRAIN);
+
+        // Set plume data
+        plume.setSourceTerm(20000);
+        plume.setEffectiveReleaseHeight(10);
+        plume.setCalcMomentum(false);
+
+        // Set meto conditions
+        plume.setWindDirection(287);
+        plume.setWindSpeedAtReferenceHeight(9.8);
+        plume.setPasquillStability(new PasquillStability(PasquillStabilityType.TYPE_E));
+        //plume.setMeteorologicalCondition(MeteorologicalConditions.SUN_HIGH_IN_SKY);
+
+        // Set coordiantes
+        ArrayList<ConcentrationPoint> concetrationPoints = new ArrayList<>();
+
+        concetrationPoints.add(new ConcentrationPoint(30, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(100, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(200, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(300, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(400, 0, 1.5));
+
+        plume.setConcentrationPoints(concetrationPoints);
+
+        OutputResult outputResult = plume.calcAtmosphericConcentration();
+
+        Assert.assertEquals(true, true);
+    }
+
+    @Test
+    public void testCalcAtmosphericConcentrationWithHeatEmissionWithoutMomentumStable()
+    {
+        PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
+
+        // Set additional data
+        plume.setReferenceHeight(10);
+        plume.setSurfaceRoughnessHeight(3);
+        plume.setSampleTime(10);
+        plume.setTerrainType(TerrainType.STANDARD_TERRAIN);
+
+        // Set plume data
+        plume.setSourceTerm(20000);
+        plume.setHeatEmission(1000);
+        plume.setPhysicalStackHeight(15);
+        plume.setCalcMomentum(false);
+
+        // Set meto conditions
+        plume.setWindDirection(287);
+        plume.setWindSpeedAtReferenceHeight(9.8);
+        plume.setPasquillStability(new PasquillStability(PasquillStabilityType.TYPE_E));
+        //plume.setMeteorologicalCondition(MeteorologicalConditions.SUN_HIGH_IN_SKY);
+
+        // Set coordiantes
+        ArrayList<ConcentrationPoint> concetrationPoints = new ArrayList<>();
+
+        concetrationPoints.add(new ConcentrationPoint(30, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(100, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(200, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(300, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(400, 0, 1.5));
+
+        plume.setConcentrationPoints(concetrationPoints);
+
+        OutputResult outputResult = plume.calcAtmosphericConcentration();
+
+        Assert.assertEquals(true, true);
+    }
+
+    @Test
+    public void testCalcAtmosphericConcentrationWithHeatEmissionWithMomentumStable()
+    {
+        PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
+
+        // Set additional data
+        plume.setReferenceHeight(10);
+        plume.setSurfaceRoughnessHeight(3);
+        plume.setSampleTime(10);
+        plume.setTerrainType(TerrainType.STANDARD_TERRAIN);
+
+        // Set plume data
+        plume.setSourceTerm(20000);
+        plume.setHeatEmission(1000);
+        plume.setPhysicalStackHeight(15);
+        plume.setStackTemp(15);
+        plume.setStackExitVelocity(10);
+        plume.setStackRadius(4);
+        plume.setAirTemp(10.7);
+        plume.setCalcMomentum(true);
+
+        // Set meto conditions
+        plume.setWindDirection(287);
+        plume.setWindSpeedAtReferenceHeight(9.8);
+        plume.setPasquillStability(new PasquillStability(PasquillStabilityType.TYPE_E));
+        //plume.setMeteorologicalCondition(MeteorologicalConditions.SUN_HIGH_IN_SKY);
+
+        // Set coordiantes
+        ArrayList<ConcentrationPoint> concetrationPoints = new ArrayList<>();
+
+        concetrationPoints.add(new ConcentrationPoint(30, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(100, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(200, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(300, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(400, 0, 1.5));
+
+        plume.setConcentrationPoints(concetrationPoints);
+
+        OutputResult outputResult = plume.calcAtmosphericConcentration();
+
+        Assert.assertEquals(true, true);
+    }
+
+    @Test
+    public void testCalcAtmosphericConcentrationWithoutHeatEmissionWithoutMomentumStable()
+    {
+        PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
+
+        // Set additional data
+        plume.setReferenceHeight(10);
+        plume.setSurfaceRoughnessHeight(3);
+        plume.setSampleTime(10);
+        plume.setTerrainType(TerrainType.STANDARD_TERRAIN);
+
+        // Set plume data
+        plume.setSourceTerm(20000);
+        plume.setPhysicalStackHeight(15);
+        plume.setStackTemp(15);
+        plume.setStackExitVelocity(10);
+        plume.setStackRadius(4);
+        plume.setAirTemp(10.7);
+        plume.setCalcMomentum(false);
+
+        // Set meto conditions
+        plume.setWindDirection(287);
+        plume.setWindSpeedAtReferenceHeight(9.8);
+        plume.setPasquillStability(new PasquillStability(PasquillStabilityType.TYPE_E));
+        //plume.setMeteorologicalCondition(MeteorologicalConditions.SUN_HIGH_IN_SKY);
+
+        // Set coordiantes
+        ArrayList<ConcentrationPoint> concetrationPoints = new ArrayList<>();
+
+        concetrationPoints.add(new ConcentrationPoint(30, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(100, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(200, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(300, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(400, 0, 1.5));
+
+        plume.setConcentrationPoints(concetrationPoints);
+
+        OutputResult outputResult = plume.calcAtmosphericConcentration();
+
+        Assert.assertEquals(true, true);
+    }
+
+    @Test
+    public void testCalcAtmosphericConcentrationWithoutHeatEmissionWithMomentumStable()
+    {
+        PlumeAtmosphericConcentration plume = new PlumeAtmosphericConcentration();
+
+        // Set additional data
+        plume.setReferenceHeight(10);
+        plume.setSurfaceRoughnessHeight(3);
+        plume.setSampleTime(10);
+        plume.setTerrainType(TerrainType.STANDARD_TERRAIN);
+
+        // Set plume data
+        plume.setSourceTerm(20000);
+        plume.setPhysicalStackHeight(15);
+        plume.setStackTemp(15);
+        plume.setStackExitVelocity(10);
+        plume.setStackRadius(4);
+        plume.setAirTemp(10.7);
+        plume.setCalcMomentum(true);
+
+        // Set meto conditions
+        plume.setWindDirection(287);
+        plume.setWindSpeedAtReferenceHeight(9.8);
+        plume.setPasquillStability(new PasquillStability(PasquillStabilityType.TYPE_E));
+        //plume.setMeteorologicalCondition(MeteorologicalConditions.SUN_HIGH_IN_SKY);
+
+        // Set coordiantes
+        ArrayList<ConcentrationPoint> concetrationPoints = new ArrayList<>();
+
+        concetrationPoints.add(new ConcentrationPoint(30, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(100, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(200, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(300, 0, 1.5));
+        concetrationPoints.add(new ConcentrationPoint(400, 0, 1.5));
+
+        plume.setConcentrationPoints(concetrationPoints);
+
+        OutputResult outputResult = plume.calcAtmosphericConcentration();
+
+        Assert.assertEquals(true, true);
+    }
+
+    //endregion
 }
