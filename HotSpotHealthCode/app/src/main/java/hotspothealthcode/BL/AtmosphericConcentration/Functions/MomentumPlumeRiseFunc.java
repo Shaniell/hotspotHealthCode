@@ -33,14 +33,27 @@ public class MomentumPlumeRiseFunc implements UnivariateDifferentiableFunction
 
     @Override
     public DerivativeStructure value(DerivativeStructure t) throws DimensionMismatchException {
-        return t.subtract(this.physicalStackHeight).pow(3).multiply(Math.sqrt(this.s)).pow(-1)
-                .multiply(3.375 * this.momentumFlux)
-                .subtract(t.divide(this.referanceHeight).pow(p).multiply(this.windSpeedAtReferenceHeight));
+
+        /*return t.divide(this.referanceHeight).pow(this.p).multiply(this.windSpeedAtReferenceHeight)
+                .multiply(t.subtract(this.physicalStackHeight).pow(3.0))
+                .subtract(3.375 * Math.pow(this.s, -0.5) * this.momentumFlux);*/
+
+        return t.divide(this.referanceHeight).pow(this.p).multiply(this.windSpeedAtReferenceHeight)
+                .multiply(t.subtract(this.physicalStackHeight).pow(3.0))
+                .subtract(Math.pow(1.5 * Math.pow(this.s, -1.0 / 6.0), 3.0) * this.momentumFlux);
     }
 
     @Override
     public double value(double x) {
-        return ((3.375 * this.momentumFlux) / (Math.sqrt(this.s) * Math.pow(x - this.physicalStackHeight, 3))) -
-                this.windSpeedAtReferenceHeight * Math.pow(x / this.referanceHeight, this.p);
+        /*return -1.0 + ((-0.5 * this.momentumFlux * this.p * Math.pow((x / this.referanceHeight), -p - 1.0)) /
+               (Math.pow(this.s, 1.0 / 6.0) * this.windSpeedAtReferenceHeight * this.referanceHeight *
+                Math.pow((this.momentumFlux * Math.pow(x / this.referanceHeight, -p)) / this.windSpeedAtReferenceHeight, 2.0 / 3.0)));*/
+
+        /*return ((3.375 * this.momentumFlux) / (Math.sqrt(this.s) * Math.pow(x - this.physicalStackHeight, 3.0))) -
+                this.windSpeedAtReferenceHeight * Math.pow(x / this.referanceHeight, this.p);*/
+
+        return Math.pow(x / this.referanceHeight, this.p) *
+                (Math.pow(x - this.physicalStackHeight, 3.0)) -
+                (Math.pow(1.5 * Math.pow(this.s, -1.0 / 6.0), 3.0) * this.momentumFlux);
     }
 }
