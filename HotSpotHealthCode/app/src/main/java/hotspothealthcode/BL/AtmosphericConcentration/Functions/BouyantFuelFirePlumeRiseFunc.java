@@ -10,33 +10,35 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 public class BouyantFuelFirePlumeRiseFunc implements UnivariateDifferentiableFunction
 {
     private double buoyancyFlux;
-    private double distance;
     private double windSpeedAtReferenceHeight;
     private double referanceHeight;
     private double p;
+    private double xc;
 
     public BouyantFuelFirePlumeRiseFunc(double buoyancyFlux,
-                                        double distance,
                                         double windSpeedAtReferenceHeight,
                                         double referanceHeight,
-                                        double p)
+                                        double p,
+                                        double xc)
     {
         this.buoyancyFlux = buoyancyFlux;
-        this.distance = distance;
         this.windSpeedAtReferenceHeight = windSpeedAtReferenceHeight;
         this.referanceHeight = referanceHeight;
         this.p = p;
+        this.xc = xc;
     }
 
     @Override
     public DerivativeStructure value(DerivativeStructure t) throws DimensionMismatchException {
-        return t.multiply(this.windSpeedAtReferenceHeight).multiply(t.divide(2 * this.referanceHeight).pow(this.p))
-                .subtract(1.6 * Math.pow(this.buoyancyFlux, 1/3) * Math.pow(this.distance, 2/3));
+        return t.divide(this.referanceHeight * 2).pow(this.p).multiply(this.windSpeedAtReferenceHeight)
+                .multiply(t)
+                .subtract(1.6 * Math.pow(this.buoyancyFlux, 1.0 / 3.0) * Math.pow(this.xc, 2.0 / 3.0));
     }
 
     @Override
     public double value(double x) {
-        return x * this.windSpeedAtReferenceHeight * Math.pow(x / (2 * this.referanceHeight), this.p) -
-                (1.6 * Math.pow(this.buoyancyFlux, 1/3) * Math.pow(this.distance, 2/3));
+        return Math.pow(x / (2 * this.referanceHeight), this.p) *
+                (x) -
+                (1.6 * Math.pow(this.buoyancyFlux, 1.0 / 3.0) * Math.pow(this.xc, 2.0 / 3.0));
     }
 }

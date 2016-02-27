@@ -106,10 +106,10 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
             double p = this.getCityTerrainWindExpoFactor();
 
             BouyantFuelFirePlumeRiseFunc bouyantFuelFirePlumeRiseFunc = new BouyantFuelFirePlumeRiseFunc(buoyancyFlux,
-                                                                                                         x,
                                                                                                          this.windSpeedAtReferenceHeight,
                                                                                                          this.referenceHeight,
-                                                                                                         p);
+                                                                                                         p,
+                                                                                                         x);
 
             effectiveReleaseHeight = solver.solve(10, bouyantFuelFirePlumeRiseFunc, 0, 100);
         } else {
@@ -123,10 +123,10 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
                 s = (0.035 * AtmosphericConcentration.G) / ta;
             }
 
-            effectiveReleaseHeight = 2.6 * Math.pow(buoyancyFlux / (this.windSpeedAtReferenceHeight * s), 1/3);
+            effectiveReleaseHeight = 2.6 * Math.pow(buoyancyFlux / (this.windSpeedAtReferenceHeight * s), 1.0 / 3.0);
         }
 
-        effectiveReleaseHeight += Math.pow(Math.pow(effectiveReleaseHeight, 3) + Math.pow(r / 0.6, 3), 1/3) -
+        effectiveReleaseHeight += Math.pow(Math.pow(effectiveReleaseHeight, 3) + Math.pow(r / 0.6, 3.0), 1.0 / 3.0) -
                                   (r / 0.6);
 
         return effectiveReleaseHeight;
