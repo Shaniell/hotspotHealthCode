@@ -173,7 +173,7 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
             } else {
                 //todo: check this later
-                effectiveReleaseHeight = h + 5 * Math.pow(buoyancyFlux, (1.0 / 4.0)) * Math.pow(s, -3.8);
+                effectiveReleaseHeight = h + 5.0 * Math.pow(buoyancyFlux, (1.0 / 4.0)) * Math.pow(s, -3.8);
             }
         }
 
