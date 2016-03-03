@@ -2,7 +2,11 @@ package com.hotspothealthcode.hotspothealthcode;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -12,9 +16,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Objects;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
+    AutoCompleteTextView txtSearchBox;
+    //private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        txtSearchBox = (AutoCompleteTextView) findViewById(R.id.txtSearchPlace);
+
+//        mGoogleApiClient = new GoogleApiClient
+//                .Builder(this)
+//                .enableAutoManage(this, this)
+//                .build();
     }
 
 
@@ -47,5 +60,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         Object a = mMap.getMyLocation();
 
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        txtSearchBox.setText("NO CONNECTION!");
+        txtSearchBox.setEnabled(false);
     }
 }

@@ -1,9 +1,8 @@
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
-/captures
+.gradle/*
+/local.*
+/.idea/*
+.DS_Store*
+/build*
+/captures*
 /app/src/main/debug/AndroidManifest.xml
 /app/src/main/release/AndroidManifest.xml
