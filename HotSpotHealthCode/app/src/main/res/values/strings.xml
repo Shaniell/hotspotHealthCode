@@ -10,7 +10,7 @@
     <string name="title_activity_general_plume">GeneralPlumeActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="Radionuclide">Radionuclide</string>
-    <string name="MaterialAtRisk">Material At Risk (MAR)</string>
+    <string name="MaterialAtRisk">Material At Risk</string>
     <string name="DamageRatio">Damage Ratio (DR)</string>
     <string name="LeakpathFactor">Leakpath Factor</string>
     <string name="EffectiveReleaseHeight">Effective Release Height</string>

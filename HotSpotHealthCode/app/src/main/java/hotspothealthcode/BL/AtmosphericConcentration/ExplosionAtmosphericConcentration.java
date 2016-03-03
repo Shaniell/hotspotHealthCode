@@ -10,6 +10,8 @@ public class ExplosionAtmosphericConcentration extends AtmosphericConcentration 
 
     //region Data Members
 
+    private static double POUNDS = 2.20462262185;
+
     private double explosiveAmount;
     private boolean isGreenField;
 
@@ -18,7 +20,7 @@ public class ExplosionAtmosphericConcentration extends AtmosphericConcentration 
     //region setters
 
     public void setExplosiveAmount(double explosiveAmount) {
-        this.explosiveAmount = explosiveAmount;
+        this.explosiveAmount = explosiveAmount * ExplosionAtmosphericConcentration.POUNDS;
     }
 
     public void setIsGreenField(boolean isGreenField) {
