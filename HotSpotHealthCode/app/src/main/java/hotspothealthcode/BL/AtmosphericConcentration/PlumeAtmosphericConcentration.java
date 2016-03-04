@@ -291,6 +291,20 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
     //endregion
 
+    //region Deviation Calculation
+
+        @Override
+        protected double calcDy() {
+            return 0;
+        }
+
+        @Override
+        protected double calcDz() {
+            return 0;
+        }
+
+    //endregion
+
     //region Atmospheric Concentration
 
     @Override

@@ -29,14 +29,30 @@ public class ExplosionAtmosphericConcentration extends AtmosphericConcentration 
 
     //endregion
 
-    //region Effective Release Height
+    //region Cloud Top
 
-    private double calcEffectiveReleaseHeight()
+    private double calcCloudTop()
+    {
+        double cloudTop;
+
+        if(this.isGreenField)
+        {
+            cloudTop = this.calcCloudTopWithGreenField();
+        }
+        else
+        {
+            cloudTop = this.calcCloudTopWithoutGreenField();
+        }
+
+        return cloudTop;
+    }
+
+    private double calcCloudTopWithoutGreenField()
     {
         return 76.0 * Math.pow(this.explosiveAmount, 0.25);
     }
 
-    private double calcEffectiveReleaseHeightWithGreenField()
+    private double calcCloudTopWithGreenField()
     {
         double effectiveReleaseHeight;
 
@@ -57,21 +73,65 @@ public class ExplosionAtmosphericConcentration extends AtmosphericConcentration 
 
     //endregion
 
+    //region Effective Release Height
+
+    private double calcEfficetiveReleaseHeight()
+    {
+        return this.calcCloudTop() * 0.8;
+    }
+
+    //endregion
+
+    //region Deviation Calculation
+
+    @Override
+    protected double calcDy()
+    {
+        double currentDy = 999999;
+        double prevDy;
+        double sigmaY = (0.2 * this.calcCloudTop()) / 2.0;
+
+        prevDy = this.calcVirtualSourceDistanceForSigmaY(this.terrainType, 0, sigmaY);
+
+        // While the current dy is bigger then 10 % of the prev dy
+        while (currentDy - prevDy > (0.1 * prevDy))
+        {
+            currentDy = this.calcVirtualSourceDistanceForSigmaY(this.terrainType, prevDy, sigmaY);
+
+            prevDy = currentDy;
+        }
+
+        return currentDy;
+    }
+
+    @Override
+    protected double calcDz()
+    {
+        double currentDz = 999999;
+        double prevDz;
+        double sigmaZ = 0.2 * this.calcCloudTop();
+
+        prevDz = this.calcVirtualSourceDistanceForSigmaZ(this.terrainType, 0, sigmaZ);
+
+        // While the current dy is bigger then 10 % of the prev dy
+        while (currentDz - prevDz > (0.1 * prevDz))
+        {
+            currentDz = this.calcVirtualSourceDistanceForSigmaY(this.terrainType, prevDz, sigmaZ);
+
+            prevDz = currentDz;
+        }
+
+        return currentDz;
+    }
+
+    //endregion
+
     //region Atmospheric Concentration
 
     @Override
     public OutputResult calcAtmosphericConcentration() {
 
-        double effectiveReleaseHeight;
-
-        if(this.isGreenField)
-        {
-            effectiveReleaseHeight = this.calcEffectiveReleaseHeightWithGreenField();
-        }
-        else
-        {
-            effectiveReleaseHeight = this.calcEffectiveReleaseHeight();
-        }
+        double effectiveReleaseHeight = this.calcEfficetiveReleaseHeight();
 
         double windSpeed = this.calcWindSpeed(this.terrainType, effectiveReleaseHeight);
 

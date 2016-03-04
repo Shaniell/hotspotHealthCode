@@ -39,6 +39,9 @@ public abstract class AtmosphericConcentration
     protected double sourceTerm;
     protected ArrayList<ConcentrationPoint> concentrationPoints;
 
+    private Double dy;
+    private Double dz;
+
     //endregion
 
     //region C'tors
@@ -290,13 +293,127 @@ public abstract class AtmosphericConcentration
 
     //region Deviation Calculation
 
+    protected abstract double calcDy();
+
+    protected abstract double calcDz();
+
+    protected double calcVirtualSourceDistanceForSigmaY(TerrainType terrainType,
+                                                         double guess,
+                                                         double sigmaY)
+    {
+        switch (terrainType)
+        {
+            case STANDARD_TERRAIN: {
+                return this.calcVirtualSourceDistanceForSigmaYStandardTerrain(guess, sigmaY);
+            }
+
+            case CITY_TERRAIN: {
+                return this.calcVirtualSourceDistanceForSigmaYCityTerrain(guess, sigmaY);
+            }
+        }
+
+        return 0.0;
+    }
+
+    private double calcVirtualSourceDistanceForSigmaYStandardTerrain(double guess,
+                                                                     double sigmaY)
+    {
+        double parameter = 0;
+
+        // Get the parameter by the stability type
+        switch (this.pasquillStability.getStabilityType()){
+            case TYPE_A: {  parameter = 0.22; break; }
+            case TYPE_B: {  parameter = 0.16; break; }
+            case TYPE_C: {  parameter = 0.11; break; }
+            case TYPE_D: {  parameter = 0.08; break; }
+            case TYPE_E: {  parameter = 0.06; break; }
+            case TYPE_F: {  parameter = 0.04; break; }
+        }
+
+        return (sigmaY * Math.sqrt(1 + 0.0001 * guess)) / (parameter);
+    }
+
+    private double calcVirtualSourceDistanceForSigmaYCityTerrain(double guess,
+                                                                 double sigmaY)
+    {
+        double parameter = 0;
+
+        // Get the parameter by the stability type
+        switch (this.pasquillStability.getStabilityType()){
+            case TYPE_A: { }
+            case TYPE_B: {  parameter = 0.32; break; }
+            case TYPE_C: {  parameter = 0.22; break; }
+            case TYPE_D: {  parameter = 0.16; break; }
+            case TYPE_E: {  parameter = 0.11; break; }
+            case TYPE_F: {  parameter = 0.11; break; }
+        }
+
+        return (sigmaY * Math.sqrt(1 + 0.0004 * guess)) / (parameter);
+    }
+
+    protected double calcVirtualSourceDistanceForSigmaZ(TerrainType terrainType,
+                                                        double guess,
+                                                        double sigmaZ)
+    {
+        switch (terrainType)
+        {
+            case STANDARD_TERRAIN: {
+                return this.calcVirtualSourceDistanceForSigmaYStandardTerrain(guess, sigmaZ);
+            }
+
+            case CITY_TERRAIN: {
+                return this.calcVirtualSourceDistanceForSigmaYCityTerrain(guess, sigmaZ);
+            }
+        }
+
+        return 0.0;
+    }
+
+    private double calcVirtualSourceDistanceForSigmaZStandardTerrain(double guess,
+                                                                     double sigmaZ)
+    {
+        double Aparameter = 0;
+        double Bparameter = 1;
+
+        // Get the parameter by the stability type
+        switch (this.pasquillStability.getStabilityType()){
+            case TYPE_A: { Aparameter = 0.20; Bparameter = 1; break; }
+            case TYPE_B: { Aparameter = 0.12; Bparameter = 1; break; }
+            case TYPE_C: { Aparameter = 0.080; Bparameter = Math.sqrt(1 + (0.0002 * guess)); break; }
+            case TYPE_D: { Aparameter = 0.060; Bparameter = Math.sqrt(1 + (0.0015 * guess)); break; }
+            case TYPE_E: { Aparameter = 0.030; Bparameter = 1 + (0.0003 * guess); break; }
+            case TYPE_F: { Aparameter = 0.016; Bparameter = 1 + (0.0003 * guess); break; }
+        }
+
+        return (sigmaZ * Bparameter) / (Aparameter);
+    }
+
+    private double calcVirtualSourceDistanceForSigmaZCityTerrain(double guess,
+                                                                 double sigmaZ)
+    {
+        double Aparameter = 0;
+        double Bparameter = 1;
+
+        // Get the parameter by the stability type
+        switch (this.pasquillStability.getStabilityType()){
+            case TYPE_A: { }
+            case TYPE_B: { Aparameter = 0.24 * Math.sqrt(1 + (0.001 * guess)); Bparameter = 1; break; }
+            case TYPE_C: { Aparameter = 0.20; Bparameter = 1; break; }
+            case TYPE_D: { Aparameter = 0.14; Bparameter = Math.sqrt(1 + (0.0003 * guess)); break; }
+            case TYPE_E: { Aparameter = 0.08; Bparameter = Math.sqrt(1 + (0.0015 * guess)); break; }
+            case TYPE_F: { Aparameter = 0.08; Bparameter = Math.sqrt(1 + (0.0015 * guess)); break; }
+        }
+
+        return (sigmaZ * Bparameter) / (Aparameter);
+    }
+
     /**
      * Calculate the deviation (sigmaY and sigmaZ)
      * @param terrainType - The terrain type
      * @param downWindOffset - The downwind axis (x-axis) offset (m)
      * @return List containing sigmaY at 0 index and sigmaZ at 1 index
      */
-    protected ArrayList<Double> calcSigmaYZ(TerrainType terrainType,
+    private ArrayList<Double> calcSigmaYZ(TerrainType terrainType,
                                             double downWindOffset)
     {
         double sigmaY;
@@ -341,26 +458,28 @@ public abstract class AtmosphericConcentration
      * @param downWindOffset - The downwind axis (x-axis) offset (m)
      * @return List containing sigmaY at 0 index and sigmaZ at 1 index
      */
-    protected ArrayList<Double> calcStandardTerrainSigmaYZ(double downWindOffset){
+    private ArrayList<Double> calcStandardTerrainSigmaYZ(double downWindOffset){
 
         double parameter = 0;
         double Aparameter = 0;
         double Bparameter = 1;
         double sigmaY;
         double sigmaZ;
+        double downWindDistanceSigmaY = downWindOffset + this.dy;
+        double downWindDistanceSigmaZ = downWindOffset + this.dz;
         ArrayList<Double> lst = new ArrayList<>();
 
         switch (this.pasquillStability.getStabilityType()){
             case TYPE_A: {  parameter = 0.22; Aparameter = 0.20; Bparameter = 1; break; }
             case TYPE_B: {  parameter = 0.16; Aparameter = 0.12; Bparameter = 1; break; }
-            case TYPE_C: {  parameter = 0.11; Aparameter = 0.080; Bparameter = Math.sqrt(1 + (0.0002 * downWindOffset)); break; }
-            case TYPE_D: {  parameter = 0.08; Aparameter = 0.060; Bparameter = Math.sqrt(1 + (0.0015 * downWindOffset)); break; }
-            case TYPE_E: {  parameter = 0.06; Aparameter = 0.030; Bparameter = 1 + (0.0003 * downWindOffset); break; }
-            case TYPE_F: {  parameter = 0.04; Aparameter = 0.016; Bparameter = 1 + (0.0003 * downWindOffset); break; }
+            case TYPE_C: {  parameter = 0.11; Aparameter = 0.080; Bparameter = Math.sqrt(1 + (0.0002 * downWindDistanceSigmaZ)); break; }
+            case TYPE_D: {  parameter = 0.08; Aparameter = 0.060; Bparameter = Math.sqrt(1 + (0.0015 * downWindDistanceSigmaZ)); break; }
+            case TYPE_E: {  parameter = 0.06; Aparameter = 0.030; Bparameter = 1 + (0.0003 * downWindDistanceSigmaZ); break; }
+            case TYPE_F: {  parameter = 0.04; Aparameter = 0.016; Bparameter = 1 + (0.0003 * downWindDistanceSigmaZ); break; }
         }
 
-        sigmaY = ((parameter * downWindOffset) / Math.sqrt(1 + 0.0001 * downWindOffset));
-        sigmaZ = ((Aparameter * downWindOffset) / Bparameter);
+        sigmaY = ((parameter * downWindDistanceSigmaY) / Math.sqrt(1 + 0.0001 * downWindDistanceSigmaY));
+        sigmaZ = ((Aparameter * downWindDistanceSigmaZ) / Bparameter);
 
         lst.add(sigmaY);
         lst.add(sigmaZ);
@@ -373,26 +492,28 @@ public abstract class AtmosphericConcentration
      * @param downWindOffset - The downwind axis (x-axis) offset (m)
      * @return List containing sigmaY at 0 index and sigmaZ at 1 index
      */
-    protected ArrayList<Double> calcCityTerrainSigmaYZ(double downWindOffset){
+    private ArrayList<Double> calcCityTerrainSigmaYZ(double downWindOffset){
 
         double parameter = 0;
         double Aparameter = 0;
         double Bparameter = 1;
         double sigmaY;
         double sigmaZ;
+        double downWindDistanceSigmaY = downWindOffset + this.dy;
+        double downWindDistanceSigmaZ = downWindOffset + this.dz;
         ArrayList<Double> lst = new ArrayList<>();
 
         switch (this.pasquillStability.getStabilityType()){
             case TYPE_A: { }
-            case TYPE_B: {  parameter = 0.32; Aparameter = 0.24 * Math.sqrt(1 + (0.001 * downWindOffset)); Bparameter = 1; break; }
+            case TYPE_B: {  parameter = 0.32; Aparameter = 0.24 * Math.sqrt(1 + (0.001 * downWindDistanceSigmaZ)); Bparameter = 1; break; }
             case TYPE_C: {  parameter = 0.22; Aparameter = 0.20; Bparameter = 1; break; }
-            case TYPE_D: {  parameter = 0.16; Aparameter = 0.14; Bparameter = Math.sqrt(1 + (0.0003 * downWindOffset)); break; }
-            case TYPE_E: {  parameter = 0.11; Aparameter = 0.08; Bparameter = Math.sqrt(1 + (0.0015 * downWindOffset)); break; }
-            case TYPE_F: {  parameter = 0.11; Aparameter = 0.08; Bparameter = Math.sqrt(1 + (0.0015 * downWindOffset)); break; }
+            case TYPE_D: {  parameter = 0.16; Aparameter = 0.14; Bparameter = Math.sqrt(1 + (0.0003 * downWindDistanceSigmaZ)); break; }
+            case TYPE_E: {  parameter = 0.11; Aparameter = 0.08; Bparameter = Math.sqrt(1 + (0.0015 * downWindDistanceSigmaZ)); break; }
+            case TYPE_F: {  parameter = 0.11; Aparameter = 0.08; Bparameter = Math.sqrt(1 + (0.0015 * downWindDistanceSigmaZ)); break; }
         }
 
-        sigmaY = ((parameter * downWindOffset) / Math.sqrt(1 + 0.0004 * downWindOffset));
-        sigmaZ = ((Aparameter * downWindOffset) / Bparameter);
+        sigmaY = ((parameter * downWindDistanceSigmaY) / Math.sqrt(1 + 0.0004 * downWindDistanceSigmaY));
+        sigmaZ = ((Aparameter * downWindDistanceSigmaZ) / Bparameter);
 
         lst.add(sigmaY);
         lst.add(sigmaZ);
@@ -410,6 +531,9 @@ public abstract class AtmosphericConcentration
         ArrayList<ConcentrationResult> results = new ArrayList<ConcentrationResult>();
 
         OutputResult outputResult = OutputResult.newInstance();
+
+        this.dy = this.calcDy();
+        this.dz = this.calcDz();
 
         // Calculate the concentration at points
         for (ConcentrationPoint point: this.concentrationPoints)

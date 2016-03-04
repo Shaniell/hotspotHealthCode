@@ -134,6 +134,50 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 
     //endregion
 
+    //region Deviation Calculation
+
+    @Override
+    protected double calcDy()
+    {
+        double currentDy = 999999;
+        double prevDy;
+        double sigmaY = this.releaseRadios / 2.0;
+
+        prevDy = this.calcVirtualSourceDistanceForSigmaY(this.terrainType, 0, sigmaY);
+
+        // While the current dy is bigger then 10 % of the prev dy
+        while (currentDy - prevDy > (0.1 * prevDy))
+        {
+            currentDy = this.calcVirtualSourceDistanceForSigmaY(this.terrainType, prevDy, sigmaY);
+
+            prevDy = currentDy;
+        }
+
+        return currentDy;
+    }
+
+    @Override
+    protected double calcDz()
+    {
+        double currentDz = 999999;
+        double prevDz;
+        double sigmaZ = this.releaseRadios / 2.0;
+
+        prevDz = this.calcVirtualSourceDistanceForSigmaZ(this.terrainType, 0, sigmaZ);
+
+        // While the current dy is bigger then 10 % of the prev dy
+        while (currentDz - prevDz > (0.1 * prevDz))
+        {
+            currentDz = this.calcVirtualSourceDistanceForSigmaY(this.terrainType, prevDz, sigmaZ);
+
+            prevDz = currentDz;
+        }
+
+        return currentDz;
+    }
+
+    //endregion
+
     //region Atmospheric Concentration
 
     @Override
