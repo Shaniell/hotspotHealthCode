@@ -12,8 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
+
+    ImageButton imageButtonPlume;
+    ImageButton imageButtonFire;
+    ImageButton imageButtonExplosion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,6 +30,8 @@ public class MainActivity extends AppCompatActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+
+        addListenerOnButton();
     }
 
     @Override
@@ -47,4 +55,52 @@ public class MainActivity extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void addListenerOnButton() {
+
+        imageButtonPlume = (ImageButton) findViewById(R.id.ibGeneralPlume);
+        imageButtonFire = (ImageButton) findViewById(R.id.ibGeneralFire);
+        imageButtonExplosion = (ImageButton) findViewById(R.id.ibGeneralExplosion);
+
+        imageButtonPlume.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Toast.makeText(MainActivity.this,
+                        "General Plume", Toast.LENGTH_SHORT).show();
+
+                setContentView(R.layout.general_plume_step_view);
+
+            }
+        });
+
+        imageButtonFire.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Toast.makeText(MainActivity.this,
+                        "General Fire", Toast.LENGTH_SHORT).show();
+
+                setContentView(R.layout.general_fire_step_view);
+
+            }
+        });
+
+        imageButtonExplosion.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Toast.makeText(MainActivity.this,
+                        "General Explosion", Toast.LENGTH_SHORT).show();
+
+                setContentView(R.layout.general_explosion_step_view);
+
+            }
+        });
+
+    }
+
 }
