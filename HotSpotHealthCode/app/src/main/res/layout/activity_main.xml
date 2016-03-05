@@ -16,9 +16,6 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         />
 
-    <!-- TODO: CREATE 3 IMAGES OF THE THREE TYPES: GENERAL PLUME, GENERAL FIRE, GENERAL EXPLOSION-->
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

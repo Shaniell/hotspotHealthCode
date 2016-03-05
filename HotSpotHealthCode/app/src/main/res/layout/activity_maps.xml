@@ -9,16 +9,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="518dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context="com.hotspothealthcode.hotspothealthcode.MapsActivity"
         android:layout_gravity="bottom" />
 
-    <AutoCompleteTextView
-        android:layout_width="294dp"
+    <!--<fragment-->
+        <!--android:id="@+id/place_autocomplete_fragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:tag="Search HotSpot Place"-->
+        <!--android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"-->
+        <!--/>-->
+
+    <!--<AutoCompleteTextView-->
+        <!--android:layout_width="294dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/txtSearchPlace"-->
+        <!--android:layout_gravity="center_horizontal|top"-->
+        <!--android:hint="Search HotSpot Place" />-->
+
+    <fragment
+        android:id="@+id/place_autocomplete_fragment"
+        android:layout_width="200dp"
+        android:layout_gravity="left"
         android:layout_height="wrap_content"
-        android:id="@+id/txtSearchPlace"
-        android:layout_gravity="center_horizontal|top"
-        android:hint="Search HotSpot Place" />
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+        />
 
 </FrameLayout>
