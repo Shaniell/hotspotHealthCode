@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme">
 
     <TextView
         android:text="Height From Ground"
@@ -23,7 +24,7 @@
         android:hint="in meters"/>
 
     <View android:id="@+id/separator"
-        android:background="#ffffff"
+        android:background="#000"
         android:layout_width = "fill_parent"
         android:layout_height="1dip"
         android:layout_centerVertical ="true"
@@ -49,7 +50,8 @@
         android:layout_row="3"
         android:layout_column="0"
         android:layout_columnSpan="2"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:theme="@style/AppTheme">
 
         <CheckBox
             android:id="@+id/cbEnableAll"

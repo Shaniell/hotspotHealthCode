@@ -6,7 +6,8 @@
     android:paddingLeft="7dip"
     android:paddingRight="7dip"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.hotspothealthcode.hotspothealthcode.OutputActivity$PlaceholderFragment">
+    tools:context="com.hotspothealthcode.hotspothealthcode.OutputActivity$PlaceholderFragment"
+    android:theme="@style/AppTheme">
 
     <TextView
         android:text="Model Type:"

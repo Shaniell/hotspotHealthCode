@@ -65,7 +65,7 @@ public class AdditionalDataStepView extends StepView
 
         // Fill terrain types
         this.terrainType.setAdapter(new ArrayAdapter<TerrainType>(context,
-                android.R.layout.simple_list_item_1,
+                R.layout.spinner_text_view,
                 Controller.getTerrainTypes()));
     }
 

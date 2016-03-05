@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
         <!-- inherit from the material theme -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="android:colorPrimary">#4285F4</item>
@@ -10,9 +10,13 @@
         <item name="android:colorPrimaryDark">#3367D6</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">#000</item>
+        <item name="android:colorBackground">@color/background_material_dark</item>
+        <item name="android:colorForeground">@color/foreground_material_dark</item>
+        <item name="colorPrimary">@color/materaillightBlue</item>
+        <item name="colorPrimaryDark">@color/materialBlue</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -28,5 +32,7 @@
         <item name="android:layout_marginTop">25dp</item>
         <item name="android:layout_marginBottom">25dp</item>
     </style>
+
+    <style name="myTheme" parent="Theme.AppCompat.Light" />
 
 </resources>

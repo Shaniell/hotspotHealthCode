@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    tools:context="com.hotspothealthcode.hotspothealthcode.OutputActivity$PlaceholderFragment">
+    tools:context="com.hotspothealthcode.hotspothealthcode.OutputActivity$PlaceholderFragment"
+    android:theme="@style/AppTheme">
 
     <com.google.android.gms.maps.MapView
         xmlns:android="http://schemas.android.com/apk/res/android"

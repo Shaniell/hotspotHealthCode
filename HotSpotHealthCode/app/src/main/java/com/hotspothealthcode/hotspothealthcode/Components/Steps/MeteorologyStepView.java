@@ -72,12 +72,12 @@ public class MeteorologyStepView extends StepView
 
         // Fill stability types
         this.stability.setAdapter(new ArrayAdapter<PasquillStabilityType>(context,
-                android.R.layout.simple_list_item_1,
+                R.layout.spinner_text_view,
                 Controller.getStabilityTypes()));
 
         // Fill Meteorological Conditions
         this.solarInfo.setAdapter(new ArrayAdapter<MeteorologicalConditions>(context,
-                android.R.layout.simple_list_item_1,
+                R.layout.spinner_text_view,
                 Controller.getMeteorologicalConditions()));
 
         // Set on item select listener

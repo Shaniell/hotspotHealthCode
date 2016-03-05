@@ -180,7 +180,7 @@ public class CoordinatesStepView extends StepView
             this.yDefault = yDefault;
 
             // Check box
-            this.isEnabled = new CheckBox(context);
+            this.isEnabled = (CheckBox)View.inflate(context, R.layout.coordinate_checkbox, null);
             this.isEnabled.setChecked(true);
 
             this.isEnabled.setOnClickListener(new OnClickListener() {

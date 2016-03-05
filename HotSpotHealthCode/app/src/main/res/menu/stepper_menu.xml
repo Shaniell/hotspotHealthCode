@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/AppTheme">
 
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
         android:id="@+id/action_continue_to_output"
-        android:icon="@drawable/ic_step_good"
+        android:icon="@drawable/step_good"
         android:title="Continue to outpot"
         app:showAsAction="ifRoom"/>
 </menu>

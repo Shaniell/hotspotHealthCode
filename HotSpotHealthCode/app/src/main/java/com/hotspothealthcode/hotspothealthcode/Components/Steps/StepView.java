@@ -21,7 +21,7 @@ import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
 public abstract class StepView extends GridLayout {
 
     protected static final int CURRENT_STEP = Color.parseColor("#C5CAE9");
-    protected static final int REGULAR_STEP = Color.WHITE;
+    protected static final int REGULAR_STEP = Color.parseColor("#FFD6D1D1");
 
     protected Drawable stepIconGood;
     protected Drawable stepIconBad;

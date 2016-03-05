@@ -2,7 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:theme="@style/AppTheme">
 
     <LinearLayout
         android:id="@+id/stepTitleLayout"
@@ -31,7 +32,6 @@
             android:layout_marginLeft="-30dp"
             android:textSize="20dp"
             android:gravity="center"
-            android:textColor="#fff"
             android:text="1"/>
 
         <TextView
@@ -42,7 +42,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="16dp"
             android:text="Title"
-            android:textColor="#000"
             android:textSize="24dp" />
 
     </LinearLayout>
@@ -50,7 +49,7 @@
     <View
         android:id="@+id/stepVerLine"
         android:layout_width="1dp"
-        android:background="#FF0000FF"
+        android:background="#FF0277BD"
         android:layout_marginLeft="10dp"
         android:layout_column="0"
         android:layout_row="1"

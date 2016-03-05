@@ -8,7 +8,7 @@
             android:shape="oval"
             android:layout_width="30dp"
             android:layout_height="30dp" >
-            <solid android:color="#0f0" />
+            <solid android:color="#3ed93e" />
         </shape>
     </item>
     <item android:drawable="@drawable/ic_step_good"

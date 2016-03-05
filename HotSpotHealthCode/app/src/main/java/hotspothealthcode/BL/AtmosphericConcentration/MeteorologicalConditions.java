@@ -8,8 +8,8 @@ import java.util.EnumMap;
  */
 public enum MeteorologicalConditions {
     EMPTY_VALUE ("Choose value"),
-    SUN_HIGH_IN_SKY("Sun high in sky"),
-    SUN_LOW_IN_SKY_OR_CLOUDY("Sun low in sky or cloudy"),
+    SUN_HIGH_IN_SKY("Sun high"),
+    SUN_LOW_IN_SKY_OR_CLOUDY("Sun low or cloudy"),
     NIGHT_TIME("Night time");
 
     private final String condition;
