@@ -17,27 +17,27 @@ import hotspothealthcode.controllers.Controller;
 /**
  * Created by Giladl on 16/01/2016.
  */
-public class ExplosionStepView extends StepView
+public class GeneralExplosionStepView extends StepView
 {
     private EditText materialAtRisk;
     private EditText explosiveAmount;
     private CheckBox isGreenField;
 
-    public ExplosionStepView(Context context, int stepNumber, String title, int contentViewId) {
+    public GeneralExplosionStepView(Context context, int stepNumber, String title, int contentViewId) {
         super(context, stepNumber, title, contentViewId);
 
         this.initControl(context);
     }
 
-    public ExplosionStepView(Context context) {
+    public GeneralExplosionStepView(Context context) {
         super(context);
     }
 
-    public ExplosionStepView(Context context, AttributeSet attrs) {
+    public GeneralExplosionStepView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ExplosionStepView(Context context, AttributeSet attrs, int defStyle) {
+    public GeneralExplosionStepView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

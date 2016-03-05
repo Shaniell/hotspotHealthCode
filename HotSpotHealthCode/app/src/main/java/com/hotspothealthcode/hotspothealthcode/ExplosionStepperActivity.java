@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.AdditionalDataStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.CoordinatesStepView;
+import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralExplosionStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.GeneralFireStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.MeteorologyStepView;
 import com.hotspothealthcode.hotspothealthcode.Components.Steps.StepView;
@@ -24,10 +25,10 @@ public class ExplosionStepperActivity extends StepperActivity{
         this.stepLinearView = (LinearLayout) findViewById(R.id.stepperLinearView);
         this.steps = new HashMap<Integer, StepView>();
 
-        StepView stepView = new GeneralFireStepView(getApplicationContext(),
-                                                    1,
-                                                    "General Explosion Data",
-                                                    R.layout.general_explosion_step_view);
+        StepView stepView = new GeneralExplosionStepView(getApplicationContext(),
+                                                         1,
+                                                         "General Explosion Data",
+                                                         R.layout.general_explosion_step_view);
 
         this.stepLinearView.addView(stepView);
         this.steps.put(1, stepView);

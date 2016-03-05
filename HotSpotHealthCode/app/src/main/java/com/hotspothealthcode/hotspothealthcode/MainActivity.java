@@ -1,5 +1,6 @@
 package com.hotspothealthcode.hotspothealthcode;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import com.hotspothealthcode.hotspothealthcode.*;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -67,11 +69,9 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View arg0) {
 
-                Toast.makeText(MainActivity.this,
-                        "General Plume", Toast.LENGTH_SHORT).show();
+                Intent plumeStepperActivityIntent = new Intent(getApplicationContext(), PlumeStepperActivity.class);
 
-                setContentView(R.layout.general_plume_step_view);
-
+                startActivity(plumeStepperActivityIntent);
             }
         });
 
@@ -80,10 +80,9 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View arg0) {
 
-                Toast.makeText(MainActivity.this,
-                        "General Fire", Toast.LENGTH_SHORT).show();
+                Intent fireStepperActivityIntent = new Intent(getApplicationContext(), FireStepperActivity.class);
 
-                setContentView(R.layout.general_fire_step_view);
+                startActivity(fireStepperActivityIntent);
 
             }
         });
@@ -93,10 +92,9 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View arg0) {
 
-                Toast.makeText(MainActivity.this,
-                        "General Explosion", Toast.LENGTH_SHORT).show();
+                Intent explosionStepperActivityIntent = new Intent(getApplicationContext(), ExplosionStepperActivity.class);
 
-                setContentView(R.layout.general_explosion_step_view);
+                startActivity(explosionStepperActivityIntent);
 
             }
         });
