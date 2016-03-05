@@ -1,12 +1,31 @@
 package com.hotspothealthcode.hotspothealthcode;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.AutocompletePredictionBuffer;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,7 +39,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     AutoCompleteTextView txtSearchBox;
-    //private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
+    PlaceAutocompleteFragment autocompleteFragment;
+    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    AutocompleteFilter typeFilter;
+    PendingResult<AutocompletePredictionBuffer> result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +54,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        txtSearchBox = (AutoCompleteTextView) findViewById(R.id.txtSearchPlace);
+        //txtSearchBox = (AutoCompleteTextView) findViewById(R.id.txtSearchPlace);
 
-//        mGoogleApiClient = new GoogleApiClient
-//                .Builder(this)
-//                .enableAutoManage(this, this)
-//                .build();
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, this)
+                .build();
+
+        autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                LatLng SelectedLocation = new LatLng(place.getLatLng().latitude,place.getLatLng().longitude);
+                mMap.addMarker(new MarkerOptions().position(SelectedLocation).title(place.getName().toString()));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
+                //Log.i("a", "Place: " + place.getName());
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                //Log.i("a", "An error occurred: " + status);
+            }
+        });
     }
-
 
     /**
      * Manipulates the map once available.
@@ -54,12 +99,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        if ( ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+
+        }
+
         mMap.setMyLocationEnabled(true);
         Object a = mMap.getMyLocation();
-
     }
 
     @Override
