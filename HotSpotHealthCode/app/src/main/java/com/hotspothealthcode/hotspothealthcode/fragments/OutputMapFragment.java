@@ -62,8 +62,7 @@ public class OutputMapFragment extends Fragment
 
     private void drawResultsToMap()
     {
-        // TODO: MOVE TO REAL POSITION
-        LatLng pos = new LatLng(40.8516701, -93.2599318);
+        LatLng pos = Controller.getCurrentLocation();
 
         this.outputMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
         this.outputMap.addMarker(new MarkerOptions()

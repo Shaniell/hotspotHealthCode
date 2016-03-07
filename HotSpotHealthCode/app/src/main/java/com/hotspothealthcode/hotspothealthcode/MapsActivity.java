@@ -64,7 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
-                SelectedLocation = new LatLng(place.getLatLng().latitude,place.getLatLng().longitude);
+                SelectedLocation = place.getLatLng();
                 mMap.addMarker(new MarkerOptions().position(SelectedLocation).title(place.getName().toString()));
                 //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));

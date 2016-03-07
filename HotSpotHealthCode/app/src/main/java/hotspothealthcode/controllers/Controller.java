@@ -22,7 +22,7 @@ import hotspothealthcode.BL.Weather.WeatherManager;
  */
 public class Controller
 {
-    private static LatLng currentLocation = new LatLng(40.8516701, -93.2599318); // TODO: DELETE DEFAULT VALUE
+    private static LatLng currentLocation;
     private static Weather currentWeather;
     private static AtmosphericConcentration calcConcentration;
 

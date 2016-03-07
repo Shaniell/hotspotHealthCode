@@ -33,9 +33,6 @@ public abstract class StepperActivity extends AppCompatActivity {
 
         this.toolbar = (Toolbar) findViewById(R.id.stepper_toolbar);
         setSupportActionBar(this.toolbar);
-
-        //Todo: remove this
-        Controller.init(new LatLng(40.8516701, -93.2599318));
     }
 
     @Override
