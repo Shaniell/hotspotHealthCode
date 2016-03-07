@@ -2,28 +2,19 @@ package com.hotspothealthcode.hotspothealthcode;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.AutocompletePredictionBuffer;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,8 +23,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.Objects;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
 
@@ -44,6 +33,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     AutocompleteFilter typeFilter;
     PendingResult<AutocompletePredictionBuffer> result;
+    Bundle extras;
+    Intent NextIntent;
+    LatLng SelectedLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +62,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
-                LatLng SelectedLocation = new LatLng(place.getLatLng().latitude,place.getLatLng().longitude);
+                SelectedLocation = new LatLng(place.getLatLng().latitude,place.getLatLng().longitude);
                 mMap.addMarker(new MarkerOptions().position(SelectedLocation).title(place.getName().toString()));
                 //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
                 //Log.i("a", "Place: " + place.getName());
+
+                Intent mapsActivity = new Intent(getApplicationContext(), MapsActivity.class);
+
+                mapsActivity.putExtra("NextIntent", SelectedLocation);
+
+                startActivity(NextIntent);
+
             }
 
             @Override
@@ -83,6 +82,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //Log.i("a", "An error occurred: " + status);
             }
         });
+
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            NextIntent = (Intent)extras.get("NextIntent");
+        }
     }
 
     /**

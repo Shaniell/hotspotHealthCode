@@ -70,8 +70,11 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View arg0) {
 
                 Intent plumeStepperActivityIntent = new Intent(getApplicationContext(), PlumeStepperActivity.class);
+                Intent mapsActivity = new Intent(getApplicationContext(), MapsActivity.class);
 
-                startActivity(plumeStepperActivityIntent);
+                mapsActivity.putExtra("NextIntent", plumeStepperActivityIntent);
+
+                startActivity(mapsActivity);
             }
         });
 
@@ -81,8 +84,11 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View arg0) {
 
                 Intent fireStepperActivityIntent = new Intent(getApplicationContext(), FireStepperActivity.class);
+                Intent mapsActivity = new Intent(getApplicationContext(), MapsActivity.class);
 
-                startActivity(fireStepperActivityIntent);
+                mapsActivity.putExtra("NextIntent", fireStepperActivityIntent);
+
+                startActivity(mapsActivity);
 
             }
         });
@@ -93,8 +99,11 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View arg0) {
 
                 Intent explosionStepperActivityIntent = new Intent(getApplicationContext(), ExplosionStepperActivity.class);
+                Intent mapsActivity = new Intent(getApplicationContext(), MapsActivity.class);
 
-                startActivity(explosionStepperActivityIntent);
+                mapsActivity.putExtra("NextIntent", explosionStepperActivityIntent);
+
+                startActivity(mapsActivity);
 
             }
         });
