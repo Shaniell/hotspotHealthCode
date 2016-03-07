@@ -24,6 +24,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import hotspothealthcode.controllers.Controller;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
@@ -69,8 +71,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //Log.i("a", "Place: " + place.getName());
 
                 Intent mapsActivity = new Intent(getApplicationContext(), MapsActivity.class);
-
-                mapsActivity.putExtra("NextIntent", SelectedLocation);
+                
+                Controller.init(SelectedLocation);
 
                 startActivity(NextIntent);
 
