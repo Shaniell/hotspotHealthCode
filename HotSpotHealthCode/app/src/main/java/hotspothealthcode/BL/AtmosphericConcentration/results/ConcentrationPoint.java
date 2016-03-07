@@ -56,7 +56,7 @@ public class ConcentrationPoint
         return jsonObject;
     }
 
-    public LatLng toLatLng(LatLng startPosition, int windDirection)
+    public LatLng toLatLng(LatLng startPosition, double windDirection)
     {
         double radWindDirection = Math.toRadians(windDirection);
         double radStartLat = Math.toRadians(startPosition.latitude);

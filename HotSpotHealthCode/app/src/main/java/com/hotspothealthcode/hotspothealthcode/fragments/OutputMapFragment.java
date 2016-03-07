@@ -23,6 +23,7 @@ import org.json.JSONException;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
+import hotspothealthcode.BL.AtmosphericConcentration.results.ResultField;
 import hotspothealthcode.controllers.Controller;
 
 /**
@@ -64,20 +65,25 @@ public class OutputMapFragment extends Fragment
     {
         LatLng pos = Controller.getCurrentLocation();
 
+        double windDirection = Double.parseDouble(outputResult.getValue(ResultField.WIND_DIRECTION).toString());
+
         this.outputMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
         this.outputMap.addMarker(new MarkerOptions()
-                                .position(pos)
-                                .title("Origin"));
+                .position(pos)
+                .title("Origin"));
+
+        // Get close to location
+        this.outputMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15));
 
         this.outputMap.setInfoWindowAdapter(new PointInfoWindowAdapter(getActivity()));
 
         this.outputMap.addPolyline(new PolylineOptions()
                 .add(pos)
-                .add(new ConcentrationPoint(100000, 0, 0).toLatLng(pos, 70)));
+                .add(new ConcentrationPoint(100000, 0, 0).toLatLng(pos, windDirection)));
 
         for (ConcentrationResult result: this.outputResult.getResults())
         {
-            LatLng res = result.getPoint().toLatLng(pos, 70);
+            LatLng res = result.getPoint().toLatLng(pos, windDirection);
 
                 Marker marker = this.outputMap.addMarker(new MarkerOptions()
                                 .position(res)
