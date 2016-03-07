@@ -21,12 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:gravity="center|center_vertical|center_horizontal">
+        android:gravity="center|center_vertical|center_horizontal"
+        android:background="#a7a39c">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -34,7 +36,8 @@
                 android:id="@+id/ibGeneralPlume"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/general_plume"/>
+                android:background="@android:color/transparent"
+                android:src="@drawable/general_plume" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -47,8 +50,9 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -56,6 +60,7 @@
                 android:id="@+id/ibGeneralFire"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
                 android:src="@drawable/general_fire"/>
 
             <TextView
@@ -69,7 +74,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content">
 
             <ImageButton
@@ -78,6 +83,7 @@
                 android:id="@+id/ibGeneralExplosion"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
                 android:src="@drawable/general_explosion"/>
 
             <TextView
