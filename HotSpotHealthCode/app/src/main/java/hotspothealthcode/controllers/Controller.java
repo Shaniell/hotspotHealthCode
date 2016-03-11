@@ -2,6 +2,7 @@ package hotspothealthcode.controllers;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.concurrent.ExecutionException;
@@ -15,6 +16,7 @@ import hotspothealthcode.BL.AtmosphericConcentration.PlumeAtmosphericConcentrati
 import hotspothealthcode.BL.AtmosphericConcentration.TerrainType;
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 import hotspothealthcode.BL.Models.Weather;
+import hotspothealthcode.BL.StorageAccess.StorageAccessor;
 import hotspothealthcode.BL.Weather.WeatherManager;
 
 /**
@@ -81,10 +83,14 @@ public class Controller
         return OutputResult.getInstance();
     }
 
-    public static OutputResult loadOutputResult()
+    public static OutputResult loadOutputResult(File file)
     {
-        // TODO: IMPLENENT
-        return OutputResult.getInstance();
+        return StorageAccessor.INSTANCE.loadResult(file);
+    }
+
+    public static void saveOutputResult(File file)
+    {
+        StorageAccessor.INSTANCE.saveResult(file, OutputResult.getInstance());
     }
 
     public static ArrayList<Double> getCoordinatesDefaultValues()
