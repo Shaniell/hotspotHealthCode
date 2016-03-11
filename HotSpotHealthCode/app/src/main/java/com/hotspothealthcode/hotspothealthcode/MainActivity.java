@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.hotspothealthcode.hotspothealthcode.*;
+import com.hotspothealthcode.hotspothealthcode.FileActivities.FileLoaderActivity;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -51,7 +52,12 @@ public class MainActivity extends AppCompatActivity{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionLoadResult) {
+
+            Intent FileLoaderIntent = new Intent(getApplicationContext(), FileLoaderActivity.class);
+
+            startActivity(FileLoaderIntent);
+
             return true;
         }
 

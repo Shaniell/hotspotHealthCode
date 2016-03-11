@@ -5,8 +5,8 @@
 
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
-        android:id="@+id/action_continue_to_output"
+        android:id="@+id/action_select_directory"
         android:icon="@drawable/step_good"
-        android:title="Continue to output"
+        android:title="Ok"
         app:showAsAction="ifRoom"/>
 </menu>

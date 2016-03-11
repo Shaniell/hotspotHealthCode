@@ -23,7 +23,7 @@ public class ExplorerItem implements Comparable<ExplorerItem>{
     }
 
     public String getExtension(){
-        return this.name.substring(this.name.lastIndexOf('.'));
+        return this.name.substring(this.name.lastIndexOf('.') + 1);
     }
 
     public String getData()

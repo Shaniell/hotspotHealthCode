@@ -1,5 +1,7 @@
 package hotspothealthcode.BL.AtmosphericConcentration;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
 import org.apache.commons.math3.analysis.integration.MidPointIntegrator;
 import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
@@ -28,6 +30,7 @@ public abstract class AtmosphericConcentration
 
     //region Data Members
 
+    protected LatLng location;
     protected PasquillStability pasquillStability;
     protected MeteorologicalConditions meteorologicalCondition;
     protected double referenceHeight;
@@ -49,6 +52,10 @@ public abstract class AtmosphericConcentration
     //endregion
 
     //region setters
+
+    public void setLocation(LatLng location) {
+        this.location = location;
+    }
 
     public void setPasquillStability(PasquillStability pasquillStability) {
         this.pasquillStability = pasquillStability;
@@ -556,6 +563,7 @@ public abstract class AtmosphericConcentration
 
         outputResult.setResults(results);
 
+        outputResult.addValue(ResultField.LOCATION, this.location);
         outputResult.addValue(ResultField.WIND_SPEED, this.windSpeedAtReferenceHeight);
         outputResult.addValue(ResultField.WIND_DIRECTION, this.windDirection);
         outputResult.addValue(ResultField.STABILITY_TYPE, this.pasquillStability.getStabilityType());

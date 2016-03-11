@@ -97,6 +97,9 @@ public abstract class StepperActivity extends AppCompatActivity {
     {
         this.initCalculationObject();
 
+        // Set location
+        this.calcConcentration.setLocation(Controller.getCurrentLocation());
+
         // Get all the data from ths steps
         for(Map.Entry<Integer, StepView> entry: this.steps.entrySet())
         {

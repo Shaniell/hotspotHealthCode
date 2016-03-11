@@ -21,4 +21,25 @@ public enum ModelType
     {
         return this.type;
     }
+
+    public static ModelType getModelType(String modelType){
+        switch (modelType)
+        {
+            case "General Plume":
+            {
+                return GENERAL_PLUME;
+            }
+            case "General Fire":
+            {
+                return GENERAL_FIRE;
+            }
+            case "General Explosion":
+            {
+                return GENERAL_EXPLOSION;
+            }
+            default:{
+                return null;
+            }
+        }
+    }
 }

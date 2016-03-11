@@ -1,5 +1,6 @@
 package com.hotspothealthcode.hotspothealthcode;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.hotspothealthcode.hotspothealthcode.FileActivities.SaveFileActivity;
 import com.hotspothealthcode.hotspothealthcode.fragments.OutputDetailsFragment;
 import com.hotspothealthcode.hotspothealthcode.fragments.OutputMapFragment;
 import com.hotspothealthcode.hotspothealthcode.fragments.OutputTableFragment;
@@ -65,29 +67,7 @@ public class OutputActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.output_tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        // TODO: GET REAL RESULTS
         this.outputResult = Controller.getOutputResultInstance();
-
-/*        this.outputResult.addValue(ResultField.MODEL_TYPE, "General plume");
-        this.outputResult.addValue(ResultField.WIND_SPEED, 3.5);
-        this.outputResult.addValue(ResultField.WIND_DIRECTION, 270.7);
-        this.outputResult.addValue(ResultField.STABILITY_TYPE, PasquillStabilityType.TYPE_A);
-        this.outputResult.addValue(ResultField.METEOROLOGICAL_CONDITION, MeteorologicalConditions.SUN_HIGH_IN_SKY);
-
-        ArrayList<ConcentrationResult> tempResults = new ArrayList<>();
-
-        ConcentrationResult result = new ConcentrationResult(new ConcentrationPoint(5000, 1000.5, 1.5),
-                                                                                    1234567,
-                                                                                    380);
-
-        ConcentrationResult result2 = new ConcentrationResult(new ConcentrationPoint(20000, 2000.5, 1.8),
-                                                                                    1234567,
-                                                                                    400);
-
-        tempResults.add(result);
-        tempResults.add(result2);
-
-        this.outputResult.setResults(tempResults);*/
 
         this.outputDetailsFragment = new OutputDetailsFragment();
         this.outputResultsFragment = new OutputTableFragment();
@@ -107,7 +87,12 @@ public class OutputActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_save) {
+
+            Intent directoryChooserIntent = new Intent(getApplicationContext(), SaveFileActivity.class);
+
+            startActivity(directoryChooserIntent);
+
             return true;
         }
 

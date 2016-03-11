@@ -45,6 +45,11 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".OutputActivity"
@@ -76,13 +81,21 @@
         </activity>
 
         <activity
+            android:theme="@android:style/Theme.Holo.Light.Dialog"
+            android:name=".FileActivities.SaveFileActivity"
+            android:label="Save Result" >
+
+        </activity>
+
+        <activity
             android:name=".FileActivities.FileLoaderActivity"
             android:label="Choose File" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".FileActivities.DirectoryChooserActivity"
+            android:label="Choose File" >
 
         </activity>
     </application>

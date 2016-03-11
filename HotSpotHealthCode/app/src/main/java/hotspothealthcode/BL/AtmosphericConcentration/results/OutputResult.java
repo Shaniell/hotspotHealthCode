@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import hotspothealthcode.BL.AtmosphericConcentration.PasquillStabilityType;
+
 /**
  * Created by Giladl on 08/02/2016.
  */
@@ -70,7 +72,13 @@ public class OutputResult
                 }
                 case MODEL_TYPE:
                 {
-                    obj = (ModelType)jsonObject.get(resultField.toString());
+                    obj = ModelType.getModelType(jsonObject.get(resultField.toString()).toString());
+
+                    break;
+                }
+                case STABILITY_TYPE:
+                {
+                    obj = PasquillStabilityType.getStabilityType(jsonObject.get(resultField.toString()).toString());
 
                     break;
                 }

@@ -5,7 +5,8 @@
     <ImageView
         android:id="@+id/imgItem"
         android:layout_width="50dip"
-        android:layout_height="50dip" >
+        android:layout_height="50dip"
+        android:tint="?android:attr/colorPrimary">
     </ImageView>
 
     <TextView android:text="@+id/tvFileName"

@@ -1,14 +1,11 @@
 package com.hotspothealthcode.hotspothealthcode.FileActivities;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,10 +16,15 @@ import com.hotspothealthcode.hotspothealthcode.R;
 
 import org.json.JSONException;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import hotspothealthcode.BL.Models.ExplorerItem;
 import hotspothealthcode.controllers.Controller;
 
-public class FileLoaderActivity extends AppCompatActivity {
+public class DirectoryChooserActivity extends AppCompatActivity {
 
     private File currentDir;
     private FileArrayAdapter adapter;
@@ -32,13 +34,49 @@ public class FileLoaderActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.file_chooser_layout);
+        setContentView(R.layout.directory_chooser_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
 
         currentDir = new File("/sdcard/");
+
         fill(currentDir);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.directory_chooser_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_select_directory:
+
+                Intent intent = new Intent();
+                intent.putExtra("path", currentDir.toString());
+
+                setResult(RESULT_OK, intent);
+
+                finish();
+
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     private void fill(File f)
@@ -120,25 +158,12 @@ public class FileLoaderActivity extends AppCompatActivity {
     {
         if (o.getExtension().equalsIgnoreCase("json")) {
             Intent intent = new Intent();
+
             intent.putExtra("path", currentDir.toString());
             intent.putExtra("fileName", o.getName());
             setResult(RESULT_OK, intent);
 
-            File file = new File(this.currentDir, o.getName());
-
-            try
-            {
-                Controller.loadOutputResult(file);
-
-                Intent outputIntent = new Intent(getApplicationContext(), OutputActivity.class);
-
-                startActivity(outputIntent);
-            }
-            catch (JSONException e) {
-                Toast.makeText(this, "File not it the right format", Toast.LENGTH_SHORT).show();
-            }
-
-            //finish();
+            finish();
         }
         else
         {

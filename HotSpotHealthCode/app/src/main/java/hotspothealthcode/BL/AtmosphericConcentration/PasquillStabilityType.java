@@ -40,6 +40,45 @@ public enum PasquillStabilityType
         return lst;
     }
 
+    public static PasquillStabilityType getStabilityType(String stabilityType)
+    {
+        switch (stabilityType)
+        {
+            case "A: Very unstable":
+            {
+                return TYPE_A;
+            }
+
+            case "B: Moderately unstable":
+            {
+                return TYPE_B;
+            }
+
+            case "C: Slightly unstable":
+            {
+                return TYPE_C;
+            }
+
+            case "D: Neutral":
+            {
+                return TYPE_D;
+            }
+
+            case "E: Slightly stable":
+            {
+                return TYPE_E;
+            }
+
+            case "F: Moderately stable":
+            {
+                return TYPE_F;
+            }
+            default:{
+                return null;
+            }
+        }
+    }
+
     @Override
     public String toString()
     {

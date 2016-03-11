@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,18 +24,22 @@ public enum StorageAccessor
 
     public OutputResult loadResult(File file)
     {
-        FileReader reader = null;
-
+        BufferedReader bufferedReader = null;
         OutputResult result = null;
 
         try {
-            reader = new FileReader(file);
+            bufferedReader = new BufferedReader(new FileReader(file));
 
-            char[] buffer = new char[256];
+            String line;
+            StringBuilder text = new StringBuilder();
 
-            reader.read(buffer);
+            // While there are lines to read, read them
+            while ((line = bufferedReader.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
 
-            result = OutputResult.instantiateFromJSON(new JSONObject(buffer.toString()));
+            result = OutputResult.instantiateFromJSON(new JSONObject(text.toString()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -43,7 +48,7 @@ public enum StorageAccessor
             e.printStackTrace();
         } finally {
             try {
-                reader.close();
+                bufferedReader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

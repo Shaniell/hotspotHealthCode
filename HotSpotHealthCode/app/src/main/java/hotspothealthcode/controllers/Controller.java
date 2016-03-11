@@ -2,6 +2,8 @@ package hotspothealthcode.controllers;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONException;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -83,7 +85,7 @@ public class Controller
         return OutputResult.getInstance();
     }
 
-    public static OutputResult loadOutputResult(File file)
+    public static OutputResult loadOutputResult(File file) throws JSONException
     {
         return StorageAccessor.INSTANCE.loadResult(file);
     }
