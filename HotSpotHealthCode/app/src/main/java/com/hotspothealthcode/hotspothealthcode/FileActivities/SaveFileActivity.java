@@ -56,6 +56,13 @@ public class SaveFileActivity extends Activity {
             public void onClick(View v) {
 
                 if ((!filePath.getText().toString().matches("")) && (!fileName.getText().toString().matches(""))) {
+
+                    // Check if the file name contains ".json"
+                    if (!fileName.getText().toString().contains(".json"))
+                    {
+                        fileName.setText(fileName.getText().toString().concat(".json"));
+                    }
+
                     File file = new File(filePath.getText().toString(), fileName.getText().toString());
 
                     Controller.saveOutputResult(file);
