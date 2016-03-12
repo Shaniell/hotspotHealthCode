@@ -195,4 +195,9 @@ public class MeteorologyStepView extends StepView
         calcConcentration.setWindSpeedAtReferenceHeight(Double.parseDouble(this.windSpeed.getText().toString()));
         calcConcentration.setPasquillStability(new PasquillStability((PasquillStabilityType) this.stability.getSelectedItem()));
     }
+
+    @Override
+    public void saveFieldsToSharedPreferences(Context context) {
+
+    }
 }

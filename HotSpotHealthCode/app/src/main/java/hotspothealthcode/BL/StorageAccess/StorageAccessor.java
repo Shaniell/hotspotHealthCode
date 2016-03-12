@@ -1,5 +1,9 @@
 package hotspothealthcode.BL.StorageAccess;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.ArraySet;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,6 +16,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 
@@ -21,6 +28,8 @@ import hotspothealthcode.BL.AtmosphericConcentration.results.OutputResult;
 public enum StorageAccessor
 {
     INSTANCE;
+
+    private static final String PREFS_NAME = "CalculationPrefFile";
 
     public OutputResult loadResult(File file)
     {
@@ -79,5 +88,47 @@ public enum StorageAccessor
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean saveValueToSharedPreferences(Context context, String key, String value)
+    {
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+
+        editor.putString(key, value);
+
+        return editor.commit();
+    }
+
+    public boolean saveValuesToSharedPreferences(Context context, String key, ArrayList<String> values)
+    {
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+
+        Set<String> set = new HashSet<>();
+
+        for (String value: values) {
+            set.add(value);
+        }
+
+        editor.putStringSet(key, set);
+
+        return editor.commit();
+    }
+
+    public String getValueFromSharedPreferences(Context context, String key)
+    {
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+
+        return settings.getString(key, "");
+    }
+
+    public ArrayList<String> getValuesFromSharedPreferences(Context context, String key)
+    {
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+
+        Set<String> set = settings.getStringSet(key, new HashSet<String>());
+
+        return new ArrayList<>(set);
     }
 }

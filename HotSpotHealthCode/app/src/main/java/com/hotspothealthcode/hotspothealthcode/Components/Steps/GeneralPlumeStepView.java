@@ -231,4 +231,9 @@ public class GeneralPlumeStepView extends StepView
             }
         }
     }
+
+    @Override
+    public void saveFieldsToSharedPreferences(Context context) {
+
+    }
 }

@@ -1,5 +1,9 @@
 package hotspothealthcode.controllers;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.ArraySet;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
@@ -7,6 +11,7 @@ import org.json.JSONException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
@@ -119,5 +124,25 @@ public class Controller
         Controller.calcConcentration = calcConcentration;
 
         Controller.calcConcentration.calcAtmosphericConcentration();
+    }
+
+    public static boolean saveValueToSharedPreferences(Context context, String key, String value)
+    {
+        return StorageAccessor.INSTANCE.saveValueToSharedPreferences(context, key, value);
+    }
+
+    public static boolean saveValuesToSharedPreferences(Context context, String key, ArrayList<String> values)
+    {
+        return StorageAccessor.INSTANCE.saveValuesToSharedPreferences(context, key, values);
+    }
+
+    public static String getValueFromSharedPreferences(Context context, String key)
+    {
+        return StorageAccessor.INSTANCE.getValueFromSharedPreferences(context, key);
+    }
+
+    public static ArrayList<String> getValuesFromSharedPreferences(Context context, String key)
+    {
+        return StorageAccessor.INSTANCE.getValuesFromSharedPreferences(context, key);
     }
 }

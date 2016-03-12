@@ -2,17 +2,13 @@ package com.hotspothealthcode.hotspothealthcode.Components.Steps;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.hotspothealthcode.hotspothealthcode.R;
 
 import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
 import hotspothealthcode.BL.AtmosphericConcentration.ExplosionAtmosphericConcentration;
-import hotspothealthcode.BL.AtmosphericConcentration.TerrainType;
-import hotspothealthcode.controllers.Controller;
 
 /**
  * Created by Giladl on 16/01/2016.
@@ -64,5 +60,10 @@ public class GeneralExplosionStepView extends StepView
         concentration.setSourceTerm(Double.parseDouble(this.materialAtRisk.getText().toString()));
         concentration.setExplosiveAmount(Double.parseDouble(this.explosiveAmount.getText().toString()));
         concentration.setIsGreenField(this.isGreenField.isChecked());
+    }
+
+    @Override
+    public void saveFieldsToSharedPreferences(Context context) {
+
     }
 }

@@ -161,6 +161,11 @@ public class CoordinatesStepView extends StepView
         calcConcentration.setConcentrationPoints(points);
     }
 
+    @Override
+    public void saveFieldsToSharedPreferences(Context context) {
+
+    }
+
     private class CoordinateRow
     {
         private int rowNumber;

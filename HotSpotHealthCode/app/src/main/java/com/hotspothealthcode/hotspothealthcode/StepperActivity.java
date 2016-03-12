@@ -86,10 +86,20 @@ public abstract class StepperActivity extends AppCompatActivity {
 
             Controller.setCalcConcentration(this.calcConcentration);
 
-            // Go to output activity
-            Intent outpotActivityIntent = new Intent(getApplicationContext(), OutputActivity.class);
+            saveFieldsToSharedPreferences();
 
-            startActivity(outpotActivityIntent);
+            // Go to output activity
+            Intent outputActivityIntent = new Intent(getApplicationContext(), OutputActivity.class);
+
+            startActivity(outputActivityIntent);
+        }
+    }
+
+    private void saveFieldsToSharedPreferences()
+    {
+        for(Map.Entry<Integer, StepView> entry: this.steps.entrySet())
+        {
+            entry.getValue().saveFieldsToSharedPreferences(getApplicationContext());
         }
     }
 

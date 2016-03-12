@@ -21,7 +21,7 @@ public class AdditionalDataStepView extends StepView
     private EditText sampleTime;
     private EditText refereneHeight;
     private EditText surfaceRoughnessHeight;
-    private EditText Dfx;
+    private EditText dfx;
 
     public AdditionalDataStepView(Context context, int stepNumber, String title, int contentViewId) {
         super(context, stepNumber, title, contentViewId);
@@ -48,13 +48,19 @@ public class AdditionalDataStepView extends StepView
         this.sampleTime = (EditText)findViewById(R.id.etSampleTime);
         this.refereneHeight = (EditText)findViewById(R.id.etReferenceHeight);
         this.surfaceRoughnessHeight = (EditText)findViewById(R.id.etSurfaceRoughnessHeight);
-        this.Dfx = (EditText)findViewById(R.id.etDfx);
+        this.dfx = (EditText)findViewById(R.id.etDfx);
 
         // Set default values
         this.sampleTime.setText("10");
         this.refereneHeight.setText("10");
         this.surfaceRoughnessHeight.setText("3");
-        this.Dfx.setText("0.025");
+
+        String dfx = Controller.getValueFromSharedPreferences(context, "dfx");
+
+        if (dfx.equals(""))
+            this.dfx.setText("0.025");
+        else
+            this.dfx.setText(dfx);
 
         // Fill terrain types
         this.terrainType.setAdapter(new ArrayAdapter<TerrainType>(context,
@@ -77,6 +83,11 @@ public class AdditionalDataStepView extends StepView
         calcConcentration.setReferenceHeight(Double.parseDouble(this.refereneHeight.getText().toString()));
         calcConcentration.setSurfaceRoughnessHeight(Double.parseDouble(this.surfaceRoughnessHeight.getText().toString()));
         calcConcentration.setTerrainType((TerrainType) this.terrainType.getSelectedItem());
-        calcConcentration.setDfx(Double.parseDouble(this.Dfx.getText().toString()));
+        calcConcentration.setDfx(Double.parseDouble(this.dfx.getText().toString()));
+    }
+
+    @Override
+    public void saveFieldsToSharedPreferences(Context context) {
+        Controller.saveValueToSharedPreferences(context, "dfx", this.dfx.getText().toString());
     }
 }

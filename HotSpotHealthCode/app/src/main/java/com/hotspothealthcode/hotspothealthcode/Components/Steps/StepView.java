@@ -216,4 +216,6 @@ public abstract class StepView extends GridLayout {
     protected abstract boolean validateData();
 
     public abstract void setFieldsToCalculate(AtmosphericConcentration calcConcentration);
+
+    public abstract void saveFieldsToSharedPreferences(Context context);
 }

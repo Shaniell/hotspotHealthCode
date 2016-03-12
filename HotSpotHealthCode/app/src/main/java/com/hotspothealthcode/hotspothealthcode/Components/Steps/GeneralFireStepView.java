@@ -173,4 +173,9 @@ public class GeneralFireStepView extends StepView
             }
         }
     }
+
+    @Override
+    public void saveFieldsToSharedPreferences(Context context) {
+
+    }
 }
