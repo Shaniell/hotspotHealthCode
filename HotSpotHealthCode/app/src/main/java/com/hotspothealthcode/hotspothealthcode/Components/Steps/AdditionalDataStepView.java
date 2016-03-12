@@ -31,6 +31,7 @@ public class AdditionalDataStepView extends StepView
     private EditText sampleTime;
     private EditText refereneHeight;
     private EditText surfaceRoughnessHeight;
+    private EditText Dfx;
 
     public AdditionalDataStepView(Context context, int stepNumber, String title, int contentViewId) {
         super(context, stepNumber, title, contentViewId);
@@ -57,11 +58,13 @@ public class AdditionalDataStepView extends StepView
         this.sampleTime = (EditText)findViewById(R.id.etSampleTime);
         this.refereneHeight = (EditText)findViewById(R.id.etReferenceHeight);
         this.surfaceRoughnessHeight = (EditText)findViewById(R.id.etSurfaceRoughnessHeight);
+        this.Dfx = (EditText)findViewById(R.id.etDfx);
 
         // Set default values
         this.sampleTime.setText("10");
         this.refereneHeight.setText("10");
         this.surfaceRoughnessHeight.setText("3");
+        this.Dfx.setText("0.025");
 
         // Fill terrain types
         this.terrainType.setAdapter(new ArrayAdapter<TerrainType>(context,
@@ -83,6 +86,7 @@ public class AdditionalDataStepView extends StepView
         calcConcentration.setSampleTime(Integer.parseInt(this.sampleTime.getText().toString()));
         calcConcentration.setReferenceHeight(Double.parseDouble(this.refereneHeight.getText().toString()));
         calcConcentration.setSurfaceRoughnessHeight(Double.parseDouble(this.surfaceRoughnessHeight.getText().toString()));
-        calcConcentration.setTerrainType((TerrainType)this.terrainType.getSelectedItem());
+        calcConcentration.setTerrainType((TerrainType) this.terrainType.getSelectedItem());
+        calcConcentration.setDFX(Double.parseDouble(this.Dfx.getText().toString()));
     }
 }

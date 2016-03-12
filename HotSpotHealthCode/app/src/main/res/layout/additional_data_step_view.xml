@@ -68,4 +68,19 @@
         android:layout_column="1"
         android:theme="@style/AppTheme"/>
 
+    <TextView android:text="Dfx"
+        android:id="@+id/tvDfx"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginRight="2dp"
+        android:layout_row="4"
+        android:layout_column="0"/>
+    <EditText
+        android:id="@+id/etDfx"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:layout_width="150dp"
+        android:layout_row="4"
+        android:layout_column="1"
+        android:hint="Plume Depletion factor" />
+
 </GridLayout>

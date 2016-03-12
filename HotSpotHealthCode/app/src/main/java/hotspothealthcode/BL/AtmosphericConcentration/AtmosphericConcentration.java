@@ -24,7 +24,7 @@ public abstract class AtmosphericConcentration
     //region Static constants
 
     protected static final double G = 9.8; // gravitational acceleration (9.8 m/s2)
-    protected static final double DFX = 0.025; // DF(x) = Plume Depletion factor
+    protected static double DFX = 0.025; // DF(x) = Plume Depletion factor
 
     //endregion
 
@@ -55,6 +55,10 @@ public abstract class AtmosphericConcentration
 
     public void setLocation(LatLng location) {
         this.location = location;
+    }
+
+    public void setDFX(double Dfx) {
+        this.DFX = Dfx;
     }
 
     public void setPasquillStability(PasquillStability pasquillStability) {
