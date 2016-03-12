@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,6 +33,7 @@ import hotspothealthcode.controllers.Controller;
 public class OutputMapFragment extends Fragment
 {
     private OutputResult outputResult;
+    private MapView mapView;
     private GoogleMap outputMap;
 
     @Override
@@ -41,22 +43,26 @@ public class OutputMapFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_output_map, container, false);
 
         // Get map view and map
-        MapView mapView = (MapView)rootView.findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
-
-        mapView.onResume();
-
-        this.outputMap = mapView.getMap();
-        UiSettings uiSettings = this.outputMap.getUiSettings();
-
-        uiSettings.setZoomControlsEnabled(true);
-        uiSettings.setZoomGesturesEnabled(true);
-        uiSettings.setScrollGesturesEnabled(true);
-        uiSettings.setMapToolbarEnabled(false);
+        this.mapView = (MapView)rootView.findViewById(R.id.mapView);
+        this.mapView.onCreate(savedInstanceState);
 
         this.outputResult = Controller.getOutputResultInstance();
 
-        this.drawResultsToMap();
+        this.mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                outputMap = googleMap;
+
+                UiSettings uiSettings = outputMap.getUiSettings();
+
+                uiSettings.setZoomControlsEnabled(true);
+                uiSettings.setZoomGesturesEnabled(true);
+                uiSettings.setScrollGesturesEnabled(true);
+                uiSettings.setMapToolbarEnabled(false);
+
+                drawResultsToMap();
+            }
+        });
 
         return rootView;
     }
@@ -110,5 +116,33 @@ public class OutputMapFragment extends Fragment
         polylineOptions.add(pos, res);
 
         this.outputMap.addPolyline(polylineOptions);*/
+    }
+
+    @Override
+    public void onResume() {
+        this.mapView.onResume();
+
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        this.mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        this.mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+
+        this.mapView.onLowMemory();
     }
 }

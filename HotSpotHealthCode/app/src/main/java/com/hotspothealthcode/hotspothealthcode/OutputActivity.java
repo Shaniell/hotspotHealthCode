@@ -36,9 +36,9 @@ public class OutputActivity extends AppCompatActivity {
 
     private final int TABS_NUM = 3;
 
-    private OutputDetailsFragment outputDetailsFragment = new OutputDetailsFragment();
-    private OutputTableFragment outputResultsFragment = new OutputTableFragment();
-    private OutputMapFragment outputMapFragment = new OutputMapFragment();
+    private OutputDetailsFragment outputDetailsFragment;
+    private OutputTableFragment outputResultsFragment;
+    private OutputMapFragment outputMapFragment;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private OutputResult outputResult;
@@ -56,6 +56,12 @@ public class OutputActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.output_toolbar);
         setSupportActionBar(toolbar);
 
+        this.outputResult = Controller.getOutputResultInstance();
+
+        this.outputDetailsFragment = new OutputDetailsFragment();
+        this.outputResultsFragment = new OutputTableFragment();
+        this.outputMapFragment = new OutputMapFragment();
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -66,12 +72,6 @@ public class OutputActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.output_tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        this.outputResult = Controller.getOutputResultInstance();
-
-        this.outputDetailsFragment = new OutputDetailsFragment();
-        this.outputResultsFragment = new OutputTableFragment();
-        this.outputMapFragment = new OutputMapFragment();
     }
 
 

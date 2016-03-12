@@ -66,6 +66,10 @@ public class Controller
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         return null;
     }
