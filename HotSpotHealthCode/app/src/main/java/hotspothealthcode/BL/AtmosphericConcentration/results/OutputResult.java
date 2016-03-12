@@ -66,7 +66,9 @@ public class OutputResult
             {
                 case LOCATION:
                 {
-                    obj = (LatLng)jsonObject.get(resultField.toString());
+                    JSONObject location = jsonObject.getJSONObject(resultField.toString());
+
+                    obj = new LatLng(location.getDouble("lat"), location.getDouble("lng"));
 
                     break;
                 }
@@ -119,7 +121,19 @@ public class OutputResult
         // Convert values to JSON object
         for (Entry<ResultField, Object> entry : this.values.entrySet())
         {
-            jsonObject.put(entry.getKey().toString(), entry.getValue());
+            if (entry.getKey().toString().equalsIgnoreCase("location"))
+            {
+                JSONObject location = new JSONObject();
+                LatLng latLng = (LatLng)entry.getValue();
+
+                location.put("lat", latLng.latitude);
+                location.put("lng", latLng.longitude);
+
+                jsonObject.put(entry.getKey().toString(), location);
+            }
+            else {
+                jsonObject.put(entry.getKey().toString(), entry.getValue());
+            }
         }
 
         JSONArray array = new JSONArray();

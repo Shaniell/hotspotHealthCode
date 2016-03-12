@@ -2,9 +2,6 @@ package hotspothealthcode.BL.AtmosphericConcentration;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
-import org.apache.commons.math3.analysis.integration.MidPointIntegrator;
-import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
 import org.apache.commons.math3.analysis.integration.TrapezoidIntegrator;
 import org.apache.commons.math3.analysis.integration.UnivariateIntegrator;
 
@@ -24,7 +21,6 @@ public abstract class AtmosphericConcentration
     //region Static constants
 
     protected static final double G = 9.8; // gravitational acceleration (9.8 m/s2)
-    protected static double DFX = 0.025; // DF(x) = Plume Depletion factor
 
     //endregion
 
@@ -41,6 +37,7 @@ public abstract class AtmosphericConcentration
     protected TerrainType terrainType;
     protected double sourceTerm;
     protected ArrayList<ConcentrationPoint> concentrationPoints;
+    protected double dfx = 0.025;
 
     private Double dy;
     private Double dz;
@@ -57,8 +54,8 @@ public abstract class AtmosphericConcentration
         this.location = location;
     }
 
-    public void setDFX(double Dfx) {
-        this.DFX = Dfx;
+    public void setDfx(double Dfx) {
+        this.dfx = Dfx;
     }
 
     public void setPasquillStability(PasquillStability pasquillStability) {
@@ -139,7 +136,7 @@ public abstract class AtmosphericConcentration
         retVal *= Math.exp(-0.5 * Math.pow(point.getY() / sigmaY, 2));
         retVal *= (Math.exp(-0.5 * Math.pow((point.getZ() - effectiveReleaseHeight) / sigmaZ, 2)) +
                 Math.exp(-0.5 * Math.pow((point.getZ() + effectiveReleaseHeight) / sigmaZ, 2)));
-        retVal *= Math.exp((-point.getX()) / windSpeedAtHeight) * AtmosphericConcentration.DFX;
+        retVal *= Math.exp((-point.getX()) / windSpeedAtHeight) * this.dfx;
 
         return retVal;
     }
@@ -172,7 +169,7 @@ public abstract class AtmosphericConcentration
         retVal = sourceTerm / (Math.sqrt(2 * Math.PI) * sigmaY * inversionHeight * windSpeedAtHeight);
 
         retVal *= Math.exp(-0.5 * Math.pow(point.getY() / sigmaY, 2));
-        retVal *= Math.exp((-point.getX()) / windSpeedAtHeight) * AtmosphericConcentration.DFX;
+        retVal *= Math.exp((-point.getX()) / windSpeedAtHeight) * this.dfx;
 
         return retVal;
     }
@@ -369,11 +366,11 @@ public abstract class AtmosphericConcentration
         switch (terrainType)
         {
             case STANDARD_TERRAIN: {
-                return this.calcVirtualSourceDistanceForSigmaYStandardTerrain(guess, sigmaZ);
+                return this.calcVirtualSourceDistanceForSigmaZStandardTerrain(guess, sigmaZ);
             }
 
             case CITY_TERRAIN: {
-                return this.calcVirtualSourceDistanceForSigmaYCityTerrain(guess, sigmaZ);
+                return this.calcVirtualSourceDistanceForSigmaZCityTerrain(guess, sigmaZ);
             }
         }
 
@@ -571,7 +568,6 @@ public abstract class AtmosphericConcentration
         outputResult.addValue(ResultField.WIND_SPEED, this.windSpeedAtReferenceHeight);
         outputResult.addValue(ResultField.WIND_DIRECTION, this.windDirection);
         outputResult.addValue(ResultField.STABILITY_TYPE, this.pasquillStability.getStabilityType());
-        outputResult.addValue(ResultField.METEOROLOGICAL_CONDITION, this.meteorologicalCondition);
 
         return outputResult;
     }

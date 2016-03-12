@@ -1,25 +1,15 @@
 package com.hotspothealthcode.hotspothealthcode.Components.Steps;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.hotspothealthcode.hotspothealthcode.R;
 
 import hotspothealthcode.BL.AtmosphericConcentration.AtmosphericConcentration;
-import hotspothealthcode.BL.AtmosphericConcentration.MeteorologicalConditions;
-import hotspothealthcode.BL.AtmosphericConcentration.PasquillStability;
-import hotspothealthcode.BL.AtmosphericConcentration.PasquillStabilityType;
 import hotspothealthcode.BL.AtmosphericConcentration.TerrainType;
-import hotspothealthcode.BL.Models.Weather;
 import hotspothealthcode.controllers.Controller;
 
 /**
@@ -87,6 +77,6 @@ public class AdditionalDataStepView extends StepView
         calcConcentration.setReferenceHeight(Double.parseDouble(this.refereneHeight.getText().toString()));
         calcConcentration.setSurfaceRoughnessHeight(Double.parseDouble(this.surfaceRoughnessHeight.getText().toString()));
         calcConcentration.setTerrainType((TerrainType) this.terrainType.getSelectedItem());
-        calcConcentration.setDFX(Double.parseDouble(this.Dfx.getText().toString()));
+        calcConcentration.setDfx(Double.parseDouble(this.Dfx.getText().toString()));
     }
 }

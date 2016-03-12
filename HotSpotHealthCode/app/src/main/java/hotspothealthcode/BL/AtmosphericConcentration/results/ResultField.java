@@ -11,7 +11,6 @@ public enum ResultField
     STABILITY_TYPE("stabilityType"),
     WIND_SPEED("windSpeed"),
     WIND_DIRECTION("windDirection"),
-    METEOROLOGICAL_CONDITION("meteorologicalCondition"),
     LOCATION("location");
 
     private final String fieldName;
@@ -29,7 +28,6 @@ public enum ResultField
         lst.add(STABILITY_TYPE);
         lst.add(WIND_SPEED);
         lst.add(WIND_DIRECTION);
-        lst.add(METEOROLOGICAL_CONDITION);
         lst.add(LOCATION);
 
         return lst;

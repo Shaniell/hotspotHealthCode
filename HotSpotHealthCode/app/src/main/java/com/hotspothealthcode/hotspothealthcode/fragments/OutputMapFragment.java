@@ -63,7 +63,7 @@ public class OutputMapFragment extends Fragment
 
     private void drawResultsToMap()
     {
-        LatLng pos = Controller.getCurrentLocation();
+        LatLng pos = (LatLng)this.outputResult.getValue(ResultField.LOCATION);
 
         double windDirection = Double.parseDouble(outputResult.getValue(ResultField.WIND_DIRECTION).toString());
 
