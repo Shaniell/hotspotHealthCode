@@ -3,8 +3,11 @@ package com.hotspothealthcode.hotspothealthcode;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.animation.AnimatorCompatHelper;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -32,7 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import hotspothealthcode.controllers.Controller;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener  {
 
     private GoogleMap mMap;
     AutoCompleteTextView txtSearchBox;
@@ -112,6 +115,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
         }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.maps_toolbar);
+        toolbar.setTitle("Hotspot Health Code");
 
         extras = getIntent().getExtras();
         if (extras != null) {
