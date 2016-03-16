@@ -94,6 +94,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
+                mMap.clear();
                 SelectedLocation = place.getLatLng();
                 mMap.addMarker(new MarkerOptions().position(SelectedLocation).title(place.getName().toString()));
                 //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
@@ -149,6 +150,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
+                mMap.clear();
+
                 Place place = PlacePicker.getPlace(data, this);
                 SelectedLocation = place.getLatLng();
                 mMap.addMarker(new MarkerOptions().position(SelectedLocation).title(place.getName().toString()));
@@ -176,6 +179,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onMapLongClick(LatLng latLng) {
+
+                mMap.clear();
+
                 mMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .anchor((float) 0.5, (float) 0.5));
