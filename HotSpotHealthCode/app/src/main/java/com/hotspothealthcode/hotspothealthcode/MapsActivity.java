@@ -51,7 +51,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Bundle extras;
     Intent NextIntent;
     LatLng SelectedLocation;
-    Button btnNext;
 
     int PLACE_PICKER_REQUEST = 1;
 
@@ -65,19 +64,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         //txtSearchBox = (AutoCompleteTextView) findViewById(R.id.txtSearchPlace);
-
-        btnNext = (Button)findViewById(R.id.btnNext);
-        btnNext.setVisibility(View.GONE);
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent mapsActivity = new Intent(getApplicationContext(), MapsActivity.class);
-
-                Controller.init(SelectedLocation);
-
-                startActivity(NextIntent);
-            }
-        });
 
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
@@ -100,8 +86,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
                 //Log.i("a", "Place: " + place.getName());
-
-                btnNext.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -159,8 +143,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 15));
                 //Log.i("a", "Place: " + place.getName());
-
-                btnNext.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -188,7 +170,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .anchor((float) 0.5, (float) 0.5));
 
                 SelectedLocation = latLng;
-                btnNext.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -218,6 +199,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Controller.init(SelectedLocation);
 
             startActivity(NextIntent);
+        }
+        else{
+            Toast.makeText(this, "Please choose a location", Toast.LENGTH_SHORT).show();
         }
 
 //        int id = item.getItemId();

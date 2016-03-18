@@ -30,13 +30,6 @@
         <!--android:layout_gravity="center_horizontal|top"-->
         <!--android:hint="Search HotSpot Place" />-->
 
-    <Button
-        android:layout_width="156dp"
-        android:layout_height="79dp"
-        android:text="Next"
-        android:id="@+id/btnNext"
-        android:layout_gravity="right|bottom" />
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/maps_toolbar"
         android:layout_width="match_parent"
