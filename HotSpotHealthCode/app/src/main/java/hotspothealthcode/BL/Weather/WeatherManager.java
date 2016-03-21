@@ -53,7 +53,16 @@ public enum WeatherManager {
         {
             JSONObject weatherJSON = jsonObject.getJSONArray("weather").getJSONObject(0);
             JSONObject mainJSON = jsonObject.getJSONObject("main");
-            JSONObject windJSON = jsonObject.getJSONObject("wind");
+
+            JSONObject windJSON;
+
+            if (jsonObject.has("wind")) {
+                windJSON = jsonObject.getJSONObject("wind");
+            }
+            else
+            {
+                windJSON = new JSONObject("{deg: 0, speed: 0}");
+            }
 
             Weather weather = new Weather(mainJSON.getDouble("temp"),
                                           windJSON.getDouble("deg"),
