@@ -31,7 +31,6 @@ public abstract class StepView extends GridLayout {
 
     protected View stepIcon;
     protected Button stepContinueBtn;
-    protected Button stepCancleBtn;
     protected LinearLayout stepContent;
     protected LinearLayout stepContentClosed;
     protected FrameLayout stepContentData;
@@ -71,7 +70,6 @@ public abstract class StepView extends GridLayout {
 
         this.stepIcon = findViewById(R.id.stepIcon);
         this.stepContinueBtn = (Button)findViewById(R.id.stepContinueBtn);
-        this.stepCancleBtn = (Button)findViewById(R.id.stepCancelBtn);
         this.stepContent = (LinearLayout)findViewById(R.id.stepContent);
         this.stepContentClosed = (LinearLayout)findViewById(R.id.stepContentClosed);
         this.stepTitleLayout = (LinearLayout)findViewById(R.id.stepTitleLayout);
