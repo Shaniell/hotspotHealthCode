@@ -75,7 +75,7 @@ public class ExplosionAtmosphericConcentration extends AtmosphericConcentration 
 
     //region Effective Release Height
 
-    private double calcEfficetiveReleaseHeight()
+    private double calcEffectiveReleaseHeight()
     {
         return this.calcCloudTop() * 0.8;
     }
@@ -131,7 +131,7 @@ public class ExplosionAtmosphericConcentration extends AtmosphericConcentration 
     @Override
     public OutputResult calcAtmosphericConcentration() {
 
-        double effectiveReleaseHeight = this.calcEfficetiveReleaseHeight();
+        double effectiveReleaseHeight = this.calcEffectiveReleaseHeight();
 
         double windSpeed = this.calcWindSpeed(this.terrainType, effectiveReleaseHeight);
 
