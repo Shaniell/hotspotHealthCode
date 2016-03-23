@@ -37,7 +37,7 @@ public class BouyantFuelFirePlumeRiseFunc implements UnivariateDifferentiableFun
 
     @Override
     public double value(double x) {
-        return Math.pow(x / (2 * this.referanceHeight), this.p) *
+        return Math.pow(x / (2 * this.referanceHeight), this.p) * this.windSpeedAtReferenceHeight *
                 (x) -
                 (1.6 * Math.pow(this.buoyancyFlux, 1.0 / 3.0) * Math.pow(this.xc, 2.0 / 3.0));
     }

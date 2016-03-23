@@ -63,7 +63,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
     private double calcEmissionRate(double fuelVolume,
                                     int burnDuration)
     {
-        return 2.58 * Math.pow(10, 7) * (fuelVolume / burnDuration);
+        return 2.58 * Math.pow(10.0, 7.0) * (fuelVolume / burnDuration);
     }
     /**
      * The method calculate the Buoyancy Flux
@@ -72,7 +72,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
     private double calcBuoyancyFlux(double emissionRate,
                                     double ta)
     {
-        return 0.011 * emissionRate * ta;
+        return 0.011 * (emissionRate / ta);
     }
 
     /**
@@ -111,7 +111,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
                                                                                                          p,
                                                                                                          x);
 
-            effectiveReleaseHeight = solver.solve(10, bouyantFuelFirePlumeRiseFunc, 0, 100);
+            effectiveReleaseHeight = solver.solve(100, bouyantFuelFirePlumeRiseFunc, 10, 100);
         } else {
 
             if (this.pasquillStability.getStabilityType() == PasquillStabilityType.TYPE_E)
@@ -126,7 +126,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
             effectiveReleaseHeight = 2.6 * Math.pow(buoyancyFlux / (this.windSpeedAtReferenceHeight * s), 1.0 / 3.0);
         }
 
-        effectiveReleaseHeight += Math.pow(Math.pow(effectiveReleaseHeight, 3) + Math.pow(r / 0.6, 3.0), 1.0 / 3.0) -
+        effectiveReleaseHeight = Math.pow(Math.pow(effectiveReleaseHeight, 3.0) + Math.pow(r / 0.6, 3.0), 1.0 / 3.0) -
                                   (r / 0.6);
 
         return effectiveReleaseHeight;
@@ -193,7 +193,7 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
             emissionRate = this.emissionRate;
 
         // Calc buoyancy Flux
-        buoyancyFlux = this.calcBuoyancyFlux(emissionRate, this.airTemp);
+        buoyancyFlux = this.calcBuoyancyFlux(emissionRate, AtmosphericConcentration.convertToKelvin(this.airTemp));
 
         ArrayList<ConcentrationResult> results = new ArrayList<ConcentrationResult>();
 
@@ -201,12 +201,12 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 
         if (this.cloudTop == 0) {
             effectiveReleaseHeight = this.calcEffectiveReleaseHeight(this.releaseRadios,
-                                                                     this.airTemp,
+                                                                     AtmosphericConcentration.convertToKelvin(this.airTemp),
                                                                      buoyancyFlux);
         }
         else
         {
-            effectiveReleaseHeight = this.cloudTop;
+            effectiveReleaseHeight = this.cloudTop * 0.7;
         }
 
         double windSpeed = this.calcWindSpeed(this.terrainType, effectiveReleaseHeight);
