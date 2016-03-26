@@ -147,82 +147,81 @@
                         android:layout_column="1"
                         android:hint="in cal/s"/>
 
+                    <CheckBox
+                        android:id="@+id/cbMomentum"
+                        android:text="Include Momentum Rate"
+                        android:layout_row="4"
+                        android:layout_column="0"
+                        android:layout_marginTop="10dp"/>
+
+                    <GridLayout
+                        android:id="@+id/glMomentum"
+                        android:layout_row="5"
+                        android:layout_column="0"
+                        android:layout_columnSpan="2"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone">
+
+                        <TextView android:text="Stack Radius"
+                            android:id="@+id/tvStackRadius"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:layout_marginRight="2dp"
+                            android:layout_width="wrap_content"
+                            android:layout_row="0"
+                            android:layout_column="0"/>
+
+                        <EditText
+                            android:id="@+id/etStackRadius"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:layout_width="150dp"
+                            android:layout_gravity="left"
+                            android:layout_row="0"
+                            android:layout_column="1"
+                            android:hint="in meters"/>
+
+                        <TextView android:text="Exit Velocity"
+                            android:id="@+id/tvExitVelocity"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:layout_marginRight="2dp"
+                            android:layout_width="wrap_content"
+                            android:layout_row="1"
+                            android:layout_column="0"/>
+
+                        <EditText
+                            android:id="@+id/etExitVelocity"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:layout_width="150dp"
+                            android:layout_gravity="left"
+                            android:layout_row="1"
+                            android:layout_column="1"
+                            android:hint="in m/s"/>
+
+                        <TextView android:text="Effluent Temp"
+                            android:id="@+id/tvEffluentTemp"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:layout_marginRight="2dp"
+                            android:layout_width="wrap_content"
+                            android:layout_row="2"
+                            android:layout_column="0"/>
+
+                        <EditText
+                            android:id="@+id/etEffluentTemp"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal|numberSigned"
+                            android:layout_width="150dp"
+                            android:layout_gravity="left"
+                            android:layout_row="2"
+                            android:layout_column="1"
+                            android:hint="in C"/>
+
+                    </GridLayout>
 
                 </GridLayout>
 
             </FrameLayout>
         </LinearLayout>
     </TabHost>
-
-    <CheckBox
-        android:id="@+id/cbMomentum"
-        android:text="Include Momentum Rate"
-        android:layout_row="2"
-        android:layout_column="0"
-        android:layout_marginTop="10dp"/>
-
-    <GridLayout
-        android:id="@+id/glMomentum"
-        android:layout_row="3"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:layout_marginTop="10dp"
-        android:visibility="gone">
-
-        <TextView android:text="Stack Radius"
-            android:id="@+id/tvStackRadius"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginRight="2dp"
-            android:layout_width="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"/>
-
-        <EditText
-            android:id="@+id/etStackRadius"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:layout_width="150dp"
-            android:layout_gravity="left"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:hint="in meters"/>
-
-        <TextView android:text="Exit Velocity"
-            android:id="@+id/tvExitVelocity"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginRight="2dp"
-            android:layout_width="wrap_content"
-            android:layout_row="1"
-            android:layout_column="0"/>
-
-        <EditText
-            android:id="@+id/etExitVelocity"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:layout_width="150dp"
-            android:layout_gravity="left"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:hint="in m/s"/>
-
-        <TextView android:text="Effluent Temp"
-            android:id="@+id/tvEffluentTemp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginRight="2dp"
-            android:layout_width="wrap_content"
-            android:layout_row="2"
-            android:layout_column="0"/>
-
-        <EditText
-            android:id="@+id/etEffluentTemp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal|numberSigned"
-            android:layout_width="150dp"
-            android:layout_gravity="left"
-            android:layout_row="2"
-            android:layout_column="1"
-            android:hint="in C"/>
-
-    </GridLayout>
 
 </GridLayout>
