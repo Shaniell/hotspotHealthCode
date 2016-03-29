@@ -58,10 +58,20 @@ public enum WeatherManager {
 
             if (jsonObject.has("wind")) {
                 windJSON = jsonObject.getJSONObject("wind");
+
+                if (!windJSON.has("speed"))
+                {
+                    windJSON.put("speed", 1);
+                }
+
+                if (!windJSON.has("deg"))
+                {
+                    windJSON.put("deg", 0);
+                }
             }
             else
             {
-                windJSON = new JSONObject("{deg: 0, speed: 0}");
+                windJSON = new JSONObject("{deg: 1, speed: 1}");
             }
 
             Weather weather = new Weather(mainJSON.getDouble("temp"),
