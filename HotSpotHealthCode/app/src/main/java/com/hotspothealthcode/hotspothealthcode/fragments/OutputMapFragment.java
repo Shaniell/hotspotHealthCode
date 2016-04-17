@@ -1,6 +1,9 @@
 package com.hotspothealthcode.hotspothealthcode.fragments;
 
 
+import android.graphics.Color;
+import android.graphics.Path;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,10 +19,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.hotspothealthcode.hotspothealthcode.MapsActivity;
 import com.hotspothealthcode.hotspothealthcode.R;
 
 import org.json.JSONException;
+
+import java.util.List;
 
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationResult;
@@ -87,6 +94,7 @@ public class OutputMapFragment extends Fragment
                 .add(pos)
                 .add(new ConcentrationPoint(100000, 0, 0).toLatLng(pos, windDirection)));
 
+        int distance = 1;
         for (ConcentrationResult result: this.outputResult.getResults())
         {
             LatLng res = result.getPoint().toLatLng(pos, windDirection);
@@ -96,6 +104,10 @@ public class OutputMapFragment extends Fragment
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                 .title("Coordinate")
                                 .snippet(String.valueOf(result.getId())));
+            //drawEllipse(res);
+            //drawTriangle(res, distance);
+            drawGoodTriangle(res, distance);
+            distance++;
         }
 
 //        new MarkerOptions()
@@ -145,4 +157,133 @@ public class OutputMapFragment extends Fragment
 
         this.mapView.onLowMemory();
     }
+
+    public void drawEllipse(LatLng point) {
+
+        LatLng pos = (LatLng)this.outputResult.getValue(ResultField.LOCATION);
+
+        PolygonOptions op =  new PolygonOptions();
+
+        LatLng center = new LatLng(Math.abs((point.latitude+pos.latitude)/2), Math.abs((point.longitude + pos.longitude)/2));
+        LatLng center1 = new LatLng(pos.latitude+0.1, pos.longitude);
+        LatLng center2 =  new LatLng(point.latitude+0.1, point.longitude);
+
+        float [] results = new float[2];
+        float [] results2 = new float[2];
+        Location.distanceBetween(center.latitude, center.longitude, center1.latitude, center1.longitude, results);
+        Location.distanceBetween(center.latitude, center.longitude, center1.latitude, center1.longitude, results2);
+        LatLng latConv = new LatLng(results[0] * 10,results[1] * 10) ;
+        LatLng lngConv = new LatLng(results2[0] * 10,results2[1] * 10) ;;
+        List<LatLng> points;
+        double Angle;
+        for (Angle=0; Angle<360; Angle++){
+            float x = (float) (center.latitude + ((10*Math.cos(Angle*(Math.PI/180)))/(float)latConv.latitude));
+            float y = (float) (center.longitude + ((20*Math.sin(Angle*(Math.PI/180)))/lngConv.latitude));
+            LatLng dataPoint = new LatLng(x,y);
+            op.add(dataPoint);
+        }
+
+        op.strokeColor(Color.argb(99,99,0,0));
+        op.strokeWidth(3);
+        op.fillColor(Color.argb(50,99,0,0));
+
+        outputMap.addPolygon(op);
+
+    }
+
+    public void drawTriangle(LatLng point, int MarkerDistanse) {
+
+        LatLng pos = (LatLng)this.outputResult.getValue(ResultField.LOCATION);
+
+        PolygonOptions op =  new PolygonOptions();
+
+        op.add(pos);
+        op.add(new LatLng(point.latitude + (MarkerDistanse*0.1), point.longitude + (MarkerDistanse*0.1)));
+        op.add(new LatLng(point.latitude - (MarkerDistanse*0.1), point.longitude - (MarkerDistanse*0.1)));
+
+        op.strokeColor(Color.argb(50,99,0,0));
+        op.strokeWidth(3);
+        op.fillColor(Color.argb(50, 99, 0, 0));
+
+        outputMap.addPolygon(op);
+
+    }
+
+    // It's a rectangle for a while. beautiful rectangle.
+    public void drawGoodTriangle(LatLng point, int MarkerDistanse) {
+
+        LatLng pos = (LatLng)this.outputResult.getValue(ResultField.LOCATION);
+
+        double angle = angleFromCoordinate(pos.latitude, pos.longitude, point.latitude, point.longitude);
+
+
+
+
+
+        PolygonOptions op =  new PolygonOptions();
+
+        op.add(pos);
+
+        op.add(moveForward(angle, pos));
+        op.add(moveForward(angle, point));
+        op.add(moveBackwards(angle, point));
+        op.add(moveBackwards(angle, pos));
+
+
+        op.strokeColor(Color.argb(50, 99, 0, 0));
+        op.strokeWidth(3);
+        op.fillColor(Color.argb(50, 99, 0, 0));
+
+        outputMap.addPolygon(op);
+
+    }
+
+    private double angleFromCoordinate(double lat1, double long1, double lat2,
+                                       double long2) {
+
+        double dLon = (long2 - long1);
+
+        double y = Math.sin(dLon) * Math.cos(lat2);
+        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
+                * Math.cos(lat2) * Math.cos(dLon);
+
+        double brng = Math.atan2(y, x);
+
+        brng = Math.toDegrees(brng);
+        brng = (brng + 360) % 360;
+        brng = 360 - brng;
+
+        return brng;
+    }
+
+    private LatLng move(double angle, LatLng originalPoint){
+
+        double latitude = originalPoint.latitude +  (Math.sin(Math.toRadians(angle)) * 0.01);
+        double longitude = originalPoint.longitude +  (Math.cos(Math.toRadians(angle)) * 0.01);
+
+        LatLng location = new LatLng(latitude, longitude);
+
+        return location;
+    }
+
+    private LatLng moveForward(double angle,LatLng originalPoint)
+    {
+        return move(angle, originalPoint);
+    }
+
+    private LatLng strafeLeft(double angle,LatLng originalPoint)
+    {
+        return move(angle + 90, originalPoint);
+    }
+
+    private LatLng strafeRight(double angle,LatLng originalPoint)
+    {
+        return  move(angle - 90, originalPoint);
+    }
+
+    private LatLng moveBackwards(double angle,LatLng originalPoint)
+    {
+        return  move(angle+180, originalPoint);
+    }
+
 }
