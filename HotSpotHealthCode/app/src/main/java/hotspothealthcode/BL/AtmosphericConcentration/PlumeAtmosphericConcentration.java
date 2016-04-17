@@ -303,6 +303,11 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
             return 0;
         }
 
+        @Override
+        protected double calcCrossWindRadios(double sigmaY) {
+            return sigmaY;
+        }
+
     //endregion
 
     //region Atmospheric Concentration

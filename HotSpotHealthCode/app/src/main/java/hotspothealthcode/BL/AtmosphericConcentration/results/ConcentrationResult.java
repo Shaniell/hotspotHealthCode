@@ -17,15 +17,18 @@ public class ConcentrationResult
     private double concentration;
     private int arrivalTime; // HH:MM
     private ConcentrationPoint point;
+    private double crossWindRadios;
 
     public ConcentrationResult(ConcentrationPoint point,
                                double concentration,
-                               int arrivalTime)
+                               int arrivalTime,
+                               double crossWindRadios)
     {
         this.id = ConcentrationResult.resultsNum;
         this.point = point;
         this.concentration = concentration;
         this.arrivalTime = arrivalTime;
+        this.crossWindRadios = crossWindRadios;
 
         ConcentrationResult.resultsNum++;
     }
@@ -35,6 +38,7 @@ public class ConcentrationResult
         this.point = new ConcentrationPoint(jsonObject.getJSONObject("point"));
         this.concentration = jsonObject.getDouble("concentration");
         this.arrivalTime = jsonObject.getInt("arrivalTime");
+        this.crossWindRadios = jsonObject.getInt("crossWindRadios");
     }
 
     public int getId() {
@@ -51,6 +55,10 @@ public class ConcentrationResult
 
     public int getArrivalTime() {
         return this.arrivalTime;
+    }
+
+    public double getCrossWindRadios() {
+        return crossWindRadios;
     }
 
     public String getStringPoint() {
@@ -94,6 +102,7 @@ public class ConcentrationResult
         jsonObject.put("point", this.point.toJSON());
         jsonObject.put("concentration", this.concentration);
         jsonObject.put("arrivalTime", this.arrivalTime);
+        jsonObject.put("crossWindRadios", this.crossWindRadios);
 
         return jsonObject;
     }

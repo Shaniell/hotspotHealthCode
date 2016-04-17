@@ -305,6 +305,8 @@ public abstract class AtmosphericConcentration
 
     protected abstract double calcDz();
 
+    protected abstract double calcCrossWindRadios(double sigmaY);
+
     protected double calcVirtualSourceDistanceForSigmaY(TerrainType terrainType,
                                                          double guess,
                                                          double sigmaY)
@@ -559,6 +561,7 @@ public abstract class AtmosphericConcentration
                     effectiveReleaseHeight,
                     windSpeed,
                     point,
+                    this.calcCrossWindRadios(sigmaY),
                     results);
         }
 
@@ -578,6 +581,7 @@ public abstract class AtmosphericConcentration
                            double effectiveReleaseHeight,
                            double windSpeed,
                            ConcentrationPoint point,
+                           double crossWindRadios,
                            ArrayList<ConcentrationResult> results)
     {
         double concentration = this.calcGussianEquation(sourceTerm,
@@ -587,7 +591,7 @@ public abstract class AtmosphericConcentration
                                                         windSpeed,
                                                         point);
 
-        results.add(new ConcentrationResult(point, concentration, (int) (point.getX() / windSpeed)));
+        results.add(new ConcentrationResult(point, concentration, (int) (point.getX() / windSpeed), crossWindRadios));
     }
 
     public abstract OutputResult calcAtmosphericConcentration();

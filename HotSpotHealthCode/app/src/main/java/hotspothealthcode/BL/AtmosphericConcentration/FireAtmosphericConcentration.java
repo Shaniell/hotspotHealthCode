@@ -176,6 +176,11 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
         return currentDz;
     }
 
+    @Override
+    protected double calcCrossWindRadios(double sigmaY) {
+        return 2 * sigmaY;
+    }
+
     //endregion
 
     //region Atmospheric Concentration
