@@ -26,6 +26,7 @@ import com.hotspothealthcode.hotspothealthcode.R;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hotspothealthcode.BL.AtmosphericConcentration.results.ConcentrationPoint;
@@ -76,6 +77,8 @@ public class OutputMapFragment extends Fragment
 
     private void drawResultsToMap()
     {
+        ArrayList<ConcentrationPoint> polygonPoints = new ArrayList<>();
+
         LatLng pos = (LatLng)this.outputResult.getValue(ResultField.LOCATION);
 
         double windDirection = Double.parseDouble(outputResult.getValue(ResultField.WIND_DIRECTION).toString());
@@ -92,42 +95,54 @@ public class OutputMapFragment extends Fragment
 
         this.outputMap.addPolyline(new PolylineOptions()
                 .add(pos)
-                .add(new ConcentrationPoint(100000, 0, 0).toLatLng(pos, windDirection)));
+                .add(new ConcentrationPoint(80000, 0, 0).toLatLng(pos, windDirection)));
 
-        int distance = 1;
+        double dy = (double)this.outputResult.getValue(ResultField.DOWN_WIND_VIRTUAL_SOURCE);
+
+        // Check if the source distance is 0
+        if (dy == 0) {
+            polygonPoints.add(new ConcentrationPoint(0, 0, 0));
+            polygonPoints.add(new ConcentrationPoint(0, 0, 0));
+        }
+        else
+        {
+            polygonPoints.add(new ConcentrationPoint(-dy, 0, 0));
+            polygonPoints.add(new ConcentrationPoint(-dy, 0, 0));
+        }
+
         for (ConcentrationResult result: this.outputResult.getResults())
         {
             LatLng res = result.getPoint().toLatLng(pos, windDirection);
 
-                Marker marker = this.outputMap.addMarker(new MarkerOptions()
-                                .position(res)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                                .title("Coordinate")
-                                .snippet(String.valueOf(result.getId())));
-            //drawEllipse(res);
-            //drawTriangle(res, distance);
-            drawGoodTriangle(res, distance);
-            distance++;
+            Marker marker = this.outputMap.addMarker(new MarkerOptions()
+                            .position(res)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                            .title("Coordinate")
+                            .snippet(String.valueOf(result.getId())));
+
+            polygonPoints.add(new ConcentrationPoint(result.getPoint().getX(), result.getCrossWindRadios(), 0));
+            polygonPoints.add(new ConcentrationPoint(result.getPoint().getX(), -result.getCrossWindRadios(), 0));
         }
 
-//        new MarkerOptions()
-//                .position(MELBOURNE)
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+        int colorIndex = 0;
 
-        /*LatLng res = this.results.get(1).getPoint().toLatLng(pos, 70);
+        for (int i = 0; i < polygonPoints.size() - 2; i += 2)
+        {
+            PolygonOptions polygonOptions = new PolygonOptions();
 
-        MarkerOptions markerOptions2 = new MarkerOptions();
+            polygonOptions.strokeColor(Color.rgb(255, 26 * colorIndex, 26 * colorIndex));
+            polygonOptions.strokeWidth(3);
+            polygonOptions.fillColor(Color.rgb(255, 26 * colorIndex, 26 * colorIndex));
 
-        markerOptions2.position(res);
-        markerOptions2.title("dest");
+            polygonOptions.add(polygonPoints.get(i).toLatLng(pos, windDirection));
+            polygonOptions.add(polygonPoints.get(i + 2).toLatLng(pos, windDirection));
+            polygonOptions.add(polygonPoints.get(i + 3).toLatLng(pos, windDirection));
+            polygonOptions.add(polygonPoints.get(i + 1).toLatLng(pos, windDirection));
 
-        this.outputMap.addMarker(markerOptions2);
+            this.outputMap.addPolygon(polygonOptions);
 
-        PolylineOptions polylineOptions = new PolylineOptions();
-
-        polylineOptions.add(pos, res);
-
-        this.outputMap.addPolyline(polylineOptions);*/
+            colorIndex++;
+        }
     }
 
     @Override
@@ -158,7 +173,7 @@ public class OutputMapFragment extends Fragment
         this.mapView.onLowMemory();
     }
 
-    public void drawEllipse(LatLng point) {
+    /*public void drawEllipse(LatLng point) {
 
         LatLng pos = (LatLng)this.outputResult.getValue(ResultField.LOCATION);
 
@@ -284,6 +299,6 @@ public class OutputMapFragment extends Fragment
     private LatLng moveBackwards(double angle,LatLng originalPoint)
     {
         return  move(angle+180, originalPoint);
-    }
+    }*/
 
 }

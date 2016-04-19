@@ -58,19 +58,30 @@ public class ConcentrationPoint
 
     public LatLng toLatLng(LatLng startPosition, double windDirection)
     {
-        double radWindDirection = Math.toRadians(windDirection);
+        double direction;
+
+        if (x < 0)
+        {
+            direction = windDirection + 180;
+        }
+        else
+        {
+            direction = windDirection;
+        }
+
+        double radWindDirection = Math.toRadians(direction);
         double radStartLat = Math.toRadians(startPosition.latitude);
         double radStartLng = Math.toRadians(startPosition.longitude);
 
 
         // Calculate point from start point to down wind distance
-        double downWindLat = Math.asin((Math.sin(radStartLat) * Math.cos(this.x / ConcentrationPoint.EARTH_RADIUS)) +
-                                       (Math.cos(radStartLat) * Math.sin(this.x / ConcentrationPoint.EARTH_RADIUS) * Math.cos(radWindDirection)));
+        double downWindLat = Math.asin((Math.sin(radStartLat) * Math.cos(Math.abs(this.x) / ConcentrationPoint.EARTH_RADIUS)) +
+                                       (Math.cos(radStartLat) * Math.sin(Math.abs(this.x) / ConcentrationPoint.EARTH_RADIUS) * Math.cos(radWindDirection)));
 
         double downWindLng = radStartLng + Math.atan2(Math.sin(radWindDirection) *
-                                                      Math.sin(this.x / ConcentrationPoint.EARTH_RADIUS) *
+                                                      Math.sin(Math.abs(this.x) / ConcentrationPoint.EARTH_RADIUS) *
                                                       Math.cos(radStartLat),
-                                                      Math.cos(this.x / ConcentrationPoint.EARTH_RADIUS) -
+                                                      Math.cos(Math.abs(this.x) / ConcentrationPoint.EARTH_RADIUS) -
                                                       (Math.sin(radStartLat) * Math.sin(downWindLat)));
 
         LatLng point;
@@ -80,11 +91,11 @@ public class ConcentrationPoint
         // If there is a cross wind direction, calculate new lat lng
         else
         {
-            double direction = windDirection;
+            direction = windDirection;
 
             if (this.y > 0)
             {
-                direction += 270;
+                direction -= 90;
             }
             else
             {
@@ -94,13 +105,13 @@ public class ConcentrationPoint
             direction = Math.toRadians(direction);
 
             // Calculate point from down wind distance point to cross wind distance
-            double crossWindLat = Math.asin((Math.sin(downWindLat) * Math.cos(this.y / ConcentrationPoint.EARTH_RADIUS)) +
-                                            (Math.cos(downWindLat) * Math.sin(this.y / ConcentrationPoint.EARTH_RADIUS) * Math.cos(direction)));
+            double crossWindLat = Math.asin((Math.sin(downWindLat) * Math.cos(Math.abs(this.y) / ConcentrationPoint.EARTH_RADIUS)) +
+                                            (Math.cos(downWindLat) * Math.sin(Math.abs(this.y) / ConcentrationPoint.EARTH_RADIUS) * Math.cos(direction)));
 
             double crossWindLng = downWindLng + Math.atan2(Math.sin(direction) *
-                                                                       Math.sin(this.y / ConcentrationPoint.EARTH_RADIUS) *
+                                                                       Math.sin(Math.abs(this.y) / ConcentrationPoint.EARTH_RADIUS) *
                                                                        Math.cos(downWindLat),
-                                                                       Math.cos(this.y / ConcentrationPoint.EARTH_RADIUS) -
+                                                                       Math.cos(Math.abs(this.y) / ConcentrationPoint.EARTH_RADIUS) -
                                                                        (Math.sin(downWindLat) * Math.sin(crossWindLat)));
 
             point = new LatLng(Math.toDegrees(crossWindLat), Math.toDegrees(crossWindLng));

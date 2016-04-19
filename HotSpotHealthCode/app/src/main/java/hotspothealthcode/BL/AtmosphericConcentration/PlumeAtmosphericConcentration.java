@@ -295,12 +295,12 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
 
         @Override
         protected double calcDy() {
-            return 0;
+            return 0f;
         }
 
         @Override
         protected double calcDz() {
-            return 0;
+            return 0f;
         }
 
         @Override

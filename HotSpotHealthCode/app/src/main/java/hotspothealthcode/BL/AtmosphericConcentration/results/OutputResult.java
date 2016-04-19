@@ -21,6 +21,7 @@ public class OutputResult
 
     private HashMap<ResultField, Object> values;
     private ArrayList<ConcentrationResult> results;
+    private double downWindVirtualSourceDistance;
 
     private OutputResult()
     {
@@ -86,7 +87,7 @@ public class OutputResult
                 }
                 default:
                 {
-                    obj = (Number)jsonObject.get(resultField.toString());
+                    obj = ((Number)jsonObject.get(resultField.toString())).doubleValue();
                 }
             }
             OutputResult.INSTANCE.addValue(resultField, obj);

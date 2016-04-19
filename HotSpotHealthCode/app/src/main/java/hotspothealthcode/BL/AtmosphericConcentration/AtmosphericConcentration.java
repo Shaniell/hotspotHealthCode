@@ -567,6 +567,7 @@ public abstract class AtmosphericConcentration
 
         outputResult.setResults(results);
 
+        outputResult.addValue(ResultField.DOWN_WIND_VIRTUAL_SOURCE, this.dy);
         outputResult.addValue(ResultField.LOCATION, this.location);
         outputResult.addValue(ResultField.WIND_SPEED, this.windSpeedAtReferenceHeight);
         outputResult.addValue(ResultField.WIND_DIRECTION, this.windDirection);
