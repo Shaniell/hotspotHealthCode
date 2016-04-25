@@ -18,27 +18,38 @@ public class ConcentrationResult
     private int arrivalTime; // HH:MM
     private ConcentrationPoint point;
     private double crossWindRadios;
+    private double plumeTop;
+    private double plumeBottom;
 
     public ConcentrationResult(ConcentrationPoint point,
                                double concentration,
                                int arrivalTime,
-                               double crossWindRadios)
+                               double crossWindRadios,
+                               double plumeTop,
+                               double plumeBottom)
     {
         this.id = ConcentrationResult.resultsNum;
         this.point = point;
         this.concentration = concentration;
         this.arrivalTime = arrivalTime;
         this.crossWindRadios = crossWindRadios;
+        this.plumeTop = plumeTop;
+        this.plumeBottom = plumeBottom;
 
         ConcentrationResult.resultsNum++;
     }
 
     public ConcentrationResult(JSONObject jsonObject) throws JSONException {
 
+        this.id = ConcentrationResult.resultsNum;
         this.point = new ConcentrationPoint(jsonObject.getJSONObject("point"));
         this.concentration = jsonObject.getDouble("concentration");
         this.arrivalTime = jsonObject.getInt("arrivalTime");
-        this.crossWindRadios = jsonObject.getInt("crossWindRadios");
+        this.crossWindRadios = jsonObject.getDouble("crossWindRadios");
+        this.plumeTop = jsonObject.getDouble("plumeTop");
+        this.plumeBottom = jsonObject.getDouble("plumeBottom");
+
+        ConcentrationResult.resultsNum++;
     }
 
     public int getId() {
@@ -59,6 +70,19 @@ public class ConcentrationResult
 
     public double getCrossWindRadios() {
         return crossWindRadios;
+    }
+
+    public String getStringCrossWindRadios() {
+
+        return String.format("%.2f", this.crossWindRadios);
+    }
+
+    public String getStringPlumeTop() {
+        return String.format("%.2f", plumeTop);
+    }
+
+    public String getStringPlumeBottom() {
+        return String.format("%.2f", plumeBottom);
     }
 
     public String getStringPoint() {
@@ -103,6 +127,8 @@ public class ConcentrationResult
         jsonObject.put("concentration", this.concentration);
         jsonObject.put("arrivalTime", this.arrivalTime);
         jsonObject.put("crossWindRadios", this.crossWindRadios);
+        jsonObject.put("plumeTop", this.plumeTop);
+        jsonObject.put("plumeBottom", this.plumeBottom);
 
         return jsonObject;
     }
@@ -112,6 +138,9 @@ public class ConcentrationResult
     {
         return "Concentration: " + this.getStringConcentration() + "\n" +
                "Arrival Time: " + this.getStringArrivalTime() + "\n" +
-               "Point: " + this.getStringPoint();
+               "Point: " + this.getStringPoint() + "\n" +
+               "Cross Wind Offset: " + this.crossWindRadios + "\n" +
+               "Plume Top: " + this.plumeTop + "\n" +
+               "Plume Bottom: " + this.plumeBottom + "\n";
     }
 }

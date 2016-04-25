@@ -181,6 +181,16 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
         return 2 * sigmaY;
     }
 
+    @Override
+    protected double calcPlumeTop(double sigmaZ, double effectiveReleaseHeight) {
+        return effectiveReleaseHeight + (2 * sigmaZ);
+    }
+
+    @Override
+    protected double calcPlumeBottom(double sigmaZ, double effectiveReleaseHeight) {
+        return (effectiveReleaseHeight - (2 * sigmaZ)) > 0 ? effectiveReleaseHeight - (2 * sigmaZ) : 0;
+    }
+
     //endregion
 
     //region Atmospheric Concentration
@@ -202,21 +212,19 @@ public class FireAtmosphericConcentration extends AtmosphericConcentration
 
         ArrayList<ConcentrationResult> results = new ArrayList<ConcentrationResult>();
 
-        double effectiveReleaseHeight;
-
         if (this.cloudTop == 0) {
-            effectiveReleaseHeight = this.calcEffectiveReleaseHeight(this.releaseRadios,
+            this.effectiveReleaseHeight = this.calcEffectiveReleaseHeight(this.releaseRadios,
                                                                      AtmosphericConcentration.convertToKelvin(this.airTemp),
                                                                      buoyancyFlux);
         }
         else
         {
-            effectiveReleaseHeight = this.cloudTop * 0.7;
+            this.effectiveReleaseHeight = this.cloudTop * 0.7;
         }
 
-        double windSpeed = this.calcWindSpeed(this.terrainType, effectiveReleaseHeight);
+        double windSpeed = this.calcWindSpeed(this.terrainType, this.effectiveReleaseHeight);
 
-        OutputResult outputResult = this.getOutputResult(effectiveReleaseHeight, windSpeed);
+        OutputResult outputResult = this.getOutputResult(this.effectiveReleaseHeight, windSpeed);
 
         outputResult.addValue(ResultField.MODEL_TYPE, "General Fire");
 

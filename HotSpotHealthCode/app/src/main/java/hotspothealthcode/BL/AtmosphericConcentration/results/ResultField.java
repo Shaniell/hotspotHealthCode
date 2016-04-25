@@ -12,7 +12,9 @@ public enum ResultField
     WIND_SPEED("windSpeed"),
     WIND_DIRECTION("windDirection"),
     LOCATION("location"),
-    DOWN_WIND_VIRTUAL_SOURCE("downWindVirtualSource");
+    DOWN_WIND_VIRTUAL_SOURCE("downWindVirtualSource"),
+    PLUME_TOP("plumeTop"),
+    PLUME_BOTTOM("plumeBottom");
 
     private final String fieldName;
 
@@ -31,6 +33,8 @@ public enum ResultField
         lst.add(WIND_DIRECTION);
         lst.add(LOCATION);
         lst.add(DOWN_WIND_VIRTUAL_SOURCE);
+        lst.add(PLUME_TOP);
+        lst.add(PLUME_BOTTOM);
 
         return lst;
     }

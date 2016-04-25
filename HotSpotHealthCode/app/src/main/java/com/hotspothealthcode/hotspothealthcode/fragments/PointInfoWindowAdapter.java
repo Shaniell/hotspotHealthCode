@@ -61,6 +61,9 @@ public class PointInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView tvVerticalHeight = (TextView)view.findViewById(R.id.tvVerticalHeight);
         TextView tvCrossConcentration = (TextView)view.findViewById(R.id.tvConcentration);
         TextView tvArrivalTime = (TextView)view.findViewById(R.id.tvArrivalTime);
+        TextView tvCrossWindOffset = (TextView)view.findViewById(R.id.tvCrossWindOffset);
+        TextView tvPlumeTop = (TextView)view.findViewById(R.id.tvPlumeTop);
+        TextView tvPlumeBottom = (TextView)view.findViewById(R.id.tvPlumeBottom);
 
         ConcentrationResult concentrationResult = null;
 
@@ -81,6 +84,9 @@ public class PointInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             tvVerticalHeight.setText(String.valueOf(concentrationResult.getPoint().getZ()));
             tvCrossConcentration.setText(concentrationResult.getStringConcentration());
             tvArrivalTime.setText(concentrationResult.getStringArrivalTime());
+            tvCrossWindOffset.setText(concentrationResult.getStringCrossWindRadios());
+            tvPlumeTop.setText(concentrationResult.getStringPlumeTop());
+            tvPlumeBottom.setText(concentrationResult.getStringPlumeBottom());
         }
 
         return view;

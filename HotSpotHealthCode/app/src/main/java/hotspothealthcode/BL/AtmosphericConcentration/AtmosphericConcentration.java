@@ -38,6 +38,7 @@ public abstract class AtmosphericConcentration
     protected double sourceTerm;
     protected ArrayList<ConcentrationPoint> concentrationPoints;
     protected double dfx = 0.025;
+    protected double effectiveReleaseHeight;
 
     private Double dy;
     private Double dz;
@@ -307,6 +308,10 @@ public abstract class AtmosphericConcentration
 
     protected abstract double calcCrossWindRadios(double sigmaY);
 
+    protected abstract double calcPlumeTop(double sigmaZ, double effectiveReleaseHeight);
+
+    protected abstract double calcPlumeBottom(double sigmaZ, double effectiveReleaseHeight);
+
     protected double calcVirtualSourceDistanceForSigmaY(TerrainType terrainType,
                                                          double guess,
                                                          double sigmaY)
@@ -562,6 +567,8 @@ public abstract class AtmosphericConcentration
                     windSpeed,
                     point,
                     this.calcCrossWindRadios(sigmaY),
+                    this.calcPlumeTop(sigmaZ, effectiveReleaseHeight),
+                    this.calcPlumeBottom(sigmaZ, effectiveReleaseHeight),
                     results);
         }
 
@@ -583,6 +590,8 @@ public abstract class AtmosphericConcentration
                            double windSpeed,
                            ConcentrationPoint point,
                            double crossWindRadios,
+                           double plumeTop,
+                           double plumeBottom,
                            ArrayList<ConcentrationResult> results)
     {
         double concentration = this.calcGussianEquation(sourceTerm,
@@ -592,7 +601,12 @@ public abstract class AtmosphericConcentration
                                                         windSpeed,
                                                         point);
 
-        results.add(new ConcentrationResult(point, concentration, (int) (point.getX() / windSpeed), crossWindRadios));
+        results.add(new ConcentrationResult(point,
+                                            concentration,
+                                            (int) (point.getX() / windSpeed),
+                                            crossWindRadios,
+                                            plumeTop,
+                                            plumeBottom));
     }
 
     public abstract OutputResult calcAtmosphericConcentration();

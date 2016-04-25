@@ -129,6 +129,16 @@ public class ExplosionAtmosphericConcentration extends AtmosphericConcentration 
         return 2 * sigmaY;
     }
 
+    @Override
+    protected double calcPlumeTop(double sigmaZ, double effectiveReleaseHeight) {
+        return effectiveReleaseHeight + (2 * sigmaZ);
+    }
+
+    @Override
+    protected double calcPlumeBottom(double sigmaZ, double effectiveReleaseHeight) {
+        return (effectiveReleaseHeight - (2 * sigmaZ)) > 0 ? effectiveReleaseHeight - (2 * sigmaZ) : 0;
+    }
+
     //endregion
 
     //region Atmospheric Concentration
@@ -136,7 +146,7 @@ public class ExplosionAtmosphericConcentration extends AtmosphericConcentration 
     @Override
     public OutputResult calcAtmosphericConcentration() {
 
-        double effectiveReleaseHeight = this.calcEffectiveReleaseHeight();
+        this.effectiveReleaseHeight = this.calcEffectiveReleaseHeight();
 
         double windSpeed = this.calcWindSpeed(this.terrainType, effectiveReleaseHeight);
 

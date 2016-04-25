@@ -24,7 +24,6 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
     protected double stackTemp;
     protected double heatEmission;
     protected boolean calcMomentum;
-    protected double effectiveReleaseHeight;
 
     //endregion
 
@@ -306,6 +305,16 @@ public class PlumeAtmosphericConcentration extends AtmosphericConcentration
         @Override
         protected double calcCrossWindRadios(double sigmaY) {
             return sigmaY;
+        }
+
+        @Override
+        protected double calcPlumeTop(double sigmaZ, double effectiveReleaseHeight) {
+            return effectiveReleaseHeight + sigmaZ;
+        }
+
+        @Override
+        protected double calcPlumeBottom(double sigmaZ, double effectiveReleaseHeight) {
+            return effectiveReleaseHeight - sigmaZ > 0 ? effectiveReleaseHeight - sigmaZ : 0 ;
         }
 
     //endregion
