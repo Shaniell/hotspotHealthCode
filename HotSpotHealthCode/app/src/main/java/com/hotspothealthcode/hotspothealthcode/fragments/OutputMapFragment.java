@@ -130,9 +130,9 @@ public class OutputMapFragment extends Fragment
         {
             PolygonOptions polygonOptions = new PolygonOptions();
 
-            polygonOptions.strokeColor(Color.rgb(255, 26 * colorIndex, 26 * colorIndex));
+            polygonOptions.strokeColor(Color.argb(179, 255, 26 * colorIndex, 26 * colorIndex));
             polygonOptions.strokeWidth(3);
-            polygonOptions.fillColor(Color.rgb(255, 26 * colorIndex, 26 * colorIndex));
+            polygonOptions.fillColor(Color.argb(179, 255, 26 * colorIndex, 26 * colorIndex));
 
             polygonOptions.add(polygonPoints.get(i).toLatLng(pos, windDirection));
             polygonOptions.add(polygonPoints.get(i + 2).toLatLng(pos, windDirection));
