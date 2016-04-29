@@ -45,8 +45,10 @@ public class PointInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         // If the point is a concentration point
         if (marker.getTitle().equals("Coordinate"))
             view = this.setConcentrationPointView(marker, inflater);
-        else
+        else if (marker.getTitle().equals("Origin"))
             view = this.setOriginPointView(inflater);
+        else
+            view = this.setVirtualSourcePointView(inflater);
 
         // Returning the view containing InfoWindow contents
         return view;
@@ -107,6 +109,18 @@ public class PointInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         tvStabilityType.setText(result.getValue(ResultField.STABILITY_TYPE).toString());
         tvWindSpeed.setText(result.getValue(ResultField.WIND_SPEED).toString());
         tvWindDirection.setText(result.getValue(ResultField.WIND_DIRECTION).toString());
+
+        return view;
+    }
+
+    private View setVirtualSourcePointView(LayoutInflater inflater) {
+        View view = inflater.inflate(R.layout.virtual_point_info_view, null);
+
+        TextView tvDistanceFromOrigin = (TextView)view.findViewById(R.id.tvDistanceFromOrigin);
+
+        OutputResult result = OutputResult.getInstance();
+
+        tvDistanceFromOrigin.setText(String.format("%.2f", (Double)result.getValue(ResultField.DOWN_WIND_VIRTUAL_SOURCE)));
 
         return view;
     }

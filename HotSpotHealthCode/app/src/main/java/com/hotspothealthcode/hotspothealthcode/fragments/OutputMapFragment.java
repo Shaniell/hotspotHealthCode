@@ -106,8 +106,15 @@ public class OutputMapFragment extends Fragment
         }
         else
         {
-            polygonPoints.add(new ConcentrationPoint(-dy, 0, 0));
-            polygonPoints.add(new ConcentrationPoint(-dy, 0, 0));
+            ConcentrationPoint virtualPoint = new ConcentrationPoint(-dy, 0, 0);
+
+            polygonPoints.add(virtualPoint);
+            polygonPoints.add(virtualPoint);
+
+            this.outputMap.addMarker(new MarkerOptions()
+                                    .position(virtualPoint.toLatLng(pos, windDirection))
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
+                                    .title("Virtual Source Point"));
         }
 
         for (ConcentrationResult result: this.outputResult.getResults())
