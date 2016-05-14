@@ -85,7 +85,8 @@ public class GeneralFireStepView extends StepView
 
         this.weather = Controller.getCurrentWeather();
 
-        this.setDefaultWeatherData();
+        if (this.weather != null)
+            this.setDefaultWeatherData();
 
         // Disable tab focus (so the keyboard wont pop up when view loads)
         this.tabHost.clearFocus();

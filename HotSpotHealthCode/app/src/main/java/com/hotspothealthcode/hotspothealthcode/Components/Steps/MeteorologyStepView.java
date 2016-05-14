@@ -68,7 +68,8 @@ public class MeteorologyStepView extends StepView
 
         this.weather = Controller.getCurrentWeather();
 
-        this.setDefaultWeatherData();
+        if (this.weather != null)
+            this.setDefaultWeatherData();
 
         // Fill stability types
         this.stability.setAdapter(new ArrayAdapter<PasquillStabilityType>(context,

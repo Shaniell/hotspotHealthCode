@@ -89,7 +89,8 @@ public class GeneralPlumeStepView extends StepView
 
         this.weather = Controller.getCurrentWeather();
 
-        this.setDefaultWeatherData();
+        if (this.weather != null)
+            this.setDefaultWeatherData();
 
         // Set events
 
